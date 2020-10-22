@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>更多</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-8.2%" y="-4.0%" width="117.7%" height="107.9%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="-2" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="6" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.16 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="02收藏" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="02-1收藏" transform="translate(-1884.000000, -275.000000)">
+            <g id="编组-15" filter="url(#filter-1)" transform="translate(1592.000000, 120.000000)">
+                <g id="编组-9" transform="translate(60.000000, 97.000000)">
+                    <g id="更多" transform="translate(232.000000, 58.000000)">
+                        <polygon id="矩形" fill="#D2D2D2" opacity="0" points="20 0 20 20 -6.9388939e-17 20 0 0"></polygon>
+                        <circle id="椭圆形" fill="#808695" cx="5" cy="10" r="1"></circle>
+                        <circle id="椭圆形备份-2" fill="#808695" cx="10" cy="10" r="1"></circle>
+                        <circle id="椭圆形备份-3" fill="#808695" cx="15" cy="10" r="1"></circle>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

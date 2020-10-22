@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128px" height="24px" viewBox="0 0 128 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>设备</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-8.2%" y="-4.0%" width="117.7%" height="107.9%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="-2" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="6" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.16 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="0%" y1="50%" x2="100%" y2="50%" id="linearGradient-2">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#D0D0D0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="0%" x2="0%" y2="0%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#84AEFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="一期" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="02-1收藏" transform="translate(-1780.000000, -305.000000)">
+            <g id="编组-15" filter="url(#filter-1)" transform="translate(1592.000000, 120.000000)">
+                <g id="编组-8" transform="translate(60.000000, 185.000000)">
+                    <g id="设备" transform="translate(128.000000, 0.000000)">
+                        <path d="M0,0 L124,0 C126.209139,-4.05812251e-16 128,1.790861 128,4 L128,24 L128,24 L0,24 L0,0 Z" id="矩形" fill="url(#linearGradient-2)" opacity="0.239999995"></path>
+                        <path d="M52,0 L128,0 L128,0 L118.4,21 L48,21 L48,4 C48,1.790861 49.790861,4.05812251e-16 52,0 Z" id="矩形" fill="url(#linearGradient-3)" opacity="0.159999996" transform="translate(88.000000, 10.500000) scale(-1, 1) translate(-88.000000, -10.500000) "></path>
+                        <path d="M93.32,9.02 L94.06,5.54 L96.8,5.54 L96.32,9.02 L100.36,9.02 L100.74,6.26 L100.08,7.02 L99.72,7.02 L100.18,3.66 L90.36,3.66 L90.98,4.38 L90,9.02 L93.32,9.02 Z M88.98,6.32 L88.4,3.66 L85.34,3.66 L85.92,6.32 L88.98,6.32 Z M84.06,17.32 L89,16.14 L89.28,14.16 L87.8,14.56 L88.84,7.08 L84.32,7.08 L84.06,8.98 L85.24,8.98 L84.06,17.32 Z M92.14,17.68 L93.92,16.6 L95.2,17.68 L99.56,17.68 L96.48,15.02 L99.5,13.16 L100,9.54 L89.88,9.54 L89.62,11.4 L96.6,11.4 L96.52,11.98 L94.5,13.3 L92.8,11.8 L89.56,11.8 L89.42,12.76 L91.98,14.94 L87.8,17.68 L92.14,17.68 Z M109.3,10.5 L110.92,9.92 L112.38,10.5 L118.82,10.5 L119.08,8.6 L115.14,8.6 L114.9,8.52 L118.92,7.08 L119.34,4.04 L109.38,4.04 L109.94,3.28 L105.38,3.28 L105.8,3.76 L102.84,7.84 L105.64,7.84 L107.32,8.52 L107.06,8.6 L103.12,8.6 L102.86,10.5 L109.3,10.5 Z M111.3,7.1 L108.4,5.94 L114.54,5.94 L111.3,7.1 Z M117.48,17.34 L118.36,11.06 L103.14,11.06 L102.26,17.34 L117.48,17.34 Z M108.9,13.44 L105.86,13.44 L105.92,12.96 L108.96,12.96 L108.9,13.44 Z M114.98,13.44 L111.94,13.44 L112,12.96 L115.04,12.96 L114.98,13.44 Z M114.7,15.44 L111.66,15.44 L111.72,14.96 L114.76,14.96 L114.7,15.44 Z M108.62,15.44 L105.58,15.44 L105.64,14.96 L108.68,14.96 L108.62,15.44 Z" fill="#84AEFF" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

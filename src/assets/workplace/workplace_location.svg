@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128px" height="24px" viewBox="0 0 128 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>位置</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-8.2%" y="-4.0%" width="117.7%" height="107.9%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="-2" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="6" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.16 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="0%" y1="50%" x2="100%" y2="50%" id="linearGradient-2">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#D0D0D0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="0%" x2="0%" y2="0%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#6485FF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M87.58,17.66 L89.3,5.56 L89.62,3.28 L84.92,4.24 L84.6,6.52 L85.78,6.28 L84.16,17.66 L87.58,17.66 Z M100.36,7.46 L100.64,5.56 L97.18,5.56 L97.5,3.32 L93.04,3.32 L93.7,4.1 L93.48,5.56 L90.06,5.56 L89.78,7.46 L100.36,7.46 Z M99.36,17.26 L99.64,15.36 L98.02,15.36 L99.94,8.2 L96.82,8.2 L94.9,15.36 L93.24,15.36 L93.08,8.2 L89.96,8.2 L90.12,15.36 L88.32,15.36 L88.04,17.26 L99.36,17.26 Z M118.56,17.34 L118.76,15.96 L117.22,15.96 L118.14,9.52 L112.22,9.52 L112.42,8.98 L119.36,8.98 L119.56,7.46 L112.96,7.46 L113.16,6.88 L119.24,6.88 L119.7,3.64 L104.14,3.64 L104.54,4.06 L104.14,6.88 L110.16,6.88 L109.92,7.46 L103.62,7.46 L103.42,8.98 L109.32,8.98 L109.12,9.52 L104.08,9.52 L103.18,15.96 L102.08,15.96 L101.88,17.34 L118.56,17.34 Z M116.02,5.72 L114.86,5.72 L114.98,4.82 L116.14,4.82 L116.02,5.72 Z M108.84,5.72 L107.72,5.72 L107.84,4.82 L108.96,4.82 L108.84,5.72 Z M112.38,5.72 L111.26,5.72 L111.38,4.82 L112.5,4.82 L112.38,5.72 Z M114.42,11.42 L107.22,11.42 L107.28,11.04 L114.48,11.04 L114.42,11.42 Z M114.2,12.92 L107.02,12.92 L107.06,12.58 L114.26,12.58 L114.2,12.92 Z M114,14.44 L106.8,14.44 L106.86,14.08 L114.04,14.08 L114,14.44 Z M113.78,15.96 L106.6,15.96 L106.64,15.6 L113.82,15.6 L113.78,15.96 Z" id="path-4"></path>
+    </defs>
+    <g id="一期" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="02-1收藏" transform="translate(-1780.000000, -502.000000)">
+            <g id="编组-15" filter="url(#filter-1)" transform="translate(1592.000000, 120.000000)">
+                <g id="编组-12" transform="translate(60.000000, 382.000000)">
+                    <g id="位置" transform="translate(128.000000, 0.000000)">
+                        <path d="M0,0 L124,0 C126.209139,-4.05812251e-16 128,1.790861 128,4 L128,24 L128,24 L0,24 L0,0 Z" id="矩形" fill="url(#linearGradient-2)" opacity="0.239999995"></path>
+                        <path d="M52,0 L128,0 L128,0 L118.4,21 L48,21 L48,4 C48,1.790861 49.790861,4.05812251e-16 52,0 Z" id="矩形" fill="url(#linearGradient-3)" opacity="0.159999996" transform="translate(88.000000, 10.500000) scale(-1, 1) translate(-88.000000, -10.500000) "></path>
+                        <g fill-rule="nonzero">
+                            <use fill="#84AEFF" xlink:href="#path-4"></use>
+                            <use fill="#6485FF" xlink:href="#path-4"></use>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
