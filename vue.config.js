@@ -5,13 +5,8 @@ module.exports = {
   pages: {
     popup: {
       template: "public/browser-extension.html",
-      entry: "./src/popup/main.js",
+      entry: "./src/main.js",
       title: "Popup"
-    },
-    sidebar: {
-      template: "public/browser-extension.html",
-      entry: "./src/sidebar/main.js",
-      title: "Sidebar"
     }
   },
   pluginOptions: {
@@ -22,6 +17,14 @@ module.exports = {
         }
       }
     }
+  },
+  chainWebpack: config => {
+    config.module
+      .rule("pug")
+      .test(/\.pug$/)
+      .use("pug-html-loader")
+      .loader("pug-html-loader")
+      .end();
   },
   configureWebpack: {
     plugins: [

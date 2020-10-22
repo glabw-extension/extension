@@ -5,9 +5,9 @@ import store from "./store";
 
 Vue.config.productionTip = false;
 
+console.log("outer Vue>>>");
 new Vue({
   router,
   store,
-
   render: h => h(App)
 }).$mount("#app");

@@ -7,12 +7,10 @@
 <script>
 export default {
   name: "HelloWorld",
-  mounted() {
-    browser.runtime.sendMessage({});
-  },
+  mounted() {},
   computed: {
     defaultText() {
-      return browser.i18n.getMessage("extName");
+      return "helloWorld";
     }
   }
 };
