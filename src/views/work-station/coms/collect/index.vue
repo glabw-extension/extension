@@ -19,17 +19,17 @@
           :page-size="pager.count"
           :total="pager.total")
       .add-collect
-        el-button(type="primary" @click="collectOtherDialogVisible = true") 新增收藏
-  el-dialog(title="收藏其他" :visible.sync="collectOtherDialogVisible" append-to-body
-   :close-on-click-modal="false" width="500px" @close="close")
-    el-form(:model="temp" :rules="rules" ref="collectForm" label-width="120px" label-position="right")
-      el-form-item(label="自定义输入：" prop="title")
-        el-input(v-model="temp.title" :maxlength="100")
-      el-form-item(label="添加备注：")
-        el-input(v-model="temp.remark" type="textarea" :maxlength="100")
-    template(#footer)
-      el-button(@click="collectOtherDialogVisible = false") 取消
-      el-button(type="primary" @click="submitForm('collectForm')" :loading="newLoading") 保存
+        el-button(type="primary" @click="handleCollectOther") 新增收藏
+  //- el-dialog(title="收藏其他" :visible.sync="collectOtherDialogVisible" append-to-body
+  //-  :close-on-click-modal="false" width="500px" @close="close")
+  //-   el-form(:model="temp" :rules="rules" ref="collectForm" label-width="120px" label-position="right")
+  //-     el-form-item(label="自定义输入：" prop="title")
+  //-       el-input(v-model="temp.title" :maxlength="100")
+  //-     el-form-item(label="添加备注：")
+  //-       el-input(v-model="temp.remark" type="textarea" :maxlength="100" show-word-limit)
+  //-   template(#footer)
+  //-     el-button(@click="collectOtherDialogVisible = false") 取消
+  //-     el-button(type="primary" @click="submitForm('collectForm')" :loading="newLoading") 保存
 </template>
 
 <script>
@@ -68,7 +68,7 @@ export default {
         },
         {
           value: 1,
-          label: 'ID 类',
+          label: '设备ID 类',
         },
         {
           value: 2,
@@ -156,41 +156,50 @@ export default {
       this.getCollectionList({
         page: 1,
         type: val === '' ? '' : [val],
+      }).then(() => {
+        this.pager.page = 1
       })
     },
-
-    submitForm(form) {
-      this.$refs[form].validate(async valid => {
-        if (valid) {
-          const query = {
-            event_id: _.get(this.recordData, 'id'),
-            detail: {
-              other: 'other',
-            },
-            remark: this.temp.remark,
-            type: 0,
-            collectionKey: 'other',
-            title: this.temp.title,
-          }
-          try {
-            this.newLoading = true
-            console.log(this.temp)
-            const { id = 0 } = await api.createCollection(query)
-
-            if (id) {
-              this.$message.success('添加成功')
-              store.set('upDateCollectionList', true)
-              this.collectOtherDialogVisible = false
-            }
-          } catch (error) {
-          } finally {
-            this.newLoading = false
-          }
-        } else {
-          return false
-        }
+    handleCollectOther() {
+      this.$onCollect({
+        type: 0,
+        detail: {
+          other: 'other',
+        },
       })
     },
+    // submitForm(form) {
+    //   this.$refs[form].validate(async valid => {
+    //     if (valid) {
+    //       const query = {
+    //         event_id: _.get(this.recordData, 'id'),
+    //         detail: {
+    //           other: 'other',
+    //         },
+    //         remark: this.temp.remark,
+    //         type: 0,
+    //         collectionKey: 'other',
+    //         title: this.temp.title,
+    //       }
+    //       try {
+    //         this.newLoading = true
+    //         console.log(this.temp)
+    //         const { id = 0 } = await api.createCollection(query)
+
+    //         if (id) {
+    //           this.$message.success('添加成功')
+    //           store.set('upDateCollectionList', true)
+    //           this.collectOtherDialogVisible = false
+    //         }
+    //       } catch (error) {
+    //       } finally {
+    //         this.newLoading = false
+    //       }
+    //     } else {
+    //       return false
+    //     }
+    //   })
+    // },
     close() {
       this.temp.title = ''
       this.temp.remark = ''
@@ -239,7 +248,7 @@ export default {
 
         &:hover {
           cursor: pointer;
-          border: 1px solid "#409eff";
+          border: 1px solid #409eff;
         }
       }
     }

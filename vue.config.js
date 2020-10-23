@@ -1,5 +1,8 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
+const target = [
+  "http://192.168.206.57:3000"
+]
 
 module.exports = {
   pages: {
@@ -37,5 +40,13 @@ module.exports = {
         ]
       })
     ]
-  }
+  },
+  // devServer: {
+  //   proxy: {
+  //     '/': {
+  //       target: target[0],
+  //       pathRewrite: {'^/api' : ''}
+  //     }
+  //   }
+  // }
 };

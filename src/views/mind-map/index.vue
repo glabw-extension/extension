@@ -44,7 +44,7 @@
       el-form-item(label="名称" prop="title" :rules="[{required: true, message: '思维导图名称不能为空'}]")
         el-input(v-model="form.title" placeholder="请输入名称" :maxlength="100")
       el-form-item(label="备注" prop="remark")
-        el-input(v-model="form.remark" type="textarea" placeholder="请输入备注" :maxlength="100")
+        el-input(v-model="form.remark" type="textarea" placeholder="请输入备注" :maxlength="100" show-word-limit)
     template(v-slot:footer)
       el-button(@click="mindModel = false") 取消
       el-button(@click="saveXmind" type="primary" :disabled="!form.title") 保存
@@ -136,6 +136,11 @@ export default {
     this.contextmenuHiddenHandle()
     this.mindMapResizeHandle()
     this.freshHandle()
+  },
+  beforeDestroy() {
+    this.canvas.destroy()
+    document.onclick = null
+    window.onbeforeunload = null
   },
   methods: {
     initPage() {
@@ -478,12 +483,9 @@ export default {
         .catch(() => {
           next(false)
         })
+    } else {
+      next()
     }
-  },
-  beforeDestroy() {
-    this.canvas.destroy()
-    document.onclick = null
-    window.onbeforeunload = null
   },
 }
 </script>
@@ -532,7 +534,7 @@ export default {
           font-size: 60px;
         }
         &:hover {
-          color: "#409eff";
+          color: #409eff;
         }
         &.flex-placeholder {
           height: 0;
@@ -583,7 +585,7 @@ export default {
     flex-direction: column;
     flex: 1;
     padding-right: 24px;
-    border-right: 1px solid "#d9d9d9";
+    border-right: 1px solid #d9d9d9;
     .top-opration {
       display: flex;
       align-items: center;
@@ -595,7 +597,7 @@ export default {
     #topology-canvas {
       flex: 1;
       position: relative;
-      border: 1px solid "#dcdfe6";
+      border: 1px solid #dcdfe6;
       /** 适应窗口大小会出现滚动条，默认的挂载元素加了overflow：auto */
       overflow: hidden !important;
     }
@@ -615,7 +617,7 @@ export default {
 }
 .xmind-scale-popper {
   .el-button--text {
-    color: "#606266";
+    color: #606266;
   }
 }
 </style>

@@ -141,10 +141,10 @@ export default {
       text-decoration: none;
       cursor: pointer;
       &:hover {
-        color: "#409eff";
+        color: #409eff;
       }
       &.disabled {
-        color: "#c0c4cc";
+        color: #c0c4cc;
         cursor: default;
       }
     }
@@ -152,7 +152,7 @@ export default {
 
   .line {
     padding: 0;
-    border-top: 1px solid "#dcdfe6";
+    border-top: 1px solid #dcdfe6;
   }
 }
 </style>

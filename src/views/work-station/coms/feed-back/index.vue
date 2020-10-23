@@ -53,8 +53,8 @@
         el-input(v-model.trim="model.phone", :maxlength="50", placeholder="请输入联系电话")
       el-form-item
         el-row(type="flex" justify="space-between" style="margin-top:10px;")
-          el-button(style="width:50%;" @click="$router.back()") 取消
-          el-button(style="width:50%;"
+          //- el-button(style="width:50%;" @click="$router.back()") 取消
+          el-button(style="width:100%;"
             type="primary"
             @click="submit"
           ) 提交
@@ -64,7 +64,7 @@
 import { DEFAULT_UPLOAD_CONFIG, TIPS } from './config.js'
 import api from '@/data/api/api.js'
 import API from '@/data/api.js'
-import Kscreenshot from 'kscreenshot'
+import Kscreenshot from '@/components/screenshot/src/kss.js'
 import { getExploreName } from '@/utils/index.js'
 
 export default {
@@ -236,7 +236,6 @@ export default {
       this.$refs.form.clearValidate()
     },
     handleScreenshot() {
-      console.log('test')
       this.screenshot = new Kscreenshot({
         key: 65,
         // needDownload: true,
@@ -251,7 +250,7 @@ export default {
           // 生成blob url
           const windowURL = window.URL || window.webkitURL
           const dataUrl = windowURL.createObjectURL(blob)
-          API.upLoadImg(params)
+          API.upScreenshotImg(params)
             .then(res => {
               const tempFile = {
                 name: blob.name,

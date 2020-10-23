@@ -216,8 +216,8 @@ export default {
         }
         &:hover,
         &.choosed {
-          color: "#409eff";
-          border: 1px solid "#409eff";
+          color: #409eff;
+          border: 1px solid #409eff;
         }
       }
       &-desc {
@@ -231,10 +231,10 @@ export default {
     }
   }
   .el-dialog__header {
-    border-bottom: 1px solid "#dcdfe6";
+    border-bottom: 1px solid #dcdfe6;
   }
   .el-dialog__footer {
-    border-top: 1px solid "#dcdfe6";
+    border-top: 1px solid #dcdfe6;
   }
 }
 </style>

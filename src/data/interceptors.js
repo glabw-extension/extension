@@ -5,7 +5,7 @@ import deleteEmptyProps from '@/utils/deleteEmptyProps.js'
 import isStandardObject from '@/utils/isStandardObject.js'
 import { setCache, useCahce, forCacheCancel, CACHE_FLAG_KEY } from './cache'
 
-axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = "http://192.168.206.57:3000"; // 默认请求地址
 const CancelToken = axios.CancelToken
 
 // 本地融合请求

@@ -1,7 +1,7 @@
 <template lang="pug">
 .collect-card
   .collect-card__title(:style="{backgroundImage: `url(${cardImage})`}")
-    .main {{cardTitle}}
+    .main(:title="cardTitle") {{cardTitle}}
   .collect-card__container
     .collect-card__container-remark(v-if="data.detail.pkg") APP 包名：{{cardAppName}}
     .collect-card__container-remark(v-if="cardLng") 经纬度：{{cardLocation}}
@@ -17,25 +17,34 @@
           el-dropdown-item(v-if="data.type === 3" @click.native="goIpExtract") 查看 IP 提数
           el-dropdown-item(v-if="data.type === 2" @click.native="goWIFI") 查看 Wi-Fi 提数
           el-dropdown-item(v-if="data.type === 5" @click.native="goLocation") 查看位置信息
+          //- el-dropdown-item(@click.native="handleView") 查看详情
           el-dropdown-item(@click.native="updateRemark") 修改备注
           el-dropdown-item(@click.native="deleteCollection") 删除
+  collect-model(:visible.sync="collectModelVisible"
+    :mode="collectMode"
+    :modalData="this.data" 
+    :type="collectModelType"
+    :detail="collectModelDetail"
+    :title="collectModelTitle")
 </template>
 
 <script>
 import dayjs from 'dayjs'
 import api from '@/data/api'
 import store from '@/services/store'
+import collectModel from '../collectModel.vue'
 
 import workplace_id from '@/assets/workplace/workplace_id.svg'
 import workplace_wifi from '@/assets/workplace/workplace_wifi.svg'
 import workplace_ip from '@/assets/workplace/workplace_ip.svg'
 import workplace_app from '@/assets/workplace/workplace_app.svg'
 import workplace_location from '@/assets/workplace/workplace_location.svg'
+import workplace_other from '@/assets/workplace/workplace_other.svg'
 import dotted_more from '@/assets/workplace/dotted-more.svg'
 
 const ICON_MAP = {
   // 0 其他
-  0: workplace_id,
+  0: workplace_other,
   1: workplace_id,
   2: workplace_wifi,
   3: workplace_ip,
@@ -53,6 +62,9 @@ const COLLECT_TYPE = {
 }
 
 export default {
+  components: {
+    collectModel,
+  },
   /* data:
     type:类型: 0-其他; 1-id; 2-wifi; 3-ip; 4-app; 5-location;
     remark: 备注;
@@ -76,6 +88,11 @@ export default {
     return {
       key: '',
       dotted_more,
+      collectModelVisible: false,
+      collectModelType: this.data.type,
+      collectMode: 'view',
+      collectModelDetail: this.data.detail,
+      collectModelTitle: this.data.title,
     }
   },
   computed: {
@@ -159,20 +176,33 @@ export default {
         })
         .catch(() => {})
     },
-
+    handleView() {
+      this.collectMode = 'view'
+      this.modalData = this.data
+      this.collectModelType = this.data.type
+      this.collectModelDetail = this.data.detail
+      this.collectModelTitle = this.data.title
+      this.collectModelVisible = true
+    },
     updateRemark() {
-      this.$prompt('请输入备注', '修改备注', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputType: 'textarea',
-        inputValue: `${_.get(this.data, 'remark')}`,
-        inputValidator: value => value.length < 50,
-        inputErrorMessage: '备注限制在 50 字以内',
-      })
-        .then(({ value }) => {
-          this.action({ type: 'update', value })
-        })
-        .catch(() => {})
+      this.collectMode = 'update'
+      this.modalData = this.data
+      this.collectModelType = this.data.type
+      this.collectModelDetail = this.data.detail
+      this.collectModelTitle = this.data.title
+      this.collectModelVisible = true
+      // this.$prompt('请输入备注', '修改备注', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      //   inputType: 'textarea',
+      //   inputValue: `${_.get(this.data, 'remark')}`,
+      //   inputValidator: value => value.length <= 100,
+      //   inputErrorMessage: '备注限制在 100 字以内',
+      // })
+      //   .then(({ value }) => {
+      //     this.action({ type: 'update', value })
+      //   })
+      //   .catch(() => {})
     },
 
     addedEarlyWarning() {
@@ -270,7 +300,7 @@ export default {
     &-remark {
       width: 240px;
       font-size: 12px;
-      color: "#606266";
+      color: #606266;
       margin-bottom: 4px;
       line-height: 16px;
       .ellipsis();
@@ -290,7 +320,7 @@ export default {
   cursor: pointer;
   background-color: @color-text-secondary;
   &:hover {
-    background-color: "#409eff";
+    background-color: #409eff;
   }
 }
 </style>

@@ -109,7 +109,7 @@ export default {
     padding: 0 12px;
     cursor: pointer;
     .arrow {
-      color: "#409eff";
+      color: #409eff;
     }
   }
 }

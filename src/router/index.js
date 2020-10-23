@@ -32,8 +32,10 @@ const mindMapRoutes = [
   },
 ]
 const router = new VueRouter({
-  ...mindMapRoutes,
-  routes
+  routes: [
+    ...mindMapRoutes,
+    ...routes,
+  ]
 });
 
 export default router;

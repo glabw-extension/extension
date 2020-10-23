@@ -8,12 +8,12 @@ el-dialog(
   :append-to-body="true"
   @close="closeDialog"
 )
-  el-form(:model="query" ref="collectForm" label-width="100px" label-position="right")
-    el-form-item(label="自定义输入：" v-if="type === 0")
-      el-input(v-model="query.detail.key")
+  el-form(:model="query" :rules="rules" ref="collectForm" label-width="110px" label-position="right")
+    el-form-item(label="自定义名称：" v-if="type === 0" maxlength="100" prop="title")
+      el-input(v-model="query.title" :disabled="mode==='update' || mode === 'view'")
     div(v-else-if="type === 1")
       el-form-item(label="ID 信息：")
-        el-input(v-model="query.detail.id" :disabled="true")
+        el-input(v-model="query.detail.id" :disabled="true" )
       el-form-item(label="类别：")
         el-input(v-model="query.detail.type" :disabled="true")
     div(v-else-if="type === 2")
@@ -34,9 +34,13 @@ el-dialog(
         el-input(v-model="query.detail.address" :disabled="true")
       el-form-item(label="经纬度 ：" :disabled="true")
         el-input(:value="`${Number(query.detail.location.lng)}, ${Number(query.detail.location.lat)}`" :disabled="true")
-    el-form-item(label="添加备注：")
-      el-input(v-model="query.remark" type="textarea" :maxlength="100")
-  .dialog-footer(slot="footer")
+    el-form-item(v-if="mode === 'create'" label="添加备注：")
+      el-input(v-model="query.remark" type="textarea" :maxlength="100" show-word-limit)
+    el-form-item(v-else-if="mode === 'update'" label="修改备注：")
+      el-input(v-model="updateQuery.remark" type="textarea" :maxlength="100" show-word-limit)
+    el-form-item(v-else-if="mode === 'view'" label="备注：")
+      el-input(v-model="updateQuery.remark" type="textarea" :maxlength="100" show-word-limit disabled)
+  .dialog-footer(slot="footer" v-if="mode === 'create' || mode === 'update'")
     el-button(@click="closeDialog") 取消
     el-button(type="primary" @click="submitForm('collectForm')" :loading="loading") 保存
 </template>
@@ -47,6 +51,15 @@ import store from '@/services/store'
 
 export default {
   props: {
+    mode: {
+      type: String,
+      default: 'create',
+    },
+    // 仅在update和view模式使用
+    modalData: {
+      type: Object,
+      default: () => ({ id: 0 }),
+    },
     visible: {
       type: Boolean,
       default: false,
@@ -84,6 +97,14 @@ export default {
         collectionKey: '',
         title: '',
       },
+      updateQuery: {
+        id: this.modalData.id,
+        event_id: currentEvent_ID,
+        remark: this.modalData.remark,
+      },
+      rules: {
+        title: [{ required: true, message: '请填写名称', trigger: 'blur' }],
+      },
     }
   },
   computed: {
@@ -96,15 +117,21 @@ export default {
       },
     },
     modelTitle() {
-      const typeTitleMap = [
-        '收藏其他',
-        '收藏 ID',
-        '收藏 Wi-Fi',
-        '收藏 IP',
-        '收藏 APP',
-        '收藏位置',
-      ]
-      return typeTitleMap[this.type]
+      if (this.mode === 'view') {
+        return '查看详情'
+      } else if (this.mode === 'update') {
+        return '修改备注'
+      } else {
+        const typeTitleMap = [
+          '收藏其他',
+          '收藏 ID',
+          '收藏 Wi-Fi',
+          '收藏 IP',
+          '收藏 APP',
+          '收藏位置',
+        ]
+        return typeTitleMap[this.type]
+      }
     },
   },
   watch: {
@@ -124,8 +151,11 @@ export default {
             : val[keyMap[baseType]]
       },
     },
-    title(val, oldVal) {
-      this.query.title = val
+    title: {
+      handler(val, oldVal) {
+        this.query.title = val
+      },
+      immediate: true,
     },
   },
   updated() {
@@ -139,22 +169,41 @@ export default {
     closeDialog() {
       this.mVisible = false
       this.query.remark = ''
+      this.query.title = ''
     },
     submitForm(form) {
       this.$refs[form].validate(async valid => {
         if (valid) {
-          try {
-            this.loading = true
-            const { id = 0 } = await api.createCollection(this.query)
+          if (this.mode === 'create') {
+            try {
+              this.loading = true
+              const { id = 0 } = await api.createCollection(this.query)
 
-            if (id) {
-              this.$message.success('收藏成功')
-              store.set('upDateCollectionList', true)
-              this.mVisible = false
+              if (id) {
+                this.$message.success('收藏成功')
+                store.set('upDateCollectionList', true)
+                this.mVisible = false
+              }
+            } catch (error) {
+            } finally {
+              this.loading = false
             }
-          } catch (error) {
-          } finally {
-            this.loading = false
+          } else if (this.mode === 'update') {
+            try {
+              this.loading = true
+              const resArr = await api.updateCollection(this.updateQuery)
+              if (!_.isEmpty(resArr)) {
+                store.set('upDateCollectionList', true)
+                this.$message({
+                  type: 'success',
+                  message: '修改成功',
+                })
+                this.mVisible = false
+              }
+              this.loading = false
+            } catch (e) {
+              this.loading = false
+            }
           }
         } else {
           return false

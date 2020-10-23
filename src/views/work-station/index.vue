@@ -4,7 +4,7 @@
     .expand-box
       .expand-box__icon(
         :style="{maskImage: `url(${expand_icon})`}"
-        @click="handleExpand"
+        @click.prevent="handleExpand"
         )
     .func-box(v-for="box in workplaceMap" :key="box.key")
       el-tooltip(v-if="!expand" :content="box.title" placement="left")
@@ -19,11 +19,12 @@
         )
         .title(:class="[currentTab === box.key ? 'active':'']") {{box.title}}
   .workplace__container(:class="{'close':!expand}")
-    .base__case
+    .base__case(v-show="expand")
       global-record(ref="globalRecord" v-acl="'event.event.get'" :editable="true")
     keep-alive
       component(:is="currentTabComponent")
-  collect-model(:visible.sync="collectModelVisible" 
+  collect-model(:visible.sync="collectModelVisible"
+    mode="create" 
     :type="collectModelType"
     :detail="collectModelDetail"
     :title="collectModelTitle")
@@ -117,7 +118,7 @@ export default {
         title:string
       */
       // 判断是否存在全局事由备案
-      console.log('has_event_id >>>', hasEventID())
+      // console.log('has_event_id >>>', hasEventID())
       const no_event_id = !hasEventID()
       if (no_event_id) {
         // 强制用户选择案件
@@ -250,7 +251,7 @@ export default {
         background-position: center;
         background-color: #808695;
         &.active {
-          background-color: "#409eff";
+          background-color: #409eff;
         }
       }
     }
@@ -267,7 +268,7 @@ export default {
         background-position: center;
         background-color: #808695;
         &.active {
-          background-color: "#409eff";
+          background-color: #409eff;
         }
       }
 
@@ -281,7 +282,7 @@ export default {
           background-position: center;
           background-color: #808695;
           &.active {
-            background-color: "#409eff";
+            background-color: #409eff;
           }
         }
         .title {
@@ -289,7 +290,7 @@ export default {
           line-height: 20px;
           color: @color-text-label;
           &.active {
-            color: "#409eff";
+            color: #409eff;
           }
         }
       }
@@ -316,6 +317,6 @@ export default {
   align-items: center;
 }
 /deep/.global_record__btn {
-  color: "#606266";
+  color: #606266;
 }
 </style>

@@ -18,7 +18,7 @@
       el-form-item(label="名称：" prop="title")
         el-input(v-model="temp.title" :maxlength="100")
       el-form-item(label="备注：")
-        el-input(v-model="temp.remark" type="textarea" :maxlength="100")
+        el-input(v-model="temp.remark" type="textarea" :maxlength="100" show-word-limit)
     template(#footer)
       el-button(@click="updateDialogVisible = false") 取消
       el-button(type="primary" @click="updateTitleComment" :loading="loading") 保存
@@ -180,7 +180,7 @@ export default {
       width: 180px;
       font-weight: 500;
       font-size: 14px;
-      color: "#606266";
+      color: #606266;
       line-height: 20px;
       margin-bottom: 3px;
       .ellipsis();
@@ -188,7 +188,7 @@ export default {
     &-remark {
       width: 170px;
       font-size: 12px;
-      color: "#606266";
+      color: #606266;
       line-height: 16px;
 
       .ellipsis();
@@ -210,7 +210,7 @@ export default {
   cursor: pointer;
   background-color: @color-text-secondary;
   &:hover {
-    background-color: "#409eff";
+    background-color: #409eff;
   }
 }
 </style>
