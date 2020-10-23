@@ -7,10 +7,13 @@
 <script>
 export default {
   name: "HelloWorld",
-  mounted() {},
+  mounted() {
+    // browser.runtime.sendMessage({});
+    console.log("browser >>>", browser);
+  },
   computed: {
     defaultText() {
-      return "helloWorld";
+      return "";
     }
   }
 };
