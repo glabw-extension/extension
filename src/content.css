@@ -9,7 +9,7 @@
   z-index: 99;
   transform: translateX(-336px);
   transition: all 0.4s;
-  /* box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.12); */
+  box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
 #workstation__trigger {

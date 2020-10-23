@@ -54,7 +54,7 @@ function drag_handler(e) {
   }
   if (left > 350 && collectStatus !== "pending") {
     // close collect box
-    collect.style.setProperty("transform", "translateX(-312px)");
+    collect.style.setProperty("transform", "translateX(-332px)");
   }
 }
 
@@ -66,6 +66,7 @@ function drop_handler(e) {
   const type = +e.dataTransfer.getData("origin/type");
   const title = document.getElementsByTagName("title")[0].textContent || "";
 
+  console.log("type >", type, "title >", title);
   // 投放至收藏区
   if (left < 300 && isDropDom && collectStatus !== "pending") {
     const params = {
@@ -86,6 +87,7 @@ function drop_handler(e) {
         curCollectInfo.textContent = e.dataTransfer.getData("link");
         break;
       case 8:
+        params.title = e.dataTransfer.getData("img");
         Object.assign(params, {
           detail: { url: e.dataTransfer.getData("img") }
         });
@@ -105,7 +107,7 @@ function drop_handler(e) {
     // reset
   } else if (collectStatus !== "pending") {
     // close collect box
-    collect.style.setProperty("transform", "translateX(-312px)");
+    collect.style.setProperty("transform", "translateX(-332px)");
     curCollectInfo.style.display = "none";
     curCollectInfo.textContent = "";
   }
@@ -247,7 +249,7 @@ if (window.self === window.top) {
             console.log(status);
             if (status === "done") {
               // 收起收藏面板
-              collect.style.setProperty("transform", "translateX(-312px)");
+              collect.style.setProperty("transform", "translateX(-332px)");
             }
             // pending
             if (status === "pending") {
