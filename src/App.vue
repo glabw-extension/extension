@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import mindMap from '@/views/mind-map/'
+import mindMap from '@/views/mind-map/index.vue'
 export default {
   components: {
     mindMap,
