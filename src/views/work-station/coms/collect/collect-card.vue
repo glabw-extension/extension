@@ -52,14 +52,14 @@ const ICON_MAP = {
   5: workplace_location,
 }
 
-const COLLECT_TYPE = {
-  0: 'other',
-  1: 'id',
-  2: 'wifi',
-  3: 'ip',
-  4: 'app',
-  5: 'location',
-}
+// const COLLECT_TYPE = {
+//   0: 'other',
+//   1: 'id',
+//   2: 'wifi',
+//   3: 'ip',
+//   4: 'app',
+//   5: 'location',
+// }
 
 export default {
   components: {
@@ -97,10 +97,10 @@ export default {
   },
   computed: {
     cardTitle() {
-      return _.get(this.data, `title`) || '/'
+      return this._.get(this.data, `title`) || '/'
     },
     cardImage() {
-      return ICON_MAP[_.get(this.data, 'type')] || ''
+      return ICON_MAP[this._.get(this.data, 'type')] || ''
     },
     cardRemark() {
       return this.data.remark || '/'
@@ -109,41 +109,41 @@ export default {
       return dayjs(this.data.updateTime).format('YYYY-MM-DD HH:mm:ss') || '/'
     },
     cardAppName() {
-      return _.get(this.data, `detail.pkg`) || '/'
+      return this._.get(this.data, `detail.pkg`) || '/'
     },
     cardLng() {
-      const lng = _.get(this.data, `detail.location.lng`)
-      const lat = _.get(this.data, `detail.location.lat`)
+      const lng = this._.get(this.data, `detail.location.lng`)
+      const lat = this._.get(this.data, `detail.location.lat`)
       return lng && lat
     },
     cardLocation() {
       // 取经纬度后六位
-      const lng = _.get(this.data, `detail.location.lng`).toString()
+      const lng = this._.get(this.data, `detail.location.lng`).toString()
       const lngIndex = lng.indexOf('.')
       const resLng = lng.slice(0, lngIndex + 7)
-      const lat = _.get(this.data, `detail.location.lat`).toString()
+      const lat = this._.get(this.data, `detail.location.lat`).toString()
       const latIndex = lng.indexOf('.')
       const resLat = lng.slice(0, latIndex + 7)
       return lng && lat ? `${resLng}, ${resLat}` : '/'
     },
     cardMac() {
-      return _.get(this.data, `detail.wifimac`) || '/'
+      return this._.get(this.data, `detail.wifimac`) || '/'
     },
   },
 
   methods: {
     async action(params) {
       const { type = 'update', value = '' } = params
-      const event_id = _.get(
+      const event_id = this._.get(
         JSON.parse(window.sessionStorage.getItem('record:record') || '{}'),
         'id',
       )
       const deleteQuery = {
-        id: _.get(this.data, 'id'),
+        id: this._.get(this.data, 'id'),
         event_id,
       }
       const updateQuery = {
-        id: _.get(this.data, 'id'),
+        id: this._.get(this.data, 'id'),
         event_id,
         remark: value,
       }
@@ -154,8 +154,8 @@ export default {
             ? await api.updateCollection(updateQuery)
             : await api.deleteCollection(deleteQuery)
 
-        !_.isEmpty(resArr) && store.set('upDateCollectionList', true)
-        !_.isEmpty(resArr) &&
+        !this._.isEmpty(resArr) && store.set('upDateCollectionList', true)
+        !this._.isEmpty(resArr) &&
           this.$message({
             type: 'success',
             message: `${type === 'update' ? '更新' : '删除'}操作成功`,
@@ -195,7 +195,7 @@ export default {
       //   confirmButtonText: '确定',
       //   cancelButtonText: '取消',
       //   inputType: 'textarea',
-      //   inputValue: `${_.get(this.data, 'remark')}`,
+      //   inputValue: `${this._.get(this.data, 'remark')}`,
       //   inputValidator: value => value.length <= 100,
       //   inputErrorMessage: '备注限制在 100 字以内',
       // })
@@ -215,25 +215,25 @@ export default {
         this.$router.push({
           name: 'monitorPerson.add',
           params: {
-            id: _.get(this.data, 'title'),
-            type: _.get(this.data, 'detail.type'),
-            name: _.get(recordInfo, 'name'),
-            reason: _.get(recordInfo, 'reason'),
+            id: this._.get(this.data, 'title'),
+            type: this._.get(this.data, 'detail.type'),
+            name: this._.get(recordInfo, 'name'),
+            reason: this._.get(recordInfo, 'reason'),
           },
         })
     },
 
     goReport() {
-      const id = _.get(this.data, 'detail.id')
-      const type = _.get(this.data, 'detail.type')
+      const id = this._.get(this.data, 'detail.id')
+      const type = this._.get(this.data, 'detail.type')
       this.$isPermitted('profile') && id && type && this.$goReport({ id, type })
     },
 
-    goIpExtract(mac) {
+    goIpExtract() {
       const { href } = this.$router.resolve({
         name: 'ipExtract',
         query: {
-          id: _.get(this.data, 'title'),
+          id: this._.get(this.data, 'title'),
         },
       })
       this.$isPermitted('space_extract.ip_extract.get') && window.open(href)
@@ -243,7 +243,7 @@ export default {
       const { href } = this.$router.resolve({
         name: 'wifi-crowd.list',
         query: {
-          id: _.get(this.data, 'detail.wifimac'),
+          id: this._.get(this.data, 'detail.wifimac'),
         },
       })
       this.$isPermitted('space_extract.wifi_extract.get') && window.open(href)
@@ -251,9 +251,9 @@ export default {
 
     goLocation() {
       const address =
-        _.get(this.data, 'title') || _.get(this.data, 'detail.address')
-      const lat = _.get(this.data, 'detail.location.lat')
-      const lng = _.get(this.data, 'detail.location.lng')
+        this._.get(this.data, 'title') || this._.get(this.data, 'detail.address')
+      const lat = this._.get(this.data, 'detail.location.lat')
+      const lng = this._.get(this.data, 'detail.location.lng')
 
       lat &&
         address &&
@@ -318,7 +318,7 @@ export default {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  background-color: @color-text-secondary;
+  background-color: #909399;
   &:hover {
     background-color: #409eff;
   }

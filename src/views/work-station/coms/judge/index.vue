@@ -36,12 +36,12 @@
 <script>
 import DownloadImg from './download-img'
 import judgeCard from './judge-card.vue'
-import noData from '@/pages/work-station/coms/no-data'
-import noEvent from '@/pages/work-station/coms/no-event'
+import noData from '@/views/work-station/coms/no-data/dark.vue'
+import noEvent from '@/views/work-station/coms/no-event'
 import api from '@/data/api'
 import store from '@/services/store'
-import BaseRecord from '@/pages/work-station/coms/record.vue'
-import { hasEventID } from '@/pages/work-station/coms/utils.js'
+import BaseRecord from '@/views/work-station/coms/record.vue'
+import { hasEventID } from '@/views/work-station/coms/utils.js'
 
 export default {
   components: {
@@ -86,7 +86,7 @@ export default {
       }
     })
 
-    store.$on('upDateMindMapListChange', res => {
+    store.$on('upDateMindMapListChange', () => {
       this.pager.page = 1
       this.getMindMapList({ page: 1 })
     })
@@ -106,7 +106,7 @@ export default {
       const query = {
         page,
         count,
-        event_id: _.get(this.recordData, 'id'),
+        event_id: this._.get(this.recordData, 'id'),
         // event_id: '1',
         type,
       }
@@ -116,7 +116,7 @@ export default {
         const { list = [], total = 0 } = await api.getMindMapList(query)
         if (type[0] === 1) {
           this.mindList = list
-          this.isNoData = _.isEmpty(list)
+          this.isNoData = this._.isEmpty(list)
         } else {
           this.methodList = list
         }

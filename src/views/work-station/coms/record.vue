@@ -1,14 +1,14 @@
 <template lang="pug">
 .base__record 
-  global-record(v-acl="'event.event.get'", :editable="recordEditable")
+  //- global-record(v-acl="'event.event.get'", :editable="recordEditable")
 </template>
 
 <script>
-import globalRecord from '@/components/global-record'
+// import globalRecord from '@/components/global-record'
 
 export default {
   components: {
-    globalRecord,
+    // globalRecord,
   },
   data() {
     const allow_edit_event = window.sessionStorage['record:allow_edit_event']

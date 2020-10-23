@@ -34,12 +34,12 @@
 
 <script>
 import collectCard from './collect-card.vue'
-import noData from '@/pages/work-station/coms/no-data'
-import noEvent from '@/pages/work-station/coms/no-event'
-import baseRecord from '@/pages/work-station/coms/record.vue'
+import noData from '@/views/work-station/coms/no-data/dark.vue'
+import noEvent from '@/views/work-station/coms/no-event'
+import baseRecord from '@/views/work-station/coms/record.vue'
 import api from '@/data/api'
 import store from '@/services/store'
-import { hasEventID } from '@/pages/work-station/coms/utils.js'
+import { hasEventID } from '@/views/work-station/coms/utils.js'
 
 export default {
   components: {
@@ -118,7 +118,7 @@ export default {
         this.getCollectionList({ page: 1, type: '' })
       }
     })
-    store.$on('upDateCollectionListChange', res => {
+    store.$on('upDateCollectionListChange', () => {
       this.typeValue = ''
       this.pager.page = 1
       this.getCollectionList({ page: 1, type: '' })
@@ -129,7 +129,7 @@ export default {
       const query = {
         page,
         count,
-        event_id: _.get(this.recordData, 'id'),
+        event_id: this._.get(this.recordData, 'id'),
         type,
       }
       try {
@@ -137,7 +137,7 @@ export default {
         const { list = [], total = 0 } = await api.getCollectionList(query)
         this.collectionList = list
         this.pager.total = total
-        this.isNoData = _.isEmpty(list)
+        this.isNoData = this._.isEmpty(list)
       } catch (error) {
         this.loading = false
       } finally {
@@ -172,7 +172,7 @@ export default {
     //   this.$refs[form].validate(async valid => {
     //     if (valid) {
     //       const query = {
-    //         event_id: _.get(this.recordData, 'id'),
+    //         event_id: this._.get(this.recordData, 'id'),
     //         detail: {
     //           other: 'other',
     //         },

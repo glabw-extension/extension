@@ -82,7 +82,7 @@ export default {
     },
   },
   data() {
-    const currentEvent_ID = _.get(
+    const currentEvent_ID = this._.get(
       JSON.parse(window.sessionStorage.getItem('record:record') || '{}'),
       'id',
     )
@@ -135,11 +135,11 @@ export default {
     },
   },
   watch: {
-    type(val, oldVal) {
+    type(val) {
       this.query.type = val
     },
     detail: {
-      handler(val, oldVal) {
+      handler(val) {
         this.query.detail = val
 
         // '类型: 0-其他; 1-id; 2-wifi; 3-ip; 4-app; 5-location'
@@ -147,19 +147,19 @@ export default {
         const baseType = this.type
         this.query.collectionKey =
           baseType === 5
-            ? `${_.get(val, 'location.lng')},${_.get(val, 'location.lat')}`
+            ? `${this._.get(val, 'location.lng')},${this._.get(val, 'location.lat')}`
             : val[keyMap[baseType]]
       },
     },
     title: {
-      handler(val, oldVal) {
+      handler(val) {
         this.query.title = val
       },
       immediate: true,
     },
   },
   updated() {
-    const event_id = _.get(
+    const event_id = this._.get(
       JSON.parse(window.sessionStorage.getItem('record:record') || '{}'),
       'id',
     )
@@ -185,6 +185,7 @@ export default {
                 this.mVisible = false
               }
             } catch (error) {
+              console.log(error);
             } finally {
               this.loading = false
             }
@@ -192,7 +193,7 @@ export default {
             try {
               this.loading = true
               const resArr = await api.updateCollection(this.updateQuery)
-              if (!_.isEmpty(resArr)) {
+              if (!this._.isEmpty(resArr)) {
                 store.set('upDateCollectionList', true)
                 this.$message({
                   type: 'success',

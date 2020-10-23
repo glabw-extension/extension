@@ -15,8 +15,8 @@ if (window.self === window.top) {
     if (document.readyState === "complete") {
       iframe = document.createElement("iframe");
       iframe.id = "workstation";
-      iframe.style.setProperty("height", "800px", "important");
-      iframe.style.setProperty("width", "400px", "important");
+      iframe.style.setProperty("height", "100%", "important");
+      iframe.style.setProperty("width", "100%", "important");
       iframe.style.setProperty("min-width", "1px", "important");
       iframe.style.setProperty("position", "fixed", "important");
       iframe.style.setProperty("top", "0", "important");

@@ -20,7 +20,7 @@
         .title(:class="[currentTab === box.key ? 'active':'']") {{box.title}}
   .workplace__container(:class="{'close':!expand}")
     .base__case(v-show="expand")
-      global-record(ref="globalRecord" v-acl="'event.event.get'" :editable="true")
+      //- global-record(ref="globalRecord" v-acl="'event.event.get'" :editable="true")
     keep-alive
       component(:is="currentTabComponent")
   collect-model(:visible.sync="collectModelVisible"
@@ -37,11 +37,11 @@ import tabCollect from './coms/collect'
 import tabTool from './coms/tool'
 import tabFeed from './coms/feed-back'
 import collectModel from './coms/collectModel.vue'
-import globalRecord from '@/components/global-record'
-import store from '@/services/store'
+// import globalRecord from '@/components/global-record'
+// import store from '@/services/store'
 import ClickOutsideRight, {
-  hasEventID,
-} from '@/pages/work-station/coms/utils.js'
+  // hasEventID,
+} from '@/views/work-station/coms/utils.js'
 
 import expand_icon from '@/assets/workplace/expand.svg'
 import judge_icon from '@/assets/workplace/judge.svg'
@@ -80,7 +80,7 @@ export default {
     tabTool,
     tabFeed,
     collectModel,
-    globalRecord,
+    // globalRecord,
   },
   directives: {
     ClickOutsideRight,
@@ -119,12 +119,12 @@ export default {
       */
       // 判断是否存在全局事由备案
       // console.log('has_event_id >>>', hasEventID())
-      const no_event_id = !hasEventID()
-      if (no_event_id) {
-        // 强制用户选择案件
-        this.$refs.globalRecord.showModal = true
-        return
-      }
+      // const no_event_id = !hasEventID()
+      // if (no_event_id) {
+      //   // 强制用户选择案件
+      //   this.$refs.globalRecord.showModal = true
+      //   return
+      // }
 
       // 收藏
       const { type = 1, detail = {}, title = '' } = params
@@ -141,8 +141,8 @@ export default {
   methods: {
     workStationMoveHandle(e) {
       if (this.expand) return
-      const workStation = this.$refs.workStation
-      let isDrag = false
+      // const workStation = this.$refs.workStation
+      // let isDrag = false
       let currentTarget = e.currentTarget
       // 计算鼠标相对元素位置
       let disX = e.clientX - currentTarget.offsetLeft
@@ -156,7 +156,7 @@ export default {
         parseInt(window.getComputedStyle(document.body, false)['height']) - 660
       currentTarget.style.cursor = 'move'
 
-      document.onmousemove = _.throttle(e => {
+      document.onmousemove = this._.throttle(e => {
         // 鼠标位置减去相对元素位置，得到元素当前位置
         let left = e.clientX - disX
         let top = e.clientY - disY
@@ -176,7 +176,7 @@ export default {
           currentTarget.style.top = `${top}px`
         }
       }, 20)
-      document.onmouseup = e => {
+      document.onmouseup = () => {
         currentTarget.style.cursor = 'initial'
         // maxRight + 36 等于屏幕宽度
         if (maxRight + 36 - currentTarget.offsetLeft <= 340) {
@@ -217,7 +217,7 @@ export default {
 .workplace {
   position: absolute;
   top: 10vh;
-  right: 0;
+  left: 0;
   z-index: 2002;
   font-size: 14px;
   width: 336px;
@@ -288,7 +288,7 @@ export default {
         .title {
           margin-top: 4px;
           line-height: 20px;
-          color: @color-text-label;
+          color: #999fac;
           &.active {
             color: #409eff;
           }

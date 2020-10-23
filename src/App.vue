@@ -1,17 +1,15 @@
 <template>
   <div id="app" ref="app">
-
-    <el-button @click="$router.push({name: 'workstation.mindMap'})">click</el-button>
     <router-view class="test"/>
-    <!-- <mind-map></mind-map> -->
+    <work-station></work-station>
   </div>
 </template>
 <script>
-// import mindMap from '@/views/mind-map/index.vue'
+import workStation from '@/views/work-station/index.vue'
 export default {
-  // components: {
-  //   mindMap,
-  // },
+  components: {
+    workStation,
+  },
   mounted () {
     const app = this.$refs.app;
     document.addEventListener('dragenter', (e) => {
@@ -27,10 +25,11 @@ export default {
 </script>
 <style lang="scss">
 .test {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
   right: 0;
+  background: pink;
 }
 </style>

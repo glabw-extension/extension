@@ -62,9 +62,8 @@
 
 <script>
 import { DEFAULT_UPLOAD_CONFIG, TIPS } from './config.js'
-import api from '@/data/api/api.js'
 import API from '@/data/api.js'
-import Kscreenshot from '@/components/screenshot/src/kss.js'
+import Kscreenshot from 'kscreenshot'
 import { getExploreName } from '@/utils/index.js'
 
 export default {
@@ -92,7 +91,7 @@ export default {
   },
   mounted() {
     // menus值格式化
-    this.menus = (window.__auth__.products || []).map(menu => {
+    this.menus = (window.__auth__ && window.__auth__.products || []).map(menu => {
       if (!menu.submenus) {
         return {
           value: menu.auth,
@@ -144,7 +143,7 @@ export default {
             email,
           }
           this.submitLoading = true
-          api
+          API
             .createFeedback(params)
             .then(() => {
               this.$message.success('反馈提交成功')
@@ -172,7 +171,7 @@ export default {
     /**
      * @desc 文件上传 - 文件超出个数限制时的钩子
      */
-    handleExceed(files, fileList) {
+    handleExceed() {
       // if (fileList.length > this.static.DEFAULT_UPLOAD_CONFIG.limit) {
       this.$message({
         showClose: true,
@@ -282,7 +281,7 @@ export default {
               this.model.fileList.push(tempFile)
               this.isScreenshoting = false
             })
-            .catch(e => {
+            .catch(() => {
               this.isScreenshoting = false
             })
         },

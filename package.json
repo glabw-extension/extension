@@ -17,6 +17,8 @@
     "core-js": "^3.6.5",
     "dayjs": "^1.9.3",
     "element-ui": "^2.13.2",
+    "html2canvas": "^1.0.0-rc.7",
+    "kscreenshot": "^1.2.3",
     "less": "^3.12.2",
     "less-loader": "^7.0.2",
     "vue": "^2.6.11",

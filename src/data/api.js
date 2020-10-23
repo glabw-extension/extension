@@ -1,9 +1,9 @@
 import axios from 'axios'
-import downFile from '@/utils/downFile'
+// import downFile from '@/utils/downFile'
 import errorCode from '../constants/error-code'
 
 axios.__errCode = Object.assign(axios.__errCode || {}, errorCode)
-const genPostReq = url => (...params) => axios.post(url, ...params)
+// const genPostReq = url => (...params) => axios.post(url, ...params)
 
 const workstation = {
   getMindMapList(params) {
@@ -66,5 +66,8 @@ const workstation = {
 }
 
 export default {
+  createFeedback(params) {
+    return axios.post('/administrate/feedback/create', params)
+  },
   ...workstation,
 }

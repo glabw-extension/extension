@@ -93,12 +93,12 @@ export default {
               event_id,
               ...this.temp,
             })
-            .then(res => {
+            .then(() => {
               store.set('upDateMindMapList', true)
               this.updateDialogVisible = false
               this.loading = false
             })
-            .catch(e => {
+            .catch(() => {
               this.loading = false
             })
         }
@@ -117,7 +117,7 @@ export default {
             type,
             event_id,
           })
-          .then(res => {
+          .then(() => {
             store.set('upDateMindMapList', true)
             this.$message({
               type: 'success',
@@ -208,7 +208,7 @@ export default {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  background-color: @color-text-secondary;
+  background-color: #909399;
   &:hover {
     background-color: #409eff;
   }
