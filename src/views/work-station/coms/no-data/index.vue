@@ -24,7 +24,9 @@ export default {
 
 <style lang="less" scoped>
 .workstattion-no-data {
-  margin: 100px;
+  // margin: 100px;
+  margin-top: 150px;
+  // transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   justify-content: center;

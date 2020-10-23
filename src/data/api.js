@@ -60,8 +60,11 @@ const workstation = {
   getMindById(params) {
     return axios.post('/workstation/mind_map/getById', params)
   },
+  // upLoadImg(params) {
+  //   return axios.post('/webfile/webfile/upload', params)
+  // },
   upLoadImg(params) {
-    return axios.post('/webfile/webfile/upload', params)
+    return axios.post('/file/upload', params)
   },
 }
 

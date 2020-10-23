@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
-import deleteEmptyProps from '@/utils/deleteEmptyProps.js'
+// import deleteEmptyProps from '@/utils/deleteEmptyProps.js'
 import isStandardObject from '@/utils/isStandardObject.js'
 import { setCache, useCahce, forCacheCancel, CACHE_FLAG_KEY } from './cache'
 
-axios.defaults.baseURL = "http://192.168.206.57:3000"; // 默认请求地址
+axios.defaults.baseURL = "https://www.workstation.com"; // 默认请求地址
 const CancelToken = axios.CancelToken
 
 // 本地融合请求
@@ -98,8 +98,8 @@ axios.interceptors.request.use(
     ) {
       // keepEmptyProps:true 保留空参数
       // 默认不传入该参数
-      const keepEmptyProps = config.keepEmptyProps
-      !keepEmptyProps && (config.data = deleteEmptyProps(config.data))
+      // const keepEmptyProps = config.keepEmptyProps
+      // !keepEmptyProps && (config.data = deleteEmptyProps(config.data))
     }
     return config
   },

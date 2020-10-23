@@ -1,7 +1,9 @@
 <template lang="pug">
 .judge-card
   .judge-card__img(@click="goMindMapPage")
-    download-img(:filePath="data.imageUrl" :key="data.imageUrl")
+    //- download-img(:filePath="data.imageUrl" :key="data.imageUrl")
+    img(v-if="data.imageUrl && data.imageUrl !== ' '" :src="'https://www.workstation.com/'+data.imageUrl" :key="data.imageUrl")
+    img(v-else :src="noData" title="无数据")
   .judge-card__container
     .judge-card__container-title {{cardTitle}}
     .judge-card__container-remark {{cardRemark}}
@@ -30,6 +32,7 @@ import dayjs from 'dayjs'
 import DownloadImg from './download-img'
 import api from '@/data/api'
 import store from '@/services/store'
+import noData from '@/assets/workplace/mind_placeholder.svg'
 
 export default {
   components: {
@@ -47,6 +50,7 @@ export default {
   },
   data() {
     return {
+      noData,
       key: '',
       dotted_more,
       updateDialogVisible: false,
@@ -160,7 +164,7 @@ export default {
     border: 1px solid #dcdcdc;
     margin-right: 12px;
     cursor: pointer;
-    & .download-img {
+    & img {
       width: 100%;
       height: 100%;
     }

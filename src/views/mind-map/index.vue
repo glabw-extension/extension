@@ -15,7 +15,7 @@
           div.buttons-item.flex-placeholder
           div.buttons-item.flex-placeholder
           div.buttons-item.flex-placeholder
-  .left-side__arrow(@click.stop="openAside = !openAside", :class="{'arrow-to-left': !openAside}")
+  //- .left-side__arrow(@click.stop="openAside = !openAside", :class="{'arrow-to-left': !openAside}")
     i(:class="`el-icon-arrow-${openAside ? 'left' : 'right' }`")
   .xmind-workspace__content
     .xmind-workspace__container(ref="xmind-container")
@@ -51,21 +51,22 @@
 </template>
 
 <script>
-import { Topology } from '@topology/core'
+import { Topology } from "@topology/core";
 // import * as FileSaver from 'file-saver'
-import { Tools } from './xmind-config'
-import CanvasProps from './CanvasProps'
-import CanvasContextMenu from './CanvasContextMenu'
-import api from '@/data/api'
-import store from '@/services/store'
-import { ResizeObserver as Polyfill } from '@juggle/resize-observer'
-import { register as registerFlow } from '@topology/flow-diagram' // 注册流程图相关图示
+import { Tools } from "./xmind-config";
+import CanvasProps from "./CanvasProps";
+import CanvasContextMenu from "./CanvasContextMenu";
+import api from "@/data/api";
+import store from "@/services/store";
+import { ResizeObserver as Polyfill } from "@juggle/resize-observer";
+import { register as registerFlow } from "@topology/flow-diagram"; // 注册流程图相关图示
+import { v4 as uuidv4 } from "uuid";
 
 export default {
-  name: 'XmindWorkspace',
+  name: "XmindWorkspace",
   components: {
     CanvasProps,
-    CanvasContextMenu,
+    CanvasContextMenu
   },
   data() {
     return {
@@ -75,18 +76,18 @@ export default {
         line: null,
         nodes: null,
         multi: false,
-        locked: false,
+        locked: false
       },
       contextmenu: {
         left: null,
         top: null,
-        bottom: null,
+        bottom: null
       },
       canvasOptions: {
         disableEmptyLine: true,
         // hideRotateCP: true,
-        dragColor: '#5f82ff',
-        activeColor: '#5f82ff',
+        dragColor: "#409eff",
+        activeColor: "#409eff"
         // rotateCursor: require('../../assets/workplace/no-data-gray.svg')
       },
       canvas: null,
@@ -96,117 +97,117 @@ export default {
       loading: false,
       mindModel: false,
       form: {
-        remark: '',
-        title: '',
+        remark: "",
+        title: ""
       },
       showGrid: false,
-      openAside: true,
-    }
+      openAside: true
+    };
   },
   computed: {
     scale() {
-      return Math.floor((this.canvas && this.canvas.data.scale) * 100)
-    },
+      return Math.floor((this.canvas && this.canvas.data.scale) * 100);
+    }
   },
   watch: {
     $route() {
       // 重新加载路由要重新获取路由参数
-      this.mindId = this.$route.params.id
-      this.eventId = this.$route.query.event_id
-      const newToDetail = this.$route.query.newToDetail
+      this.mindId = this.$route.params.id;
+      this.eventId = this.$route.query.event_id;
+      const newToDetail = this.$route.query.newToDetail;
       this.choosedElement = {
         node: null,
         line: null,
         nodes: null,
         multi: false,
-        locked: false,
-      }
+        locked: false
+      };
       if (this.mindId) {
-        !newToDetail && this.getMindDetail()
+        !newToDetail && this.getMindDetail();
       } else {
-        this.form.remark = ''
-        this.form.title = ''
-        this.canvas.open()
+        this.form.remark = "";
+        this.form.title = "";
+        this.canvas.open();
       }
-    },
+    }
   },
   mounted() {
-    registerFlow()
-    this.initPage()
-    this.contextmenuHiddenHandle()
-    this.mindMapResizeHandle()
-    this.freshHandle()
+    registerFlow();
+    this.initPage();
+    this.contextmenuHiddenHandle();
+    this.mindMapResizeHandle();
+    this.freshHandle();
   },
   beforeDestroy() {
-    this.canvas.destroy()
-    document.onclick = null
-    window.onbeforeunload = null
+    this.canvas.destroy();
+    document.onclick = null;
+    window.onbeforeunload = null;
   },
   methods: {
     initPage() {
-      this.canvasOptions.on = this.onMessage
-      this.canvas = new Topology('topology-canvas', this.canvasOptions)
-      this.canvas.data.lineName = 'mind'
-      this.canvas.data.fromArrowType = ''
-      this.canvas.data.toArrowType = ''
-      this.mindId = this.$route.params.id
-      this.mindType = this.$route.query.type || 1
-      this.eventId = this.$route.query.event_id || '1'
+      this.canvasOptions.on = this.onMessage;
+      this.canvas = new Topology("topology-canvas", this.canvasOptions);
+      this.canvas.data.lineName = "mind";
+      this.canvas.data.fromArrowType = "";
+      this.canvas.data.toArrowType = "";
+      this.mindId = this.$route.params.id;
+      this.mindType = this.$route.query.type || 1;
+      this.eventId = this.$route.query.event_id || "1";
       if (this.mindId) {
-        this.getMindDetail()
+        this.getMindDetail();
       }
     },
     clearMindMap() {
-      this.canvas.open()
+      this.canvas.open();
       this.$nextTick(() => {
-        this.$refs.form && this.$refs.form.resetFields()
-      })
+        this.$refs.form && this.$refs.form.resetFields();
+      });
       this.choosedElement = {
         node: null,
         line: null,
         nodes: null,
         multi: false,
-        locked: false,
-      }
+        locked: false
+      };
     },
     // 左侧收起时重置canvns大小
     mindMapResizeHandle() {
-      const mindMap = this.$refs['xmind-container']
-      const ResizeObserver = window.ResizeObserver || Polyfill
+      const mindMap = this.$refs["xmind-container"];
+      const ResizeObserver = window.ResizeObserver || Polyfill;
       const ro = new ResizeObserver(
-        _.throttle(() => {
-          this.canvas.resize()
-        }, 20),
-      )
-      ro.observe(mindMap)
+        this._.throttle(() => {
+          this.canvas.resize();
+        }, 20)
+      );
+      ro.observe(mindMap);
     },
     showGridChange() {
-      this.canvas.data.grid = this.showGrid
-      this.canvas.showGrid(this.showGrid)
-      this.onUpdateProps()
+      this.canvas.data.grid = this.showGrid;
+      this.canvas.showGrid(this.showGrid);
+      this.onUpdateProps();
     },
     scaleCanvas(value) {
       if (value) {
-        let scale
+        let scale;
         if (this.canvas.data.scale >= 4.9 && value > 0) {
-          scale = 5
+          scale = 5;
         } else if (this.canvas.data.scale <= 0.35 && value < 0) {
-          scale = 0.25
+          scale = 0.25;
         } else {
-          scale = this.canvas.data.scale + value
+          scale = this.canvas.data.scale + value;
         }
-        this.canvas.scaleTo(scale)
+        this.canvas.scaleTo(scale);
       } else {
-        this.canvas.scaleTo(1)
+        this.canvas.scaleTo(1);
       }
     },
     showSaveDialog() {
-      this.mindModel = true
+      this.mindModel = true;
       if (!this.mindId) {
         // 新建的时候要清空表单，但是会触发title校验
         this.$nextTick(() => {
-          this.$refs.form.clearValidate('title')
-        })
+          this.$refs.form.clearValidate("title");
+        });
       }
     },
     contextmenuHiddenHandle() {
@@ -214,99 +215,99 @@ export default {
         this.contextmenu = {
           left: null,
           top: null,
-          bottom: null,
-        }
-      }
+          bottom: null
+        };
+      };
     },
     async getMindDetail() {
       const params = {
         id: this.mindId,
         type: this.mindType,
-        event_id: this.eventId,
-      }
-      this.loading = true
+        event_id: this.eventId
+      };
+      this.loading = true;
       try {
-        const data = await api.getMindById(params)
-        this.loading = false
-        this.form.title = data.title
-        this.form.remark = data.remark
-        this.showGrid = data.detail.grid
-        data && this.canvas.open(data.detail)
+        const data = await api.getMindById(params);
+        this.loading = false;
+        this.form.title = data.title;
+        this.form.remark = data.remark;
+        this.showGrid = data.detail.grid;
+        data && this.canvas.open(data.detail);
       } catch (error) {
-        this.loading = false
+        this.loading = false;
       }
     },
     onDrag(event, node) {
-      event.dataTransfer.setData('Topology', JSON.stringify(node.data))
+      event.dataTransfer.setData("Topology", JSON.stringify(node.data));
     },
     onMessage(event, data) {
       // console.log('onMessage', event, data)
       // 右侧输入框编辑状态时点击编辑区域其他元素，onMessage执行后才执行onUpdateProps方法，通过setTimeout让onUpdateProps先执行
       setTimeout(() => {
         switch (event) {
-          case 'node':
-          case 'addNode':
+          case "node":
+          case "addNode":
             this.choosedElement = {
               node: data,
               line: null,
               multi: false,
               nodes: null,
-              locked: data.locked,
-            }
-            break
-          case 'line':
-          case 'addLine':
+              locked: data.locked
+            };
+            break;
+          case "line":
+          case "addLine":
             this.choosedElement = {
               node: null,
               line: data,
               multi: false,
               nodes: null,
-              locked: data.locked,
-            }
-            break
-          case 'multi':
+              locked: data.locked
+            };
+            break;
+          case "multi":
             this.choosedElement = {
               node: null,
               line: null,
               multi: true,
               nodes: data.length > 1 ? data : null,
-              locked: this.getLocked({ nodes: data }),
-            }
-            break
-          case 'space':
+              locked: this.getLocked({ nodes: data })
+            };
+            break;
+          case "space":
             this.choosedElement = {
               node: null,
               line: null,
               multi: false,
               nodes: null,
-              locked: false,
-            }
-            break
-          case 'moveOut':
-            break
-          case 'moveNodes':
-          case 'resizeNodes':
+              locked: false
+            };
+            break;
+          case "moveOut":
+            break;
+          case "moveNodes":
+          case "resizeNodes":
             if (data.length > 1) {
               this.choosedElement = {
                 node: null,
                 line: null,
                 multi: true,
                 nodes: data,
-                locked: this.getLocked({ nodes: data }),
-              }
+                locked: this.getLocked({ nodes: data })
+              };
             } else {
               this.choosedElement = {
                 node: data[0],
                 line: null,
                 multi: false,
                 nodes: null,
-                locked: false,
-              }
+                locked: false
+              };
             }
-            break
-          case 'resize':
-          case 'scale':
-          case 'locked':
+            break;
+          case "resize":
+          case "scale":
+          case "locked":
             // if (this.canvas && this.canvas.data) {
             //   this.$store.commit('canvas/data', {
             //     scale: this.canvas.data.scale || 1,
@@ -316,68 +317,68 @@ export default {
             //     fromArrowlockedType: canvas.data.locked
             //   });
             // }
-            break
+            break;
         }
-      }, 0)
+      }, 0);
     },
     getLocked(data) {
-      let locked = true
+      let locked = true;
       if (data.nodes && data.nodes.length) {
         for (const item of data.nodes) {
           if (!item.locked) {
-            locked = false
-            break
+            locked = false;
+            break;
           }
         }
       }
       if (locked && data.lines) {
         for (const item of data.lines) {
           if (!item.locked) {
-            locked = false
-            break
+            locked = false;
+            break;
           }
         }
       }
 
-      return locked
+      return locked;
     },
     onUpdateProps(node) {
       // 如果是node属性改变，需要传入node，重新计算node相关属性值
       // 如果是line属性改变，无需传参
-      this.canvas.updateProps(node)
+      this.canvas.updateProps(node);
     },
     handle_open(data) {
-      this.handle_replace(data)
+      this.handle_replace(data);
     },
     handle_replace() {
-      const input = document.createElement('input')
-      input.type = 'file'
+      const input = document.createElement("input");
+      input.type = "file";
       input.onchange = event => {
-        const elem = event.srcElement || event.target
+        const elem = event.srcElement || event.target;
         if (elem.files && elem.files[0]) {
           // const name = elem.files[0].name.replace('.json', '')
-          const reader = new FileReader()
+          const reader = new FileReader();
           reader.onload = e => {
-            const text = e.target.result + ''
+            const text = e.target.result + "";
             try {
-              const data = JSON.parse(text)
-              this.canvas.open(data)
+              const data = JSON.parse(text);
+              this.canvas.open(data);
             } catch (e) {
-              return false
+              return false;
             }
-          }
-          reader.readAsText(elem.files[0])
+          };
+          reader.readAsText(elem.files[0]);
         }
-      }
-      input.click()
+      };
+      input.click();
     },
     freshHandle() {
       window.onbeforeunload = e => {
         if (!this.mindId) {
-          if (e) e.returnValue = '关闭提示'
-          return '关闭提示'
+          if (e) e.returnValue = "关闭提示";
+          return "关闭提示";
         }
-      }
+      };
     },
     // handle_save(data) {
     //   console.log('save')
@@ -389,43 +390,45 @@ export default {
     //   )
     // },
     handleSavePng(data) {
-      const name = (this.form.title || '未命名') + (data.ext || '.png')
-      this.canvas.saveAsImage(name, 50, data.type, data.quality)
+      const name = (this.form.title || "未命名") + (data.ext || ".png");
+      this.canvas.saveAsImage(name, 50, data.type, data.quality);
     },
     onContextMenu(event) {
-      event.preventDefault()
-      event.stopPropagation()
+      event.preventDefault();
+      event.stopPropagation();
       if (!event.ctrlKey) {
         if (event.clientY + 360 < document.body.clientHeight) {
           this.contextmenu = {
-            left: event.clientX + 'px',
-            top: event.clientY + 'px',
-          }
+            left: event.clientX + "px",
+            top: event.clientY + "px"
+          };
         } else {
           this.contextmenu = {
-            left: event.clientX + 'px',
-            bottom: document.body.clientHeight - event.clientY + 'px',
-          }
+            left: event.clientX + "px",
+            bottom: document.body.clientHeight - event.clientY + "px"
+          };
         }
       }
     },
     saveXmind() {
-      this.canvas.toImage(50, 'png', null, async blob => {
-        this.loading = true
-        let file_path
+      console.log(this.canvas.toImage);
+      this.canvas.toImage(50, "png", null, async blob => {
+        this.loading = true;
+        let file_path;
         if (blob) {
           // 生成图片成功才上传
-          const formData = new FormData()
-          const blob_file = new File([blob], 'preview.png')
-          formData.append('file', blob_file)
+          const formData = new FormData();
+          const name = uuidv4();
+          const blob_file = new File([blob], `${name}.png`);
+          formData.append("file", blob_file);
           try {
-            file_path = ((await api.upLoadImg(formData)) || {}).file_path
+            file_path = (await api.upLoadImg(formData)) || {};
           } catch (error) {
-            this.loading = false
-            console.log(error)
+            this.loading = false;
+            console.log(error);
           }
         } else {
-          file_path = ' ' // 新建一个空的脑图，blob为null
+          file_path = " "; // 新建一个空的脑图，blob为null
         }
 
         const params = {
@@ -434,60 +437,60 @@ export default {
           remark: this.form.remark,
           title: this.form.title,
           type: this.mindType,
-          imageUrl: file_path,
-        }
+          imageUrl: file_path
+        };
         if (this.mindId) {
-          params.id = this.mindId
+          params.id = this.mindId;
           api
             .updateMindById(params)
             .then(() => {
-              store.set('upDateMindMapList', true)
-              this.$message.success('编辑成功')
-              this.mindModel = false
-              this.loading = false
+              store.set("upDateMindMapList", true);
+              this.$message.success("编辑成功");
+              this.mindModel = false;
+              this.loading = false;
             })
             .catch(() => {
-              this.$message.error('编辑失败')
-              this.loading = false
-            })
+              this.$message.error("编辑失败");
+              this.loading = false;
+            });
         } else {
           api
             .createMind(params)
             .then(res => {
-              store.set('upDateMindMapList', true)
-              this.$message.success('新建成功')
-              this.mindModel = false
-              this.loading = false
+              store.set("upDateMindMapList", true);
+              this.$message.success("新建成功");
+              this.mindModel = false;
+              this.loading = false;
               // 新建之后当前页面变成编辑页面
               this.$router.replace({
                 params: { id: res.id },
-                query: { event_id: this.eventId, newToDetail: true },
-              })
+                query: { event_id: this.eventId, newToDetail: true }
+              });
             })
             .catch(() => {
-              this.$message.error('新建失败')
-              this.loading = false
-            })
+              this.$message.error("新建失败");
+              this.loading = false;
+            });
         }
-      })
-    },
+      });
+    }
   },
   beforeRouteLeave(to, from, next) {
     if (!this.mindId) {
-      this.$confirm('当前页面数据未保存，确定离开？', {
-        type: 'warning',
+      this.$confirm("当前页面数据未保存，确定离开？", {
+        type: "warning"
       })
         .then(() => {
-          next()
+          next();
         })
         .catch(() => {
-          next(false)
-        })
+          next(false);
+        });
     } else {
-      next()
+      next();
     }
-  },
-}
+  }
+};
 </script>
 
 <style lang="less">
@@ -501,6 +504,7 @@ export default {
   .xmind-workspace__left {
     width: 320px;
     height: 100%;
+    flex-shrink: 0;
     border-radius: 8px;
     transition: all 0.5s;
     background-color: #fff;
@@ -553,7 +557,7 @@ export default {
     transition: all 0.5s;
     &:before {
       position: absolute;
-      content: '';
+      content: "";
       width: 16px;
       height: 66px;
       border-top: 10px solid transparent;

@@ -28,6 +28,11 @@ export default {
 };
 </script>
 <style lang="scss">
+#app {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
 .test {
   position: fixed;
   left: 0;

@@ -3,11 +3,11 @@ export const hasEventID = () => {
     window.sessionStorage.getItem('record:record') || '{}',
   )
 
-  return !_.isEmpty(id)
+  return !this._.isEmpty(id)
 }
 
 export default {
-  bind(el, binding, vnode) {
+  bind(el, binding) {
     function documentHandler(e) {
       if (el.contains(e.target)) {
         return false
@@ -20,7 +20,7 @@ export default {
     document.addEventListener('contextmenu', documentHandler)
   },
   update() {},
-  unbind(el, binding) {
+  unbind(el) {
     document.removeEventListener('contextmenu', el.__vueClickOutside__)
     delete el.__vueClickOutside__
   },

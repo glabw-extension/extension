@@ -1,5 +1,5 @@
 <template lang="pug">
-#workStation.workplace(v-click-outside-right="hide" ref="workStation")
+#workStation.workplace(v-click-outside-right="hide" ref="workStation" :class="{'close':!expand}")
   .workplace__operation(:style="operationWidth")
     .expand-box
       .expand-box__icon(
@@ -7,16 +7,16 @@
         @click.prevent="handleExpand"
         )
     .func-box(v-for="box in workplaceMap" :key="box.key")
-      //- el-tooltip(v-if="!expand" :content="box.title" placement="left")
+      el-tooltip(v-if="!expand" :content="box.title")
         .func-box__icon(:style="{maskImage: `url(${box.icon})`}" @click.stop="handleExpandAndSelect(box.key)")
-      .func-box__item(@click="currentTab = box.key")
+      .func-box__item(@click="currentTab = box.key" v-else)
         .icon(
           :style="{maskImage: `url(${box.icon})`}"
           :class="[currentTab === box.key ? 'active':'']"
         )
         .title(:class="[currentTab === box.key ? 'active':'']") {{box.title}}
-  .workplace__container()
-    .base__case(v-show="expand")
+  .workplace__container(:class="{'close':!expand}")
+    //- .base__case(v-show="expand")
       //- global-record(ref="globalRecord" v-acl="'event.event.get'" :editable="true")
     keep-alive
       component(:is="currentTabComponent")
@@ -82,7 +82,7 @@ export default {
   },
   data() {
     return {
-      expand: false,
+      expand: true,
       expand_icon,
       workplaceMap: WORK_PLACE_MAP,
       currentTab: "judge",
@@ -188,12 +188,16 @@ export default {
       };
     },
     handleExpand() {
-      this.expand = !this.expand;
-      // postMessage 转发给 content.js
-      parent.postMessage(
-        { type: "workstation", to: "content", close: true },
-        "*"
-      );
+      
+      if(parent.window === window) {
+        this.expand = !this.expand;
+      } else { // postMessage 转发给 content.js
+        parent.postMessage(
+          { type: "workstation", to: "content", close: true },
+          "*"
+        );
+      }
+      
     },
     handleExpandAndSelect(key) {
       this.expand = !this.expand;
@@ -217,20 +221,25 @@ export default {
 #workplace,
 .workplace {
   position: absolute;
-  top: 0;
+  top: 66px;
+  // transform: translateY(-56%);
   left: 0;
-  z-index: 2002;
+  z-index: 999;
   font-size: 14px;
   width: 336px;
   // height: @workplace-height;
-  min-height: 600px;
+  min-height: 560px;
   // outline: none;
   display: flex;
   background-color: #fff;
   box-shadow: -2px 2px 12px 0 rgba(0, 0, 0, 0.16);
   border-radius: 3px 0 0 3px;
   transition: all 0.5s;
-  
+  &.close {
+    width: 36px;
+    overflow: hidden;
+    transform: translateX(0px);
+  }
   &__operation {
     // width: 36px;
     padding: 8px;
@@ -305,14 +314,14 @@ export default {
 }
 
 @case-height: 43px;
-.base__case {
-  width: 100%;
-  height: @case-height;
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+// .base__case {
+//   width: 100%;
+//   height: @case-height;
+//   background-color: #fff;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
 /deep/.global_record__btn {
   color: #606266;
 }

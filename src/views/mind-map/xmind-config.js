@@ -603,7 +603,7 @@ export const VerticalAlign = [
   },
 ]
 export const predefineColor = [
-  '#5f82ff',
+  '#409eff',
   '#ffb649',
   '#11cf70',
   '#ff4949',

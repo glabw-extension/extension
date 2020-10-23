@@ -11,15 +11,16 @@
           :page-size="pager.count"
           :total="pager.total")
     .add-judge
-      el-button(type="primary"  @click="newMindMap") 新建研判思维导图
-  el-dialog(title="战法库" custom-class="mind-method-list" :visible.sync="methodDialog" append-to-body)
+      el-button(type="primary"  @click="handleCreateMindMap") 新建研判思维导图
+  //- el-dialog(title="战法库" append-to-body  custom-class="mind-method-list" :visible.sync="methodDialog")
     .method-list
       .method-item
         .method-item-img.empty(@dblclick="handleCreateMindMap()" :class="{'choosed': choosedMethod && !choosedMethod.id }" @click="choosedMethod = {}") +新建研判脑图
         .method-item-desc 新建脑图
       .method-item(v-for="(method,idx) in methodList" :key="idx" @dblclick="handleCreateMindMap()" @click="choosedMethod = method")
         .method-item-img(:class="{'choosed':(choosedMethod && choosedMethod.id && (choosedMethod.id === method.id)) }")
-          download-img(:filePath="method.imageUrl")
+          //- download-img(:filePath="method.imageUrl")
+          img(:src="'https://www.workstation.com/'+method.imageUrl" :key="method.imageUrl")
         .method-item-desc {{method.remark}}
       // Flex 布局修复-张鑫旭
       i
@@ -152,15 +153,15 @@ export default {
 @case-height: 43px;
 
 .judge-container {
-  height: calc(100% - @case-height);
-  .base__case {
-    width: 100%;
-    height: @case-height;
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  height: 100%;
+  // .base__case {
+  //   width: 100%;
+  //   height: @case-height;
+  //   background-color: #fff;
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  // }
   &__main {
     padding: 12px;
     background-color: #f8f8f8;
