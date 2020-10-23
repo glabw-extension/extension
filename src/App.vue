@@ -1,27 +1,31 @@
 <template>
   <div id="app" ref="app">
-    <router-view class="test"/>
+    <router-view class="test" />
     <work-station></work-station>
   </div>
 </template>
 <script>
-import workStation from '@/views/work-station/index.vue'
+import workStation from "@/views/work-station/index.vue";
 export default {
   components: {
-    workStation,
+    workStation
   },
-  mounted () {
-    const app = this.$refs.app;
-    document.addEventListener('dragenter', (e) => {
-      window.top.postMessage({ drag: "dragstart" }, "*");
-      
-      console.log(e,'dragenter ====>');
-    })
-    app.addEventListener('click', () => {
-      console.log('click ====>');
-    })
-  },
-}
+  mounted() {
+    // send message to background to tell itrame is mounted
+    parent.postMessage(
+      { type: "mounted", to: "content", iframeLoaded: true },
+      "*"
+    );
+    // const app = this.$refs.app;
+    // document.addEventListener('dragenter', (e) => {
+    //   window.top.postMessage({ drag: "dragstart" }, "*");
+    //   console.log(e,'dragenter ====>');
+    // })
+    // app.addEventListener('click', () => {
+    //   console.log('click ====>');
+    // })
+  }
+};
 </script>
 <style lang="scss">
 .test {

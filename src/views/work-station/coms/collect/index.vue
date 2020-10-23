@@ -1,7 +1,6 @@
 <template lang="pug">
 .collect-container
-  noEvent.no-event(v-if="isNoEvent")
-  .collect-container__main(v-else)
+  .collect-container__main()
     .type-filter()
       el-select(v-model="typeValue" placeholder="请选择" size="mini" @change="handleSelectChange")
          el-option(v-for="item in typeOptions"
@@ -33,140 +32,136 @@
 </template>
 
 <script>
-import collectCard from './collect-card.vue'
-import noData from '@/views/work-station/coms/no-data/dark.vue'
-import noEvent from '@/views/work-station/coms/no-event'
-import baseRecord from '@/views/work-station/coms/record.vue'
-import api from '@/data/api'
-import store from '@/services/store'
-import { hasEventID } from '@/views/work-station/coms/utils.js'
+import collectCard from "./collect-card.vue";
+import noData from "@/views/work-station/coms/no-data";
+import baseRecord from "@/views/work-station/coms/record.vue";
+import api from "@/data/api";
+import store from "@/services/store";
 
 export default {
   components: {
     collectCard,
     noData,
-    baseRecord,
-    noEvent,
+    baseRecord
   },
   data() {
     return {
       loading: false,
       recordData: JSON.parse(
-        window.sessionStorage.getItem('record:record') || '{}',
+        window.sessionStorage.getItem("record:record") || "{}"
       ),
       collectionList: [],
       pager: {
         page: 1,
         count: 5,
-        total: 0,
+        total: 0
       },
-      typeValue: '',
+      typeValue: "",
       typeOptions: [
         {
-          value: '',
-          label: '全部类型',
+          value: "",
+          label: "全部类型"
         },
         {
           value: 1,
-          label: '设备ID 类',
+          label: "设备 ID 类"
         },
         {
           value: 2,
-          label: 'Wi-Fi 类',
+          label: "Wi-Fi 类"
         },
         {
           value: 3,
-          label: 'IP 类',
+          label: "IP 类"
         },
         {
           value: 4,
-          label: 'APP 类',
+          label: "APP 类"
         },
         {
           value: 5,
-          label: '位置类',
+          label: "位置类"
         },
         {
           value: 0,
-          label: '其他类型',
-        },
+          label: "其他类型"
+        }
       ],
       isNoData: false,
-      isNoEvent: false,
       collectOtherDialogVisible: false,
       newLoading: false,
       temp: {
-        title: '',
-        remark: '',
+        title: "",
+        remark: ""
       },
       rules: {
-        title: [{ required: true, message: '请填写名称', trigger: 'blur' }],
-      },
-    }
+        title: [{ required: true, message: "请填写名称", trigger: "blur" }]
+      }
+    };
   },
   // 分页需要带上类型
   mounted() {
-    this.isNoEvent = !hasEventID()
-    hasEventID() && this.getCollectionList({ page: 1, type: '' })
-    store.$on('recordChangeChange', res => {
-      const { id = '' } = res
+    this.getCollectionList({ page: 1, type: "" });
+    store.$on("recordChangeChange", res => {
+      const { id = "" } = res;
       if (id) {
         // 监听全局备案的切换事件
-        this.recordData = res
-        this.isNoEvent = false
-        this.typeValue = ''
-        this.getCollectionList({ page: 1, type: '' })
+        this.recordData = res;
+        this.isNoEvent = false;
+        this.typeValue = "";
+        this.getCollectionList({ page: 1, type: "" });
       }
-    })
-    store.$on('upDateCollectionListChange', () => {
-      this.typeValue = ''
-      this.pager.page = 1
-      this.getCollectionList({ page: 1, type: '' })
-    })
+    });
+    store.$on("upDateCollectionListChange", () => {
+      this.typeValue = "";
+      this.pager.page = 1;
+      this.getCollectionList({ page: 1, type: "" });
+    });
   },
   methods: {
-    async getCollectionList({ page = 1, count = this.pager.count, type = '' }) {
+    async getCollectionList({ page = 1, count = this.pager.count, type = "" }) {
       const query = {
         page,
         count,
-        event_id: this._.get(this.recordData, 'id'),
-        type,
-      }
+        event_id: this._.get(this.recordData, "id"),
+        type
+      };
       try {
-        this.loading = true
-        const { list = [], total = 0 } = await api.getCollectionList(query)
-        this.collectionList = list
-        this.pager.total = total
-        this.isNoData = this._.isEmpty(list)
+        this.loading = true;
+        const { list = [], total = 0 } = await api.getCollectionList(query);
+        this.collectionList = list;
+        this.pager.total = total;
+        this.isNoData = this._.isEmpty(list);
       } catch (error) {
-        this.loading = false
+        this.loading = false;
+        this.isNoData = true;
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
     handleCurrentChange(val) {
-      this.pager.page = val
+      this.pager.page = val;
       this.getCollectionList({
         page: val,
         count: this.pager.count,
-        type: this.typeValue === '' ? '' : [this.typeValue],
-      })
+        type: this.typeValue === "" ? "" : [this.typeValue]
+      });
     },
     handleSelectChange(val) {
       this.getCollectionList({
         page: 1,
-        type: val === '' ? '' : [val],
+        type: val === "" ? "" : [val]
       }).then(() => {
-        this.pager.page = 1
-      })
+        this.pager.page = 1;
+      });
     },
     handleCollectOther() {
       this.$onCollect({
         type: 0,
         detail: {
-          other: 'other',
-        },
-      })
+          other: "other"
+        }
+      });
     },
     // submitForm(form) {
     //   this.$refs[form].validate(async valid => {
@@ -201,11 +196,11 @@ export default {
     //   })
     // },
     close() {
-      this.temp.title = ''
-      this.temp.remark = ''
-    },
-  },
-}
+      this.temp.title = "";
+      this.temp.remark = "";
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>

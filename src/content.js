@@ -16,7 +16,7 @@ if (window.self === window.top) {
       iframe = document.createElement("iframe");
       iframe.id = "workstation";
       iframe.style.setProperty("height", "100%", "important");
-      iframe.style.setProperty("width", "100%", "important");
+      iframe.style.setProperty("width", "336px", "important");
       iframe.style.setProperty("min-width", "1px", "important");
       iframe.style.setProperty("position", "fixed", "important");
       iframe.style.setProperty("top", "0", "important");
@@ -24,7 +24,7 @@ if (window.self === window.top) {
       iframe.style.setProperty("left", "0", "important");
       iframe.style.setProperty("bottom", "unset", "important");
       iframe.style.setProperty("z-index", "9999999999999", "important");
-      iframe.style.setProperty("transform", "translateX(-420px)", "important");
+      iframe.style.setProperty("transform", "translateX(-336px)", "important");
       iframe.style.setProperty("transition", "all .4s", "important");
       iframe.style.setProperty(
         "box-shadow",
@@ -130,7 +130,7 @@ if (window.self === window.top) {
               // show = !show;
               iframe.style.setProperty(
                 "transform",
-                "translateX(-420px)",
+                "translateX(-336px)",
                 "important"
               );
               // 展示 trigger

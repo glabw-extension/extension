@@ -1,7 +1,6 @@
 <template lang="pug">
 .judge-container()
-  noEvent.no-event(v-if="isNoEvent")
-  .judge-container__main(v-loading="loading" v-else)
+  .judge-container__main(v-loading="loading")
     noData.no-data(v-if="isNoData")
     .card-container(v-else)
       judge-card(v-for="card in mindList" :key="card.id" :data="card" :event-id="recordData.id")
@@ -34,14 +33,13 @@
 </template>
 
 <script>
-import DownloadImg from './download-img'
-import judgeCard from './judge-card.vue'
-import noData from '@/views/work-station/coms/no-data/dark.vue'
-import noEvent from '@/views/work-station/coms/no-event'
-import api from '@/data/api'
-import store from '@/services/store'
-import BaseRecord from '@/views/work-station/coms/record.vue'
-import { hasEventID } from '@/views/work-station/coms/utils.js'
+import DownloadImg from "./download-img";
+import judgeCard from "./judge-card.vue";
+import noData from "@/views/work-station/coms/no-data";
+import noEvent from "@/views/work-station/coms/no-event";
+import api from "@/data/api";
+import store from "@/services/store";
+import BaseRecord from "@/views/work-station/coms/record.vue";
 
 export default {
   components: {
@@ -49,52 +47,50 @@ export default {
     DownloadImg,
     judgeCard,
     noData,
-    noEvent,
+    noEvent
   },
   data() {
     return {
       recordData: JSON.parse(
-        window.sessionStorage.getItem('record:record') || '{}',
+        window.sessionStorage.getItem("record:record") || "{}"
       ),
       loading: false,
       mindList: [],
       pager: {
         page: 1,
         count: 5,
-        total: 0,
+        total: 0
       },
       isNoData: false,
-      isNoEvent: false,
+
       methodDialog: false,
       methodList: [],
-      choosedMethod: null,
-    }
+      choosedMethod: null
+    };
   },
 
   mounted() {
-    this.isNoEvent = !hasEventID()
-    hasEventID() && this.getMindMapList({ page: 1 })
+    this.getMindMapList({ page: 1 });
 
-    store.$on('recordChangeChange', res => {
-      const { id = '' } = res
+    store.$on("recordChangeChange", res => {
+      const { id = "" } = res;
       if (id) {
         // 监听全局备案的切换事件
-        this.recordData = res
-        this.isNoEvent = false
-        this.getMindMapList({ page: 1 })
-        this.getMindMapList({ page: 1, type: [2] })
+        this.recordData = res;
+        this.getMindMapList({ page: 1 });
+        this.getMindMapList({ page: 1, type: [2] });
       }
-    })
+    });
 
-    store.$on('upDateMindMapListChange', () => {
-      this.pager.page = 1
-      this.getMindMapList({ page: 1 })
-    })
+    store.$on("upDateMindMapListChange", () => {
+      this.pager.page = 1;
+      this.getMindMapList({ page: 1 });
+    });
   },
   methods: {
     newMindMap() {
-      this.methodDialog = true
-      this.choosedMethod = null
+      this.methodDialog = true;
+      this.choosedMethod = null;
     },
     async getMindMapList({ page = 1, count = this.pager.count, type = [1] }) {
       /* 获取用户研判列表: query
@@ -106,49 +102,50 @@ export default {
       const query = {
         page,
         count,
-        event_id: this._.get(this.recordData, 'id'),
+        event_id: this._.get(this.recordData, "id"),
         // event_id: '1',
-        type,
-      }
+        type
+      };
 
       try {
-        this.loading = true
-        const { list = [], total = 0 } = await api.getMindMapList(query)
+        this.loading = true;
+        const { list = [], total = 0 } = await api.getMindMapList(query);
         if (type[0] === 1) {
-          this.mindList = list
-          this.isNoData = this._.isEmpty(list)
+          this.mindList = list;
+          this.isNoData = this._.isEmpty(list);
         } else {
-          this.methodList = list
+          this.methodList = list;
         }
-        this.pager.total = total
+        this.pager.total = total;
       } catch (error) {
-        this.loading = false
+        this.loading = false;
+        this.isNoData = true;
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
     handleCurrentChange(val) {
-      this.pager.page = val
-      this.getMindMapList({ page: val, count: this.pager.count })
+      this.pager.page = val;
+      this.getMindMapList({ page: val, count: this.pager.count });
     },
     handleCreateMindMap() {
-      this.methodDialog = false
+      this.methodDialog = false;
       const params = {
-        name: 'workstation.mindMap',
-        query: { event_id: this.recordData.id },
-      }
+        name: "workstation.mindMap",
+        query: { event_id: this.recordData.id }
+      };
       if (this.choosedMethod && this.choosedMethod.id) {
-        params.params = { id: this.choosedMethod.id }
+        params.params = { id: this.choosedMethod.id };
       }
-      if (this.$route.name === 'workstation.mindMap') {
-        this.$router.replace(params)
+      if (this.$route.name === "workstation.mindMap") {
+        this.$router.replace(params);
       } else {
-        const { href } = this.$router.resolve(params)
-        window.open(href)
+        const { href } = this.$router.resolve(params);
+        window.open(href);
       }
-    },
-  },
-}
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>

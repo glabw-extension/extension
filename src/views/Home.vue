@@ -23,7 +23,6 @@ export default {
     handleExpand() {
       this.expand = false;
       console.log("handleExpand >>>", this.expand);
-
       // postMessage 转发给 content.js
       parent.postMessage(
         { type: "workstation", to: "content", close: true },
