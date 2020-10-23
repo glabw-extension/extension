@@ -6,6 +6,10 @@
 </template>
 <script>
 import workStation from "@/views/work-station/index.vue";
+import api from "@/data/api";
+import store from "@/services/store";
+import { v4 as uuidv4 } from "uuid";
+
 export default {
   components: {
     workStation
@@ -16,6 +20,12 @@ export default {
       { type: "mounted", to: "content", iframeLoaded: true },
       "*"
     );
+
+    // get dragend message
+
+    window.addEventListener("message", this.createCollect);
+    // clear
+
     // const app = this.$refs.app;
     // document.addEventListener('dragenter', (e) => {
     //   window.top.postMessage({ drag: "dragstart" }, "*");
@@ -24,6 +34,40 @@ export default {
     // app.addEventListener('click', () => {
     //   console.log('click ====>');
     // })
+  },
+  methods: {
+    async createCollect(event) {
+      const { type, to, data = {} } = event.data;
+      if (type === "createCollect" && to === "iframe") {
+        console.log("createCollect >>", data);
+        const query = {
+          detail: {},
+          remark: this._.get(data, ""), // img:url, link, text
+          type: this._.get(data, "") || 0, // 6:text, 7:link, 8:img
+          collectionKey: uuidv4(),
+          title: this._.get(data, "") // img link text :tag name
+        };
+        try {
+          parent.postMessage(
+            { type: "collectCreated", to: "content", status: "pending" },
+            "*"
+          );
+          const { id = 0 } = await api.createCollection(query);
+
+          if (id) {
+            store.set("upDateCollectionList", true);
+          }
+        } catch (error) {
+          console.log(error);
+        } finally {
+          // post message
+          parent.postMessage(
+            { type: "collectCreated", to: "content", status: "done" },
+            "*"
+          );
+        }
+      }
+    }
   }
 };
 </script>

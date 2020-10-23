@@ -45,11 +45,12 @@
   left: 12px;
   bottom: unset;
   z-index: 100;
-  transform: translateX(-312px);
+  transform: translateX(-332px);
   transition: all 0.2s;
   cursor: pointer;
   border-radius: 4px;
   /* background-color: #515a8e; */
+  padding: 10px;
   background-color: #dcdfe6;
   border-color: rgb(224, 228, 231) rgb(224, 228, 231) rgb(224, 228, 231);
   box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.12);

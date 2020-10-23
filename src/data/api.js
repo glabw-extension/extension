@@ -29,7 +29,7 @@ const workstation = {
       event_id: string,
       detail: { [key: string]: string },
       remark: string,
-      type: number, // '类型: 0-其他; 1-id; 2-wifi; 3-ip; 4-app; 5-location'
+      type: number, // '类型: 0-其他; 1-id; 2-wifi; 3-ip; 4-app; 5-location; 6-text; 7-link; 8-image'
       collectionKey: string, // 收藏唯一表示, 0-空;1-4-对应id;5-lng,lat
       title: string,
     */

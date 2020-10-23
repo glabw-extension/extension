@@ -1,7 +1,11 @@
 let iframe;
 let trigger;
 let collect;
+let curCollectInfo;
 let iframeLoaded = false;
+// eslint-disable-next-line no-unused-vars
+let collectStatus = "reject";
+
 console.log("content js start >>>");
 
 // function setStyle(obj, css) {
@@ -16,22 +20,39 @@ function mousePos(e) {
   var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
   var x = e.pageX || e.clientX + scrollX; //兼容火狐和其他浏览器
   var y = e.pageY || e.clientY + scrollY;
-  console.log(x, y);
   return { x: x, y: y };
 }
 
+function dragstart_handler(e) {
+  // 判断来源类型
+  const origin = e.target.nodeName.toLowerCase();
+  const type_map = {
+    "#text": 6,
+    a: 7,
+    img: 8
+  };
+  const type = type_map[origin] || 0;
+
+  if (type === 6) {
+    e.dataTransfer.setData("text", e.dataTransfer.getData("text"));
+  }
+  if (type === 7) {
+    e.dataTransfer.setData("link", e.dataTransfer.getData("text"));
+  }
+  if (type === 8) {
+    e.dataTransfer.setData("img", e.target.src);
+  }
+  e.dataTransfer.setData("origin/type", type);
+}
+
 function drag_handler(e) {
-  // console.log("dragenter getData >>>", e.dataTransfer.getData("text"));
-  // console.log("dragenter >>>", e.target);
   // 显示收藏区 dom
   const { x: left } = mousePos(e);
   if (left < 350) {
-    console.log("show collect box >>>", left);
     // show collect box
     collect.style.setProperty("transform", "translateX(0px)");
   }
-  if (left > 350) {
-    console.log("close collect box >>>", left);
+  if (left > 350 && collectStatus !== "pending") {
     // close collect box
     collect.style.setProperty("transform", "translateX(-312px)");
   }
@@ -39,15 +60,55 @@ function drag_handler(e) {
 
 function drop_handler(e) {
   e.preventDefault(); // stop the browser from redirection
-  console.log("drop >>>", e);
-  // close collect box
-  collect.style.setProperty("transform", "translateX(-312px)");
-}
+  const { x: left } = mousePos(e);
+  const isDropDom = e.toElement.id.includes("collect__wrapper");
 
-function handleDragEnd(e) {
-  console.log("drag end:", e.target);
-  // reset
-  collect.style.setProperty("transform", "translateX(-312px)");
+  const type = +e.dataTransfer.getData("origin/type");
+  const title = document.getElementsByTagName("title")[0].textContent || "";
+
+  // 投放至收藏区
+  if (left < 300 && isDropDom && collectStatus !== "pending") {
+    const params = {
+      type,
+      title
+    };
+
+    // cur
+    curCollectInfo.style.display = "block";
+
+    switch (type) {
+      case 6:
+        params.remark = e.dataTransfer.getData("text");
+        curCollectInfo.textContent = e.dataTransfer.getData("text");
+        break;
+      case 7:
+        params.remark = e.dataTransfer.getData("link");
+        curCollectInfo.textContent = e.dataTransfer.getData("link");
+        break;
+      case 8:
+        Object.assign(params, {
+          detail: { url: e.dataTransfer.getData("img") }
+        });
+        curCollectInfo.textContent = e.dataTransfer.getData("img");
+        break;
+      default:
+        params.type = 0;
+        break;
+    }
+    console.log("params >>>", type, params);
+    // postMessage to iframe
+    iframe.contentWindow.postMessage(
+      { type: "createCollect", to: "iframe", data: params },
+      "*"
+    );
+
+    // reset
+  } else if (collectStatus !== "pending") {
+    // close collect box
+    collect.style.setProperty("transform", "translateX(-312px)");
+    curCollectInfo.style.display = "none";
+    curCollectInfo.textContent = "";
+  }
 }
 
 // 只在最顶层页面嵌入 iframe
@@ -78,14 +139,26 @@ if (window.self === window.top) {
       // collect box
       collect = document.createElement("div");
       collect.id = "collect__wrapper";
-      const h1 = document.createElement("h1");
-      h1.textContent = "收藏区";
-      h1.id = "collect__wrapper-title";
-      collect.appendChild(h1);
-      const tips = document.createElement("div");
-      tips.id = "collect__wrapper-tips";
-      tips.textContent = "拖拽至此处以完成收藏";
-      collect.appendChild(tips);
+
+      const collectTitle = document.createElement("h1");
+      collectTitle.textContent = "收藏区";
+      collectTitle.id = "collect__wrapper-title";
+      collect.appendChild(collectTitle);
+
+      const collectTips = document.createElement("div");
+      collectTips.id = "collect__wrapper-tips";
+      collectTips.textContent = "拖拽至此处以完成收藏";
+      collect.appendChild(collectTips);
+
+      // pending message
+      curCollectInfo = document.createElement("p");
+      curCollectInfo.id = "collect__wrapper-current";
+      curCollectInfo.style.display = "none";
+      curCollectInfo.style.setProperty("word-break", "break-word");
+      curCollectInfo.style.setProperty("margin-left", "40px");
+      collect.appendChild(curCollectInfo);
+
+      // collect box
       document.body.appendChild(collect);
 
       // get postMessage
@@ -147,8 +220,12 @@ if (window.self === window.top) {
         false
       );
 
+      // 监听拖拽 & dragstart
+      document.addEventListener("dragstart", dragstart_handler);
+
       // 监听拖拽 & remove
       document.addEventListener("drag", drag_handler);
+
       // dragover
       document.addEventListener(
         "dragover",
@@ -160,10 +237,34 @@ if (window.self === window.top) {
       );
       // drop
       document.addEventListener("drop", drop_handler);
-      // drop end
-      document.addEventListener("dragend", handleDragEnd);
 
-      // document.removeEventListener("dragstart", drag_handler);
+      // get collect created message
+      window.addEventListener(
+        "message",
+        event => {
+          const { type, to, status } = event.data;
+          if (type === "collectCreated" && to === "content") {
+            console.log(status);
+            if (status === "done") {
+              // 收起收藏面板
+              collect.style.setProperty("transform", "translateX(-312px)");
+            }
+            // pending
+            if (status === "pending") {
+              collectStatus = status;
+              collectTitle.textContent = "收藏中... ...";
+              collectTips.style.display = "none";
+            } else {
+              collectStatus = status;
+              collectTitle.textContent = "收藏区";
+              collectTips.style.display = "block";
+              curCollectInfo.textContent = "";
+              curCollectInfo.style.display = "none";
+            }
+          }
+        },
+        false
+      );
     }
   };
 }
