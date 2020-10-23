@@ -1,8 +1,6 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
-const target = [
-  "http://192.168.206.57:3000"
-]
+const target = ["http://192.168.206.57:3000"];
 
 module.exports = {
   pages: {
@@ -38,9 +36,17 @@ module.exports = {
             to: path.resolve("dist")
           }
         ]
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.resolve("src/content.css"),
+            to: path.resolve("dist")
+          }
+        ]
       })
     ]
-  },
+  }
   // devServer: {
   //   proxy: {
   //     '/': {

@@ -37,13 +37,14 @@
         "<all_urls>"
       ],
       "js": [
-        "./content.js"
+        "content.js"
       ],
       "run_at": "document_start",
       "all_frames": true
     }
   ],
   "web_accessible_resources": [
-    "popup.html"
+    "popup.html",
+    "content.css"
   ]
 }
