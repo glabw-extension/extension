@@ -16,7 +16,7 @@
           el-dropdown-item(@click.native="handleUpdate") 修改名称及备注
           el-dropdown-item(@click.native="handleDelete") 删除
   el-dialog(title="修改名称及备注" :visible.sync="updateDialogVisible" append-to-body :close-on-click-modal="false" width="500px")
-    el-form(:model="temp" :rules="rules" ref="judgeForm" label-width="100px" label-position="right")
+    el-form(:model="temp" :rules="rules" ref="judgeForm" label-width="60px" label-position="right")
       el-form-item(label="名称：" prop="title")
         el-input(v-model="temp.title" :maxlength="100")
       el-form-item(label="备注：")
@@ -99,10 +99,12 @@ export default {
             })
             .then(() => {
               store.set('upDateMindMapList', true)
+              this.$message.success('保存成功')
               this.updateDialogVisible = false
               this.loading = false
             })
             .catch(() => {
+              this.$message.error('保存失败')
               this.loading = false
             })
         }

@@ -63,6 +63,18 @@ export default {
           label: "全部类型"
         },
         {
+          value: 6,
+          label: "文本类"
+        },
+        {
+          value: 7,
+          label: "链接类"
+        },
+        {
+          value: 8,
+          label: "图片类"
+        },
+        {
           value: 1,
           label: "设备 ID 类"
         },
@@ -85,7 +97,8 @@ export default {
         {
           value: 0,
           label: "其他类型"
-        }
+        },
+        
       ],
       isNoData: false,
       collectOtherDialogVisible: false,

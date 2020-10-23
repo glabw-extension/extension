@@ -153,15 +153,7 @@ export default {
 @case-height: 43px;
 
 .judge-container {
-  height: 100%;
-  // .base__case {
-  //   width: 100%;
-  //   height: @case-height;
-  //   background-color: #fff;
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  // }
+  height: calc(100% - @case-height);
   &__main {
     padding: 12px;
     background-color: #f8f8f8;

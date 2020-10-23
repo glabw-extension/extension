@@ -167,7 +167,13 @@ if (window.self === window.top) {
       window.addEventListener(
         "message",
         event => {
-          const { type, to, iframeLoaded: loaded } = event.data;
+          const { type, to, iframeLoaded: loaded, fullpage  } = event.data;
+          console.log('message', event.data);
+          if(fullpage) {
+            iframe.classList.add('wockstation-full-iframe')
+          } else {
+            iframe.classList.remove('wockstation-full-iframe')
+          }
           if (type === "mounted" && to === "content") {
             console.log("mounted >>>", loaded);
             iframeLoaded = loaded;

@@ -16,7 +16,9 @@
         )
         .title(:class="[currentTab === box.key ? 'active':'']") {{box.title}}
   .workplace__container(:class="{'close':!expand}")
-    //- .base__case(v-show="expand")
+    .base__case()
+      .title xxx案件
+      i.ml-5.el-icon-arrow-down
       //- global-record(ref="globalRecord" v-acl="'event.event.get'" :editable="true")
     keep-alive
       component(:is="currentTabComponent")
@@ -221,14 +223,15 @@ export default {
 #workplace,
 .workplace {
   position: absolute;
-  top: 66px;
+  top: 0;
   // transform: translateY(-56%);
   left: 0;
   z-index: 999;
   font-size: 14px;
   width: 336px;
   // height: @workplace-height;
-  min-height: 560px;
+  // min-height: 560px;
+  height: 100%;
   // outline: none;
   display: flex;
   background-color: #fff;
@@ -314,14 +317,19 @@ export default {
 }
 
 @case-height: 43px;
-// .base__case {
-//   width: 100%;
-//   height: @case-height;
-//   background-color: #fff;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
+.base__case {
+  width: 100%;
+  height: @case-height;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  & > i:hover {
+    transition: all 0.2s;
+    transform: rotate(180deg);
+  }
+}
 /deep/.global_record__btn {
   color: #606266;
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128px" height="24px" viewBox="0 0 128 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>WIFI</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-8.2%" y="-4.0%" width="117.7%" height="107.9%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="-2" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="6" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.16 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="0%" y1="50%" x2="100%" y2="50%" id="linearGradient-2">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#D0D0D0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="0%" x2="0%" y2="0%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#FFB42B" offset="100%"></stop>
+        </linearGradient>
+        <path d="M79.32,17.3 L81.62,11.74 L82.4,17.3 L85.86,17.3 L90.46,5.98 L87.2,5.98 L84.5,12.88 L83.94,6.36 L80.86,6.36 L78.36,12.88 L77.78,5.98 L74.14,5.98 L74.52,6.36 L75.86,17.3 L79.32,17.3 Z M95.9,17.3 L97.64,5.98 L93.02,5.98 L93.6,6.74 L92.26,17.3 L95.9,17.3 Z M103.38,17.3 L103.96,13.08 L110.48,13.08 L110.68,11.16 L104.34,11.16 L104.72,7.9 L111.64,7.9 L111.82,5.98 L100.5,5.98 L101.08,6.74 L99.54,17.3 L103.38,17.3 Z M117.26,17.3 L119,5.98 L114.38,5.98 L114.96,6.74 L113.62,17.3 L117.26,17.3 Z" id="path-4"></path>
+    </defs>
+    <g id="一期" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="02-1收藏" transform="translate(-1780.000000, -611.000000)">
+            <g id="编组-15" filter="url(#filter-1)" transform="translate(1592.000000, 120.000000)">
+                <g id="编组-13" transform="translate(60.000000, 491.000000)">
+                    <g id="WIFI" transform="translate(128.000000, 0.000000)">
+                        <path d="M0,0 L124,0 C126.209139,-4.05812251e-16 128,1.790861 128,4 L128,24 L128,24 L0,24 L0,0 Z" id="矩形" fill="url(#linearGradient-2)" opacity="0.239999995"></path>
+                        <path d="M52,0 L128,0 L128,0 L118.4,21 L48,21 L48,4 C48,1.790861 49.790861,4.05812251e-16 52,0 Z" id="矩形" fill="url(#linearGradient-3)" opacity="0.159999996" transform="translate(88.000000, 10.500000) scale(-1, 1) translate(-88.000000, -10.500000) "></path>
+                        <g fill-rule="nonzero">
+                            <use fill="#84AEFF" xlink:href="#path-4"></use>
+                            <use fill="#FFB42B" xlink:href="#path-4"></use>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

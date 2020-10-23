@@ -1,7 +1,9 @@
 <template lang="pug">
 .collect-card
   .collect-card__title(:style="{backgroundImage: `url(${cardImage})`}")
-    .main(:title="cardTitle") {{cardTitle}}
+    .main(:title="cardTitle") 
+      span(v-if="false") {{cardTitle}}
+      a.link(:src="'www.baidu.com'" :title="cardTitle") {{cardTitle}}
   .collect-card__container
     .collect-card__container-remark(v-if="data.detail.pkg") APP 包名：{{cardAppName}}
     .collect-card__container-remark(v-if="cardLng") 经纬度：{{cardLocation}}
@@ -12,6 +14,7 @@
       el-dropdown()
         .dropdown-link(:style="{maskImage:`url(${dotted_more})`}")
         el-dropdown-menu(slot="dropdown")
+          el-dropdown-item(@click.native="showDetailHandle") {{showDetail?'收起':'展开编辑'}}
           el-dropdown-item(v-if="data.type === 1" @click.native="goReport") 查看全息画像
           el-dropdown-item(v-if="data.type === 1" @click.native="addedEarlyWarning") 创建预警任务
           el-dropdown-item(v-if="data.type === 3" @click.native="goIpExtract") 查看 IP 提数
@@ -26,6 +29,7 @@
     :type="collectModelType"
     :detail="collectModelDetail"
     :title="collectModelTitle")
+  collectEdit(:curCollect="this.data" :show="showDetail")
 </template>
 
 <script>
@@ -33,12 +37,16 @@ import dayjs from 'dayjs'
 import api from '@/data/api'
 import store from '@/services/store'
 import collectModel from '../collectModel.vue'
+import collectEdit from './collect-edit.vue'
 
 import workplace_id from '@/assets/workplace/workplace_id.svg'
 import workplace_wifi from '@/assets/workplace/workplace_wifi.svg'
 import workplace_ip from '@/assets/workplace/workplace_ip.svg'
 import workplace_app from '@/assets/workplace/workplace_app.svg'
 import workplace_location from '@/assets/workplace/workplace_location.svg'
+import workplace_text from '@/assets/workplace/workplace_text.svg'
+import workplace_link from '@/assets/workplace/workplace_link.svg'
+import workplace_img from '@/assets/workplace/workplace_img.svg'
 import workplace_other from '@/assets/workplace/workplace_other.svg'
 import dotted_more from '@/assets/workplace/dotted-more.svg'
 
@@ -50,6 +58,9 @@ const ICON_MAP = {
   3: workplace_ip,
   4: workplace_app,
   5: workplace_location,
+  6: workplace_text,
+  7: workplace_link,
+  8: workplace_img,
 }
 
 // const COLLECT_TYPE = {
@@ -64,6 +75,7 @@ const ICON_MAP = {
 export default {
   components: {
     collectModel,
+    collectEdit
   },
   /* data:
     type:类型: 0-其他; 1-id; 2-wifi; 3-ip; 4-app; 5-location;
@@ -86,6 +98,7 @@ export default {
   },
   data() {
     return {
+      showDetail: false,
       key: '',
       dotted_more,
       collectModelVisible: false,
@@ -132,6 +145,19 @@ export default {
   },
 
   methods: {
+    showDetailHandle() {
+      this.showDetail = !this.showDetail
+      parent.postMessage(
+          { type: "workstation", to: "content", fullpage: this.showDetail },
+          "*"
+        );
+      if(this.showDetail) {
+        window.addEventListener('touchstart', e => {
+          console.log('touchstart');
+          e.preventDefault()
+        }, false)
+      }
+    },
     async action(params) {
       const { type = 'update', value = '' } = params
       const event_id = this._.get(
@@ -185,6 +211,7 @@ export default {
       this.collectModelVisible = true
     },
     updateRemark() {
+      console.log(this.data);
       this.collectMode = 'update'
       this.modalData = this.data
       this.collectModelType = this.data.type

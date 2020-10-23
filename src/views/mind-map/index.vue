@@ -428,7 +428,7 @@ export default {
             console.log(error);
           }
         } else {
-          file_path = " "; // 新建一个空的脑图，blob为null
+          file_path = ""; // 新建一个空的脑图，blob为null
         }
 
         const params = {
