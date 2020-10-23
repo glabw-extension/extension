@@ -1,0 +1,138 @@
+@primary: #0078ca;
+#61b26c: #61b26c;
+#f56c6c: #f56c6c;
+@disable-color: #dcdfe6;
+@table-top-border-color: #dcdfe6;
+@table-border-color: #edf2f7;
+@table-striped-color: #f5f7fa;
+
+@table-th-color: #606266;
+@table-hover-color: #f5f7fa;
+@table-td-color: #516372;
+
+.primary-color {
+  color: @primary;
+}
+
+.action + .action {
+  margin-left: 10px;
+}
+.action {
+  a {
+    color: #0078ca;
+    text-decoration: underline;
+    sup {
+      display: inline-block;
+      background: #f00;
+      font-size: 12px;
+      line-height: 16px;
+      height: 16px;
+      padding: 0 2px;
+      min-width: 16px;
+      text-align: center;
+      border-radius: 8px;
+      color: #fff;
+    }
+  }
+  .no-wrap {
+    display: inline-block;
+  }
+}
+
+table {
+  width: 100%;
+  font-size: 12px;
+  border-collapse: collapse;
+  // border-top: 1px solid @table-top-border-color;
+  tr {
+    background: #fff;
+    border-bottom: 1px solid @table-top-border-color;
+  }
+}
+tr.loading,
+tr.no-data {
+  background-color: #fff;
+  > td {
+    text-align: center;
+  }
+}
+
+tr:first-child > th,
+tr:first-child > td {
+  border-top: 0;
+}
+
+th,
+td {
+  padding: 10px 8px;
+  // color: @table-td-color;
+  text-align: left;
+  &.left {
+    text-align: left;
+  }
+  &.center {
+    text-align: center;
+  }
+  &.right {
+    text-align: right;
+  }
+  &.idx {
+    text-align: center;
+    width: 50px;
+  }
+  &.actions {
+    padding-left: 12px;
+  }
+  &.text-danger {
+    color: #f56c6c;
+  }
+  &.text-success {
+    color: #61b26c;
+  }
+  &.text-disable {
+    color: disabled-color-base;
+  }
+}
+
+th {
+  position: relative;
+  font-size: 12px;
+  font-weight: 700;
+  vertical-align: top;
+  color: @table-th-color;
+  border-bottom: 0;
+  white-space: nowrap;
+}
+
+td {
+  word-break: break-all;
+  &.actions {
+    white-space: nowrap;
+    span.disabled {
+      color: disabled-color-base;
+      text-decoration: underline;
+    }
+  }
+  a + a {
+    margin-left: 5px;
+  }
+}
+
+.striped .gt-table__tr {
+  background-color: #fff;
+}
+
+.striped .gt-table__tr:nth-child(odd) {
+  background-color: @table-striped-color;
+}
+
+.table-hover .gt-table__tr:hover {
+  background-color: @table-hover-color;
+}
+
+.gt-table__tr--point {
+  cursor: pointer;
+}
+.text-danger td {
+  color: #f56c6c;
+}

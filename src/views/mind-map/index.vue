@@ -56,7 +56,7 @@ import { Topology } from '@topology/core'
 import { Tools } from './xmind-config'
 import CanvasProps from './CanvasProps'
 import CanvasContextMenu from './CanvasContextMenu'
-import api from '@self/data/api'
+import api from '@/data/api'
 import store from '@/services/store'
 import { ResizeObserver as Polyfill } from '@juggle/resize-observer'
 import { register as registerFlow } from '@topology/flow-diagram' // 注册流程图相关图示
@@ -109,7 +109,7 @@ export default {
     },
   },
   watch: {
-    $route(val) {
+    $route() {
       // 重新加载路由要重新获取路由参数
       this.mindId = this.$route.params.id
       this.eventId = this.$route.query.event_id
@@ -205,7 +205,7 @@ export default {
       }
     },
     contextmenuHiddenHandle() {
-      document.onclick = event => {
+      document.onclick = () => {
         this.contextmenu = {
           left: null,
           top: null,
@@ -344,13 +344,13 @@ export default {
     handle_open(data) {
       this.handle_replace(data)
     },
-    handle_replace(data) {
+    handle_replace() {
       const input = document.createElement('input')
       input.type = 'file'
       input.onchange = event => {
         const elem = event.srcElement || event.target
         if (elem.files && elem.files[0]) {
-          const name = elem.files[0].name.replace('.json', '')
+          // const name = elem.files[0].name.replace('.json', '')
           const reader = new FileReader()
           reader.onload = e => {
             const text = e.target.result + ''
@@ -435,7 +435,7 @@ export default {
           params.id = this.mindId
           api
             .updateMindById(params)
-            .then(res => {
+            .then(() => {
               store.set('upDateMindMapList', true)
               this.$message.success('编辑成功')
               this.mindModel = false
@@ -532,7 +532,7 @@ export default {
           font-size: 60px;
         }
         &:hover {
-          color: @primary-color;
+          color: "#409eff";
         }
         &.flex-placeholder {
           height: 0;
@@ -583,7 +583,7 @@ export default {
     flex-direction: column;
     flex: 1;
     padding-right: 24px;
-    border-right: 1px solid @color-text-disabled;
+    border-right: 1px solid "#d9d9d9";
     .top-opration {
       display: flex;
       align-items: center;
@@ -595,7 +595,7 @@ export default {
     #topology-canvas {
       flex: 1;
       position: relative;
-      border: 1px solid @border-color-base;
+      border: 1px solid "#dcdfe6";
       /** 适应窗口大小会出现滚动条，默认的挂载元素加了overflow：auto */
       overflow: hidden !important;
     }
@@ -615,7 +615,7 @@ export default {
 }
 .xmind-scale-popper {
   .el-button--text {
-    color: @color-text-regular;
+    color: "#606266";
   }
 }
 </style>

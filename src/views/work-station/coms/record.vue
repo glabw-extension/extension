@@ -27,7 +27,7 @@ export default {
 <style lang="less" scoped>
 .base__record {
   /deep/.global_record__btn {
-    color: @color-text-regular;
+    color: "#606266";
   }
 }
 </style>

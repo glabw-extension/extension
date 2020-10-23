@@ -42,7 +42,7 @@ el-dialog(
 </template>
 
 <script>
-import api from '@self/data/api.js'
+import api from '@/data/api.js'
 import store from '@/services/store'
 
 export default {

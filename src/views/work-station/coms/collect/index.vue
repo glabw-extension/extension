@@ -34,12 +34,12 @@
 
 <script>
 import collectCard from './collect-card.vue'
-import noData from '@self/pages/work-station/coms/no-data'
-import noEvent from '@self/pages/work-station/coms/no-event'
-import baseRecord from '@self/pages/work-station/coms/record.vue'
-import api from '@self/data/api'
+import noData from '@/pages/work-station/coms/no-data'
+import noEvent from '@/pages/work-station/coms/no-event'
+import baseRecord from '@/pages/work-station/coms/record.vue'
+import api from '@/data/api'
 import store from '@/services/store'
-import { hasEventID } from '@self/pages/work-station/coms/utils.js'
+import { hasEventID } from '@/pages/work-station/coms/utils.js'
 
 export default {
   components: {
@@ -239,7 +239,7 @@ export default {
 
         &:hover {
           cursor: pointer;
-          border: 1px solid @primary-color;
+          border: 1px solid "#409eff";
         }
       }
     }

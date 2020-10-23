@@ -1,0 +1,246 @@
+@import './form.less';
+@form-date-width: 102px; //日期选择器宽度
+@form-time-width: 78px; //时间选择器宽度
+@data-panel-bg: #f5f7fa;
+
+@color-base: #3c3c3c;
+@disabled-color-base: #c0c4cc;
+
+/*clearfix*/
+.clearfix() {
+  &::after {
+    content: ' '; // 1
+    display: table; // 2
+    clear: both;
+  }
+}
+.gt-date,
+.gt-time {
+  display: inline-block;
+  position: relative;
+  .gt-form-control {
+    display: block;
+  }
+  input.gt-form-control {
+    cursor: pointer;
+    color: #3c3c3c;
+  }
+  .gt-date__container,
+  .gt-time__container {
+    margin-top: 2px;
+    margin-left: 1px;
+    display: none;
+  }
+  &.gt-dropdown-wrap--open {
+    .gt-date__container,
+    .gt-time__container {
+      display: block;
+    }
+  }
+  &.gt-dropdown-wrap--top {
+    .gt-date__container,
+    .gt-time__container {
+      bottom: 32px;
+    }
+  }
+  &.gt--disabled {
+    .gt-date__form,
+    .gt-time__form {
+      pointer-events: none;
+    }
+  }
+}
+.gt-date .gt-form-control {
+  width: @form-date-width;
+  background-color: #fff;
+}
+.gt-time .gt-form-control {
+  width: @form-time-width;
+  background-color: #fff;
+}
+
+.gt-date__container,
+.gt-time__container {
+  border-radius: 4px;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.35);
+  position: absolute;
+  z-index: 1;
+  padding: 1.2em 1.4em;
+  background: @data-panel-bg;
+  text-align: center;
+  font-size: 12px;
+}
+.gt-date__hd {
+  position: relative;
+  margin-bottom: 4px;
+  .gt-date__btn-left,
+  .gt-date__btn-right {
+    position: absolute;
+    text-decoration: none;
+    top: 0;
+    color: #3c3c3c;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    .gt-icon {
+      font-size: 18px;
+    }
+    &:hover {
+      background: #ddd;
+    }
+  }
+  .gt-date__btn-left {
+    left: 0;
+  }
+  .gt-date__btn-right {
+    right: 0;
+  }
+  .gt-date__hd-center,
+  .gt-date__hd-short {
+    padding: 4px 10px;
+    line-height: 22px;
+    display: inline-block;
+  }
+  .gt-date__hd-center {
+    font-size: 1.1em;
+  }
+  .gt-date__hd-short {
+    color: #0078ca;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+.gt-date__table {
+  border-top: none;
+  tr {
+    border-bottom: none;
+    min-height: 30px;
+    line-height: 30px;
+  }
+  thead td {
+    padding: 0.15em;
+    white-space: nowrap;
+    font-weight: bold;
+    text-align: center;
+  }
+  tbody td {
+    padding: 0.15em;
+    text-align: center;
+  }
+  .gt-date__date {
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    user-select: none;
+    cursor: pointer;
+    &:hover {
+      background: #ddd;
+    }
+    &:active {
+      background-color: #c4c4c4;
+    }
+    &.gt--disabled {
+      cursor: not-allowed;
+      pointer-events: none; // 禁用点击事件
+      color: @disabled-color-base;
+    }
+    &.gt--sel {
+      background: #0078ca;
+      color: #fff;
+    }
+    &.gt-date--today {
+      border: 1px dashed #0078ca;
+    }
+    &.gt-date--no-cur {
+      color: fade(@color-base, 80%);
+    }
+  }
+}
+
+.gt-time__container {
+  padding: 0.4em;
+  white-space: nowrap;
+}
+.gt-time__item {
+  display: inline-block;
+  text-align: center;
+  padding-right: 1.4em;
+  position: relative;
+  user-select: none;
+  margin: 0 10px;
+  .gt-icon {
+    font-size: 13px;
+    display: block;
+    width: 34px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 26px;
+    border-radius: 3px;
+    cursor: pointer;
+    &:hover {
+      background: #ddd;
+    }
+    &:active {
+      background-color: darken(#ddd, 10%);
+    }
+  }
+}
+// .gt-time__item__form-control {
+// 	.form-control();
+// 	display: block;
+// 	width: 36px;
+// 	margin: 4px 0
+// }
+.gt-time__item .gt-icon.gt--disabled,
+.gt-time__item.gt--disabled .gt-icon,
+.gt--disabled .gt-time__item .gt-icon {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: @disabled-color-base;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background: none;
+  }
+}
+
+.gt-time__unit {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  line-height: 30px;
+}
+
+.gt-date-time-interval {
+  display: inline-block;
+  vertical-align: top;
+  .clearfix();
+  .gt-date-time-sep {
+    width: 18px;
+    float: left;
+    text-align: center;
+  }
+  .gt-date-time-g,
+  .gt-date,
+  .gt-time {
+    float: left;
+  }
+}
+.gt-date-time-g {
+  .clearfix();
+  overflow: visible;
+  display: inline-block;
+  vertical-align: top;
+  .gt-date,
+  .gt-time {
+    float: left;
+    margin-left: 10px;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}

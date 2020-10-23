@@ -23,15 +23,15 @@
 
 <script>
 import dayjs from 'dayjs'
-import api from '@self/data/api'
+import api from '@/data/api'
 import store from '@/services/store'
 
-import workplace_id from '@self/assets/workplace/workplace_id.svg'
-import workplace_wifi from '@self/assets/workplace/workplace_wifi.svg'
-import workplace_ip from '@self/assets/workplace/workplace_ip.svg'
-import workplace_app from '@self/assets/workplace/workplace_app.svg'
-import workplace_location from '@self/assets/workplace/workplace_location.svg'
-import dotted_more from '@self/assets/workplace/dotted-more.svg'
+import workplace_id from '@/assets/workplace/workplace_id.svg'
+import workplace_wifi from '@/assets/workplace/workplace_wifi.svg'
+import workplace_ip from '@/assets/workplace/workplace_ip.svg'
+import workplace_app from '@/assets/workplace/workplace_app.svg'
+import workplace_location from '@/assets/workplace/workplace_location.svg'
+import dotted_more from '@/assets/workplace/dotted-more.svg'
 
 const ICON_MAP = {
   // 0 其他
@@ -270,7 +270,7 @@ export default {
     &-remark {
       width: 240px;
       font-size: 12px;
-      color: @color-text-regular;
+      color: "#606266";
       margin-bottom: 4px;
       line-height: 16px;
       .ellipsis();
@@ -290,7 +290,7 @@ export default {
   cursor: pointer;
   background-color: @color-text-secondary;
   &:hover {
-    background-color: @primary-color;
+    background-color: "#409eff";
   }
 }
 </style>

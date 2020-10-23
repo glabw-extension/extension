@@ -4,8 +4,8 @@
   img(v-else :src="noData" title="无数据")
 </template>
 <script>
-import api from '@self/data/api'
-import noData from '@self/assets/workplace/mind_placeholder.svg'
+import api from '@/data/api'
+import noData from '@/assets/workplace/mind_placeholder.svg'
 export default {
   name: 'DownloadImg',
   props: {

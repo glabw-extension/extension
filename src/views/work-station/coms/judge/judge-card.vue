@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import dotted_more from '@self/assets/workplace/dotted-more.svg'
+import dotted_more from '@/assets/workplace/dotted-more.svg'
 import dayjs from 'dayjs'
 import DownloadImg from './download-img'
-import api from '@self/data/api'
+import api from '@/data/api'
 import store from '@/services/store'
 
 export default {
@@ -180,7 +180,7 @@ export default {
       width: 180px;
       font-weight: 500;
       font-size: 14px;
-      color: @color-text-regular;
+      color: "#606266";
       line-height: 20px;
       margin-bottom: 3px;
       .ellipsis();
@@ -188,7 +188,7 @@ export default {
     &-remark {
       width: 170px;
       font-size: 12px;
-      color: @color-text-regular;
+      color: "#606266";
       line-height: 16px;
 
       .ellipsis();
@@ -210,7 +210,7 @@ export default {
   cursor: pointer;
   background-color: @color-text-secondary;
   &:hover {
-    background-color: @primary-color;
+    background-color: "#409eff";
   }
 }
 </style>

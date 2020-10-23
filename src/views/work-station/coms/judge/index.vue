@@ -36,12 +36,12 @@
 <script>
 import DownloadImg from './download-img'
 import judgeCard from './judge-card.vue'
-import noData from '@self/pages/work-station/coms/no-data'
-import noEvent from '@self/pages/work-station/coms/no-event'
-import api from '@self/data/api'
+import noData from '@/pages/work-station/coms/no-data'
+import noEvent from '@/pages/work-station/coms/no-event'
+import api from '@/data/api'
 import store from '@/services/store'
-import BaseRecord from '@self/pages/work-station/coms/record.vue'
-import { hasEventID } from '@self/pages/work-station/coms/utils.js'
+import BaseRecord from '@/pages/work-station/coms/record.vue'
+import { hasEventID } from '@/pages/work-station/coms/utils.js'
 
 export default {
   components: {
@@ -216,8 +216,8 @@ export default {
         }
         &:hover,
         &.choosed {
-          color: @primary-color;
-          border: 1px solid @primary-color;
+          color: "#409eff";
+          border: 1px solid "#409eff";
         }
       }
       &-desc {
@@ -231,10 +231,10 @@ export default {
     }
   }
   .el-dialog__header {
-    border-bottom: 1px solid @border-color-base;
+    border-bottom: 1px solid "#dcdfe6";
   }
   .el-dialog__footer {
-    border-top: 1px solid @border-color-base;
+    border-top: 1px solid "#dcdfe6";
   }
 }
 </style>

@@ -1,0 +1,172 @@
+@form-group-margin-bottom: 12px;
+@form-group-detail-margin-bottom: 6px;
+@form-invalid-color: #f56c6c;
+
+.colon .form-label:after {
+  content: ' ： ';
+}
+.no-colon .form-label:after {
+  content: '';
+}
+// 搜索栏form BEGIN
+.search__bar {
+  .el-form-item {
+    margin-bottom: 12px;
+    .el-form-item__label,
+    .el-form-item__content {
+      font-size: 12px;
+      line-height: 30px;
+    }
+  }
+}
+// 修改el-form-item--mini的margin-bottom
+.el-form-item--mini.el-form-item,
+.el-form-item--small.el-form-item {
+  margin-bottom: 12px;
+  .el-form-item__label,
+  .el-form-item__content {
+    font-size: 12px;
+    line-height: 30px;
+  }
+}
+// 搜索栏form END
+.search-form {
+  width: auto;
+  padding-top: 20px;
+  padding-bottom: 4px;
+  .form-group {
+    display: inline-block;
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-bottom: 16px;
+    padding-left: 0;
+    vertical-align: middle;
+    input,
+    select {
+      background-color: #fff;
+      background-image: none;
+      border-radius: 4px;
+      border: 1px solid #dcdfe6;
+      box-sizing: border-box;
+      color: #606266;
+      display: inline-block;
+      font-size: inherit;
+      height: 29px;
+      line-height: 29px;
+      outline: 0;
+      padding: 0 15px;
+      transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+      width: 142px;
+      margin-right: 0;
+    }
+    input {
+      appearance: none;
+    }
+    select {
+      width: auto;
+      min-width: 80px;
+    }
+    input:focus {
+      border-color: #409eff;
+    }
+    .form-label {
+      vertical-align: top;
+      width: auto;
+      margin-right: 6px;
+      top: 0;
+      position: relative;
+      margin-top: 6px;
+    }
+    button + button {
+      margin-left: 15px;
+    }
+  }
+}
+// 详情、编辑、添加表单的格式 BEGIN
+.form__wrap {
+  .el-form-item__label,
+  .el-form-item__content {
+    line-height: 1.8;
+  }
+  .el-form-item {
+    margin-bottom: 12px;
+  }
+}
+// 详情、编辑、添加表单的格式 END
+form {
+  padding: 0 10px;
+  &.form--detail {
+    .form-group {
+      margin-bottom: @form-group-detail-margin-bottom;
+    }
+  }
+}
+.form-group {
+  margin-bottom: @form-group-margin-bottom;
+  position: relative;
+  padding-left: 8em;
+  min-height: 28px;
+  color: "#606266";
+  .form-label {
+    position: absolute;
+    left: 0;
+    top: 6px;
+    vertical-align: top;
+    width: auto;
+    margin-right: 5px;
+    line-height: 17px;
+    color: "#606266";
+    display: inline-block;
+    max-width: 100%;
+  }
+  label {
+    vertical-align: middle;
+    input[type='checkbox'],
+    input[type='radio'] {
+      vertical-align: middle;
+    }
+    span {
+      vertical-align: middle;
+    }
+  }
+  label + label {
+    margin-left: 20px;
+  }
+}
+
+.form-content {
+  // width: 72%;
+  max-width: 720px;
+  line-height: 19px;
+  font-size: 12px;
+  word-break: break-all;
+  position: relative;
+  top: 6px;
+}
+
+.form-label.required:before,
+form.required .form-label:before {
+  position: absolute;
+  left: -10px;
+  content: '*';
+  color: #f56c6c;
+}
+
+form.required .form-label.no-required:before {
+  content: '';
+}
+
+.time-slot {
+  display: inline-block;
+  width: 24px;
+  text-align: center;
+}
+
+// validate
+input.invalid,
+textarea.invalid,
+select.invalid,
+input.invalid:focus textarea.invalid:focus,
+select.invalid:focus {
+  border-color: @form-invalid-color !important;
+}

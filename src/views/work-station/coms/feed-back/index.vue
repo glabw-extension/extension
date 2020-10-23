@@ -63,9 +63,9 @@
 <script>
 import { DEFAULT_UPLOAD_CONFIG, TIPS } from './config.js'
 import api from '@/data/api/api.js'
-import API from '@self/data/api.js'
+import API from '@/data/api.js'
 import Kscreenshot from 'kscreenshot'
-import { getExploreName } from '@self/utils/index.js'
+import { getExploreName } from '@/utils/index.js'
 
 export default {
   data() {

@@ -40,13 +40,13 @@ import globalRecord from '@/components/global-record'
 import store from '@/services/store'
 import ClickOutsideRight, {
   hasEventID,
-} from '@self/pages/work-station/coms/utils.js'
+} from '@/pages/work-station/coms/utils.js'
 
-import expand_icon from '@self/assets/workplace/expand.svg'
-import judge_icon from '@self/assets/workplace/judge.svg'
-import collect_icon from '@self/assets/workplace/collect.svg'
-import tool_icon from '@self/assets/workplace/tool.svg'
-import feedback_icon from '@self/assets/workplace/feedback.svg'
+import expand_icon from '@/assets/workplace/expand.svg'
+import judge_icon from '@/assets/workplace/judge.svg'
+import collect_icon from '@/assets/workplace/collect.svg'
+import tool_icon from '@/assets/workplace/tool.svg'
+import feedback_icon from '@/assets/workplace/feedback.svg'
 
 const WORK_PLACE_MAP = [
   {
@@ -250,7 +250,7 @@ export default {
         background-position: center;
         background-color: #808695;
         &.active {
-          background-color: @primary-color;
+          background-color: "#409eff";
         }
       }
     }
@@ -267,7 +267,7 @@ export default {
         background-position: center;
         background-color: #808695;
         &.active {
-          background-color: @primary-color;
+          background-color: "#409eff";
         }
       }
 
@@ -281,7 +281,7 @@ export default {
           background-position: center;
           background-color: #808695;
           &.active {
-            background-color: @primary-color;
+            background-color: "#409eff";
           }
         }
         .title {
@@ -289,7 +289,7 @@ export default {
           line-height: 20px;
           color: @color-text-label;
           &.active {
-            color: @primary-color;
+            color: "#409eff";
           }
         }
       }
@@ -316,6 +316,6 @@ export default {
   align-items: center;
 }
 /deep/.global_record__btn {
-  color: @color-text-regular;
+  color: "#606266";
 }
 </style>

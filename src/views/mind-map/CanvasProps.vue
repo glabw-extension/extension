@@ -283,7 +283,7 @@ export default {
       height: 30px;
       text-align: center;
       line-height: 30px;
-      border: 1px solid @border-color-base;
+      border: 1px solid "#dcdfe6";
       cursor: pointer;
       border-radius: 4px;
     }
@@ -314,7 +314,7 @@ export default {
       justify-content: space-between;
       padding: 0 10px 16px;
       font-size: 16px;
-      border-bottom: 1px solid @border-color-base;
+      border-bottom: 1px solid "#dcdfe6";
     }
     .icon-dialog-content {
       display: flex;
@@ -329,7 +329,7 @@ export default {
     .empty {
       text-align: center;
       line-height: 44px;
-      border: 1px solid @border-color-base;
+      border: 1px solid "#dcdfe6";
     }
     .iconitem {
       width: 44px;
@@ -337,8 +337,8 @@ export default {
       cursor: pointer;
       margin-bottom: 10px;
       &:hover {
-        color: @primary-color;
-        border-color: @primary-color;
+        color: "#409eff";
+        border-color: "#409eff";
       }
     }
     .iconfont-mindmap {

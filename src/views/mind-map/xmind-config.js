@@ -517,12 +517,12 @@ export const Tools = [
 export const LinesStyle = [
   {
     label: '实线',
-    //  img: require('@self/assets/svg/true_line.svg'),
+    //  img: require('@/assets/svg/true_line.svg'),
     value: 0,
   },
   {
     label: '虚线',
-    //  img: require('@self/assets/svg/dashed_line.svg'),
+    //  img: require('@/assets/svg/dashed_line.svg'),
     value: 1,
   },
 ]

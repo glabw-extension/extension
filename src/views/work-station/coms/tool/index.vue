@@ -7,7 +7,7 @@
 
 <script>
 import toolCard from './tool-card.vue'
-import map_icon from '@self/assets/workplace/map.svg'
+import map_icon from '@/assets/workplace/map.svg'
 
 export default {
   components: {

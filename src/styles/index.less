@@ -1,0 +1,455 @@
+@charset 'utf-8';
+@import 'normalize';
+@import 'form';
+@import 'button';
+// @import 'icon';
+@import 'icomoon.css';
+@import 'date';
+@import 'flex';
+
+body {
+  min-width: 800px;
+  &.no-scroll--model {
+    overflow: hidden;
+  }
+}
+
+ol,
+ul {
+  margin: 0;
+  padding-left: 0;
+  list-style-type: none;
+  &.diamond {
+    li {
+      position: relative;
+      padding-left: 20px;
+      &:before {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        left: 0;
+        top: 50%;
+        margin-top: -7px;
+        border-radius: 2px;
+        background-color: #0078ca;
+        transform: rotate(45deg);
+      }
+    }
+  }
+}
+
+a.link,
+.link span {
+  color: #409eff;
+  text-decoration: underline;
+}
+a.link.visited,
+.link.visited span {
+  color: #551a8b;
+}
+.text-danger a.link,
+.link span {
+  color: #f56c6c;
+}
+
+.visited .link {
+  color: #551a8b;
+}
+
+.page-header {
+  padding: 0 0 9px;
+  // box-shadow: #ddd 0 4px 7px -5px;
+  border-bottom: 1px solid #edeff1;
+  overflow: hidden;
+  &--no-underline {
+    border-bottom: none;
+  }
+  &__title {
+    font-size: 16px;
+    float: left;
+    margin-top: 0;
+    height: 36px;
+    line-height: 36px;
+    font-weight: bold;
+    color: #606266;
+    font-family:  #f5f7fa;
+  }
+  &__right {
+    float: right;
+  }
+}
+
+.auto-width {
+  width: auto;
+}
+
+.section-title {
+  font-weight: normal;
+  color: #606266;
+  border-bottom: 1px solid #edeff1;
+  margin: 0;
+  line-height: 2.5em;
+}
+
+.text-danger,
+.text-error,
+.color-danger,
+.color-error,
+.color-red {
+  color: #f56c6c;
+}
+.text-success,
+.color-success,
+.color-green {
+  color: #61b26c;
+}
+.text-disable,
+.color-disable,
+.color-grey {
+  color: @disabled-color-base;
+}
+.text-blue,
+.text-primary,
+.color-primary {
+  color: #1aa0e5;
+}
+.text-black {
+  color: #000;
+}
+.text-warning,
+.color-orange {
+  color: #e6a23c;
+}
+
+.fr {
+  float: right;
+}
+.fl {
+  float: left;
+}
+
+.mt-0 {
+  margin-top: 0px;
+}
+.mt-5 {
+  margin-top: 5px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+.mt-15 {
+  margin-top: 15px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mb-0 {
+  margin-bottom: 0px;
+}
+.mb-5 {
+  margin-bottom: 5px;
+}
+.mb-10 {
+  margin-bottom: 10px;
+}
+.mb-15 {
+  margin-bottom: 15px;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.ml-0 {
+  margin-left: 0px;
+}
+.ml-5 {
+  margin-left: 5px;
+}
+.ml-8 {
+  margin-left: 8px;
+}
+.ml-10 {
+  margin-left: 10px;
+}
+.ml-15 {
+  margin-left: 15px;
+}
+.ml-20 {
+  margin-left: 20px;
+}
+.ml-40 {
+  margin-left: 40px;
+}
+
+.mr-0 {
+  margin-right: 0px;
+}
+.mr-5 {
+  margin-right: 5px;
+}
+.mr-10 {
+  margin-right: 10px;
+}
+.mr-15 {
+  margin-right: 15px;
+}
+.mr-20 {
+  margin-right: 20px;
+}
+// font-size
+.ft-12 {
+  font-size: 12px;
+}
+.ft-14 {
+  font-size: 14px;
+}
+.ft-16 {
+  font-size: 16px;
+}
+.ft-18 {
+  font-size: 18px;
+}
+.ft-20 {
+  font-size: 20px;
+}
+.ft-30 {
+  font-size: 30px;
+}
+
+.clearfix {
+  overflow: auto;
+}
+.multi-ellips(@rows) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: @rows;
+  -webkit-box-orient: vertical;
+}
+.multi-ellips-2 {
+  .multi-ellips(2);
+}
+.multi-ellips-3 {
+  .multi-ellips(3);
+}
+.multi-ellips-4 {
+  .multi-ellips(4);
+}
+.multi-ellips-5 {
+  .multi-ellips(5);
+}
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/*----------text direction start-----------*/
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+/*----------text direction end-----------*/
+
+.fl-r {
+  float: right;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+.add-btn {
+  color: #909399;
+}
+.page-title {
+  padding: 0 0 11px;
+  box-shadow: "#dcdfe6" 0 4px 7px -5px;
+  border-bottom: 1px solid #edeff1;
+  overflow: hidden;
+  h3 {
+    font-size: 16px;
+    float: left;
+    margin-top: 0;
+    height: 36px;
+    line-height: 36px;
+    font-weight: normal;
+    color: #606266;
+  }
+}
+// input的placeholder的颜色
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: "#c0c4cc";
+}
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  color: "#c0c4cc";
+}
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+  color: "#c0c4cc";
+}
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: "#c0c4cc";
+}
+
+// 选项卡按钮
+button.btn--tab,
+.btn.btn--tab {
+  &:active {
+    border: 2px solid "#409eff";
+    background: #f8f5fa;
+    color: "#409eff";
+    font-weight: bold;
+  }
+}
+
+.time-cell {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 5px 10px;
+}
+
+.search-btn--small {
+  width: 30px;
+  height: 29px;
+  background-color: #fff;
+  min-width: 0;
+  padding: 0;
+  vertical-align: top;
+  i {
+    font-size: 20px;
+    color: #419df4;
+  }
+}
+
+// element-ui样式覆盖
+.el-form-item.is-success .el-input__inner,
+.el-form-item.is-success .el-textarea__inner {
+  border-color: #dcdfe6;
+}
+
+.el-form-item.is-success .el-input__inner:focus,
+.el-form-item.is-success .el-textarea__inner:focus {
+  border-color: #409eff;
+}
+.el-pager li {
+  font-weight: normal;
+}
+
+.el-table.badge-table .cell {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.el-table thead {
+  color: #606266;
+}
+// 树形结构
+.custom-tree-node {
+  font-size: 12px;
+  .count-style {
+    display: inline-block;
+    color: #e6a23c;
+    font-size: 14px;
+    font-weight: 800;
+    margin-left: 20px;
+  }
+}
+
+.icon-style {
+  color: #1aa0e5;
+  margin-right: 6px;
+  font-size: 14px;
+}
+
+.full-width {
+  width: 100%;
+}
+.full-height {
+  height: 100%;
+}
+.pd-5 {
+  padding: 5px;
+}
+.pd-6 {
+  padding: 6px;
+}
+.pd-10 {
+  padding: 10px;
+}
+.pd-15 {
+  padding: 15px;
+}
+.pd-20 {
+  padding: 20px;
+}
+.width-60 {
+  width: 60px;
+}
+.width-100 {
+  width: 100px;
+}
+.width-270 {
+  width: 270px;
+}
+.width-380 {
+  width: 380px;
+}
+.width-480 {
+  width: 480px;
+}
+.hidden {
+  display: none;
+}
+// 去掉云上哨兵页面的空白
+.shaobin-page.content {
+  padding: 0;
+}
+// 云上哨兵打印样式
+@media print {
+  // .download-box {
+  //   width: 210mm;
+  //   height: 297mm;
+  // }
+  #buttonPrint,
+  .topbar,
+  .global_record {
+    display: none;
+  }
+  .download-box .map-box {
+    width: 100%;
+  }
+}
+.download-box .map-box {
+  width: 70%;
+}
+.department-list .tree-part .el-tree-node__label {
+  font-size: 12px;
+}
+.el-input--mini {
+  max-width: 380px;
+}
+// 去掉地图logo
+.BMap_cpyCtrl,
+.anchorBL {
+  display: none;
+}
+
+.el-tooltip__popper {
+  max-width: 50%;
+}
+
+.el-pagination {
+  text-align: right;
+}
