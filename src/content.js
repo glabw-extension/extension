@@ -230,7 +230,6 @@ if (window.self === window.top) {
               curCollectInfo.textContent = e.dataTransfer.getData("link");
               break;
             case 8:
-              params.title = e.dataTransfer.getData("img");
               Object.assign(params, {
                 detail: { url: e.dataTransfer.getData("img") }
               });
