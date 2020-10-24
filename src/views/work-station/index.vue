@@ -17,7 +17,7 @@
         .title(:class="[currentTab === box.key ? 'active':'']") {{box.title}}
   .workplace__container(:class="{'close':!expand}")
     .base__case()
-      .title 张山抢劫案
+      .title 张三抢劫案
       i.ml-5.el-icon-arrow-down
       //- global-record(ref="globalRecord" v-acl="'event.event.get'" :editable="true")
     keep-alive

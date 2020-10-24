@@ -49,7 +49,6 @@ export default {
   },
   data() {
     return {
-      // showDetail: false,
       loading: false,
       recordData: JSON.parse(
         window.sessionStorage.getItem("record:record") || "{}"
@@ -118,13 +117,6 @@ export default {
   },
   // 分页需要带上类型
   mounted() {
-    store.$on('showCollectDetailChange',(res) => {
-      // this.showDetail = res.showDetail
-      parent.postMessage(
-        { type: "workstation", to: "content", fullpage: res.showDetail },
-        "*"
-      );
-    })
     this.getCollectionList({ page: 1, type: "" });
     store.$on("recordChangeChange", res => {
       const { id = "" } = res;

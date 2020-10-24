@@ -146,17 +146,18 @@ export default {
     },
   },
   mounted () {
-    store.$on('showCollectDetailChange', ( res) => {
+    store.$on('showCollectDetailChange', (res) => {
       this.curCollect = res.curCollect
+      if(this.curCollect && this.curCollect.id !== this.data.id) {
+        this.showDetail = false
+      } else if(!this.curCollect) {
+        this.showDetail = false
+      }
     });
   },
   methods: {
     showDetailHandle() {
-      if(this.curCollect && this.curCollect.id === this.data.id) {
-        this.showDetail = !this.showDetail
-      } else {
-        // aaaa
-      }
+      this.showDetail = !this.showDetail
 
       store.set('showCollectDetail',{showDetail: this.showDetail,curCollect: this.data})
     },
