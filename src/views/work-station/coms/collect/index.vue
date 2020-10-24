@@ -11,6 +11,7 @@
       noData.no-data(v-if="isNoData")
       .card-container__box(v-else)
         collect-card(v-for="card in collectionList" :key="card.id" :data="card")
+        collect-edit
         el-pagination(small
           layout="prev, pager, next"
           @current-change="handleCurrentChange"
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+import collectEdit from './collect-edit.vue'
 import collectCard from "./collect-card.vue";
 import noData from "@/views/work-station/coms/no-data";
 import baseRecord from "@/views/work-station/coms/record.vue";
@@ -42,10 +44,12 @@ export default {
   components: {
     collectCard,
     noData,
-    baseRecord
+    baseRecord,
+    collectEdit,
   },
   data() {
     return {
+      // showDetail: false,
       loading: false,
       recordData: JSON.parse(
         window.sessionStorage.getItem("record:record") || "{}"
@@ -114,6 +118,13 @@ export default {
   },
   // 分页需要带上类型
   mounted() {
+    store.$on('showCollectDetailChange',(res) => {
+      // this.showDetail = res.showDetail
+      parent.postMessage(
+        { type: "workstation", to: "content", fullpage: res.showDetail },
+        "*"
+      );
+    })
     this.getCollectionList({ page: 1, type: "" });
     store.$on("recordChangeChange", res => {
       const { id = "" } = res;
@@ -221,6 +232,7 @@ export default {
 
 .collect-container {
   height: calc(100% - @case-height);
+  overflow-y: auto;
   .base__case {
     width: 100%;
     height: @case-height;
@@ -266,6 +278,7 @@ export default {
       flex-direction: column;
       justify-content: space-between;
       &__box {
+        flex-shrink: 0;
       }
       .add-collect {
         text-align: center;

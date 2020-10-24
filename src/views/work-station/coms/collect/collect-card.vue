@@ -1,20 +1,22 @@
 <template lang="pug">
 .collect-card
   .collect-card__title(:style="{backgroundImage: `url(${cardImage})`}")
-    .main(:title="cardTitle") 
-      span(v-if="false") {{cardTitle}}
-      a.link(:src="'www.baidu.com'" :title="cardTitle") {{cardTitle}}
+    .main(:title="cardTitle") {{cardTitle}}
+      //- span(v-if="false") {{cardTitle}}
+      //- a.link(:src="'www.baidu.com'" :title="cardTitle") {{cardTitle}}
   .collect-card__container
     .collect-card__container-remark(v-if="data.detail.pkg") APP 包名：{{cardAppName}}
     .collect-card__container-remark(v-if="cardLng") 经纬度：{{cardLocation}}
     .collect-card__container-remark(v-if="data.detail.wifimac") Wi-Fi MAC：{{cardMac}}
-    .collect-card__container-remark() 备注：{{cardRemark}}
+    .collect-card__container-remark(v-if="data.detail.url") 
+      img(:src="data.detail.url")
+    .collect-card__container-remark {{cardRemark}}
     el-row.collect-card__container-row(type="flex" justify="space-between")
       .time {{cardTime}}
       el-dropdown()
         .dropdown-link(:style="{maskImage:`url(${dotted_more})`}")
         el-dropdown-menu(slot="dropdown")
-          el-dropdown-item(@click.native="showDetailHandle") {{showDetail?'收起':'展开编辑'}}
+          el-dropdown-item(@click.native="showDetailHandle") {{(curCollect && curCollect.id === data.id && showDetail)?'收起':'展开编辑'}}
           el-dropdown-item(v-if="data.type === 1" @click.native="goReport") 查看全息画像
           el-dropdown-item(v-if="data.type === 1" @click.native="addedEarlyWarning") 创建预警任务
           el-dropdown-item(v-if="data.type === 3" @click.native="goIpExtract") 查看 IP 提数
@@ -29,7 +31,7 @@
     :type="collectModelType"
     :detail="collectModelDetail"
     :title="collectModelTitle")
-  collectEdit(:curCollect="this.data" :show="showDetail")
+  
 </template>
 
 <script>
@@ -37,7 +39,6 @@ import dayjs from 'dayjs'
 import api from '@/data/api'
 import store from '@/services/store'
 import collectModel from '../collectModel.vue'
-import collectEdit from './collect-edit.vue'
 
 import workplace_id from '@/assets/workplace/workplace_id.svg'
 import workplace_wifi from '@/assets/workplace/workplace_wifi.svg'
@@ -75,7 +76,7 @@ const ICON_MAP = {
 export default {
   components: {
     collectModel,
-    collectEdit
+    
   },
   /* data:
     type:类型: 0-其他; 1-id; 2-wifi; 3-ip; 4-app; 5-location;
@@ -106,6 +107,7 @@ export default {
       collectMode: 'view',
       collectModelDetail: this.data.detail,
       collectModelTitle: this.data.title,
+      curCollect: null
     }
   },
   computed: {
@@ -143,20 +145,20 @@ export default {
       return this._.get(this.data, `detail.wifimac`) || '/'
     },
   },
-
+  mounted () {
+    store.$on('showCollectDetailChange', ( res) => {
+      this.curCollect = res.curCollect
+    });
+  },
   methods: {
     showDetailHandle() {
-      this.showDetail = !this.showDetail
-      parent.postMessage(
-          { type: "workstation", to: "content", fullpage: this.showDetail },
-          "*"
-        );
-      if(this.showDetail) {
-        window.addEventListener('touchstart', e => {
-          console.log('touchstart');
-          e.preventDefault()
-        }, false)
+      if(this.curCollect && this.curCollect.id === this.data.id) {
+        this.showDetail = !this.showDetail
+      } else {
+        // aaaa
       }
+
+      store.set('showCollectDetail',{showDetail: this.showDetail,curCollect: this.data})
     },
     async action(params) {
       const { type = 'update', value = '' } = params
@@ -331,6 +333,10 @@ export default {
       margin-bottom: 4px;
       line-height: 16px;
       .ellipsis();
+      & > img {
+        max-width: 240px;
+        max-height: 240px;
+      }
     }
     &-row {
       line-height: 16px;

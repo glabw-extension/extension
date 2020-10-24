@@ -1,31 +1,48 @@
 <template lang="pug">
 .collect-edit(:class="{'show-detail': show}")
   .collect-edit-content
-    h1.collect-edit-title.ellipsis {{curCollect.title}}
+    h1.collect-edit-title.ellipsis {{(curCollect || {}).title}}
     hr
     #collect-edit-editor
 
 
 </template>
 <script>
-import Editor from 'wangeditor'
+// import Editor from 'wangeditor'
+import store from '@/services/store'
 export default {
   name: 'collectEdit',
-  props: {
-    curCollect: {
-      type: Object,
-      default: () => ({})
-    },
-    show: {
-      type: Boolean,
-      default: false
-    },
+  data() {
+    return {
+      show: false,
+      curCollect: null
+    }
   },
   mounted () {
-    const editor = new Editor('#collect-edit-editor');
-    console.log(editor,11111111);
-    editor.config.height = 500
-    editor.create()
+    store.$on('showCollectDetailChange',(res) => {
+      // console.log(show, curCollect, 'collect-detail');
+      this.show = res.showDetail
+      this.curCollect = res.curCollect
+    })
+    // const curCollect  = this.curCollect || {}
+    // const editor = new Editor('#collect-edit-editor');
+    // editor.config.height = 500
+    // editor.create()
+    // let detailDom
+    // if(curCollect.type === 8) {
+    //   detailDom = document.createElement('img')
+    //   detailDom.src = 'curCollect.detail.url'
+    // } else if(curCollect.type === 7) {
+    //   detailDom = document.createElement('p')
+    //   detailDom.innerHTML = curCollect.remark
+    // } else if(curCollect.type === 6) {
+    //   detailDom = document.createElement('a')
+    //   detailDom.src = curCollect.remark
+    // } else {
+    //   detailDom = document.createElement('p')
+    //   detailDom.innerHTML = curCollect.remark
+    // }
+    // editor.txt.append(detailDom)
   },
 }
 </script>

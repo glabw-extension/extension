@@ -154,6 +154,7 @@ export default {
 
 .judge-container {
   height: calc(100% - @case-height);
+  overflow-y: auto;
   &__main {
     padding: 12px;
     background-color: #f8f8f8;

@@ -71,7 +71,8 @@ function drop_handler(e) {
   if (left < 300 && isDropDom && collectStatus !== "pending") {
     const params = {
       type,
-      title
+      title,
+      detail: {}
     };
 
     // cur
@@ -206,7 +207,6 @@ if (window.self === window.top) {
         event => {
           const { type, to, close } = event.data;
           if (type === "workstation" && to === "content") {
-            console.log(close);
             if (close) {
               // 收起 iframe
               // show = !show;
