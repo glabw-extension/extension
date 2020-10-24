@@ -40,10 +40,8 @@ export default {
       const { type, to, data = {} } = event.data;
       if (type === "createCollect" && to === "iframe") {
         console.log("createCollect >>", data);
-        // remark: " npm 确认名为 vue-cli-locale-<language co";
-        // title: "UI 本地化 | Vue CLI";
-        // type: 6;
-        const { type, title = "", remark = "", detail } = data;
+
+        const { type, title = "", remark = "", detail = {} } = data;
         const query = {
           type, // 6:text, 7:link, 8:img
           collectionKey: uuidv4(),
