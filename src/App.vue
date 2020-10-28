@@ -62,6 +62,10 @@ export default {
           }
         } catch (error) {
           console.log(error);
+          parent.postMessage(
+            { type: "collectCreated", to: "content", status: "done" },
+            "*"
+          );
         } finally {
           // post message
           parent.postMessage(

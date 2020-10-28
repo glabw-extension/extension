@@ -42,7 +42,7 @@
 }
 
 #collect__wrapper {
-  width: 300px;
+  width: 346px;
   height: 100vh;
   min-width: 1px;
   position: fixed;
@@ -50,7 +50,7 @@
   left: 12px;
   bottom: unset;
   z-index: 310;
-  transform: translateX(-332px);
+  transform: translateX(-376px);
   transition: all 0.2s;
   cursor: pointer;
   border-radius: 4px;

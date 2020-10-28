@@ -4,13 +4,7 @@ let collect;
 let curCollectInfo;
 let iframeLoaded = false;
 // eslint-disable-next-line no-unused-vars
-let collectStatus = "reject";
-
-// function setStyle(obj, css) {
-//   for (const atr in css) {
-//     obj.style[atr] = css[atr];
-//   }
-// }
+let collectStatus = "done";
 
 function mousePos(e) {
   e = e || window.event;
@@ -71,27 +65,8 @@ if (window.self === window.top) {
       // collect box
       document.body.appendChild(collect);
 
-      // get postMessage
-      window.addEventListener(
-        "message",
-        event => {
-          const { type, to, iframeLoaded: loaded, fullpage } = event.data;
-
-          if (fullpage) {
-            iframe.classList.add("wockstation-full-iframe");
-          } else {
-            iframe.classList.remove("wockstation-full-iframe");
-          }
-          if (type === "mounted" && to === "content") {
-            iframeLoaded = loaded;
-          }
-        },
-        false
-      );
-
       // sidebar click event
       trigger.addEventListener("click", () => {
-        console.log("show iframe", iframeLoaded);
         if (iframeLoaded) {
           // 展开 iframe
           // show = !show;
@@ -106,33 +81,6 @@ if (window.self === window.top) {
           );
         }
       });
-
-      // get postMessage
-      window.addEventListener(
-        "message",
-        event => {
-          const { type, to, close } = event.data;
-          if (type === "workstation" && to === "content") {
-            if (close) {
-              // 收起 iframe
-              // show = !show;
-              iframe.style.setProperty(
-                "transform",
-                "translateX(-336px)",
-                "important"
-              );
-              // 展示 trigger
-              // showTrigger = !showTrigger;
-              trigger.style.setProperty(
-                "transform",
-                "translateX(0px)",
-                "important"
-              );
-            }
-          }
-        },
-        false
-      );
 
       // 监听拖拽 & dragstart
       document.addEventListener("dragstart", e => {
@@ -155,19 +103,23 @@ if (window.self === window.top) {
           e.dataTransfer.setData("img", e.target.src);
         }
         e.dataTransfer.setData("origin/type", type);
+
+        // dragstart 收起工作台 && 展开 trigger
+        iframe.style.setProperty("transform", "translateX(-336px)");
+        trigger.style.setProperty("transform", "translateX(0px)");
       });
 
-      // 监听拖拽 & remove
+      // 监听拖拽 & move
       document.addEventListener("drag", e => {
         // 显示收藏区 dom
         const { x: left } = mousePos(e);
-        if (left < 350) {
+        if (left < 380) {
           // show collect box
           collect.style.setProperty("transform", "translateX(0px)");
         }
-        if (left > 350 && collectStatus !== "pending") {
+        if (left > 380 && collectStatus !== "pending") {
           // close collect box
-          collect.style.setProperty("transform", "translateX(-332px)");
+          collect.style.setProperty("transform", "translateX(-376px)");
         }
       });
 
@@ -178,40 +130,32 @@ if (window.self === window.top) {
         return false;
       });
 
-      // dragover
-      // document.addEventListener("dragover", e => {
-      //   // prevent default to allow drop
-      //   e.preventDefault();
-      //   console.log("dragover >>>>>");
-      //   return false;
-      // });
-
       const dropzone = document.getElementById("collect__wrapper");
 
-      dropzone.addEventListener("dragenter", e => {
+      document.addEventListener("dragenter", e => {
         // prevent default to allow drop
         e.preventDefault();
         return false;
       });
 
       // dragover collect__wrapper
-      dropzone.addEventListener("dragover", e => {
+      document.addEventListener("dragover", e => {
         // prevent default to allow drop
         e.preventDefault();
-        console.log("dropzone dragover >>>>>");
         return false;
       });
 
       // drop collect__wrapper
-      dropzone.addEventListener("drop", e => {
-        console.log("dropzone >>>>>>>");
-
+      dropzone;
+      document.addEventListener("drop", e => {
+        const { x: left } = mousePos(e);
+        const isDropDom = e.toElement.id.includes("collect__wrapper");
         const type = +e.dataTransfer.getData("origin/type");
         const title =
           document.getElementsByTagName("title")[0].textContent || "";
 
         // 投放至收藏区
-        if (collectStatus !== "pending") {
+        if (left < 380 && isDropDom && collectStatus !== "pending") {
           const params = {
             type,
             title
@@ -239,28 +183,19 @@ if (window.self === window.top) {
               params.type = 0;
               break;
           }
-          console.log("params >>>", type, params);
           // postMessage to iframe
           iframe.contentWindow.postMessage(
             { type: "createCollect", to: "iframe", data: params },
             "*"
           );
 
-          // reset
-        } else if (collectStatus !== "pending") {
+        }
+
+        if (left > 380 && !isDropDom && collectStatus !== "pending") {
           // close collect box
-          collect.style.setProperty("transform", "translateX(-332px)");
+          collect.style.setProperty("transform", "translateX(-376px)");
           curCollectInfo.style.display = "none";
           curCollectInfo.textContent = "";
-        }
-      });
-
-      // all document drop end
-      document.addEventListener("dragend", () => {
-        // dragend 不能做最后传递数据，getData("origin/type") 的值会丢失
-        if (collectStatus !== "pending") {
-          // close collect box
-          collect.style.setProperty("transform", "translateX(-332px)");
         }
       });
 
@@ -268,12 +203,20 @@ if (window.self === window.top) {
       window.addEventListener(
         "message",
         event => {
-          const { type, to, status } = event.data;
+          const {
+            type,
+            to,
+            status,
+            close = false,
+            iframeLoaded: loaded = false,
+            fullpage = false
+          } = event.data;
+          // 收藏状态反馈
           if (type === "collectCreated" && to === "content") {
             console.log(status);
             if (status === "done") {
               // 收起收藏面板
-              collect.style.setProperty("transform", "translateX(-332px)");
+              collect.style.setProperty("transform", "translateX(-376px)");
             }
             // pending
             if (status === "pending") {
@@ -287,6 +230,37 @@ if (window.self === window.top) {
               curCollectInfo.textContent = "";
               curCollectInfo.style.display = "none";
             }
+          }
+
+          // 展开收起工作台面板
+          if (type === "workstation" && to === "content") {
+            if (close) {
+              // 收起 iframe
+              // show = !show;
+              iframe.style.setProperty(
+                "transform",
+                "translateX(-336px)",
+                "important"
+              );
+              // 展示 trigger
+              // showTrigger = !showTrigger;
+              trigger.style.setProperty(
+                "transform",
+                "translateX(0px)",
+                "important"
+              );
+            }
+          }
+
+          // 全屏工作台
+          if (fullpage) {
+            iframe.classList.add("wockstation-full-iframe");
+          } else {
+            iframe.classList.remove("wockstation-full-iframe");
+          }
+          // 更新加载完成状态
+          if (type === "mounted" && to === "content") {
+            iframeLoaded = loaded;
           }
         },
         false
