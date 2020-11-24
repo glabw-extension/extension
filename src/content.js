@@ -19,6 +19,11 @@ function mousePos(e) {
 if (window.self === window.top) {
   document.onreadystatechange = () => {
     if (document.readyState === "complete") {
+      // 挂载插件
+      document.documentElement.setAttribute(
+        "workstation-extension-installed",
+        true
+      );
       // inject css
       const link = document.createElement("link");
       link.href = chrome.runtime.getURL("content.css");
@@ -188,7 +193,6 @@ if (window.self === window.top) {
             { type: "createCollect", to: "iframe", data: params },
             "*"
           );
-
         }
 
         if (left > 380 && !isDropDom && collectStatus !== "pending") {
