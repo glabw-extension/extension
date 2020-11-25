@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-10-28 18:40:02
+ * @LastEditTime: 2020-11-25 19:15:19
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /extension/vue.config.js
+ */
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
@@ -14,6 +22,14 @@ module.exports = {
       componentOptions: {
         background: {
           entry: "src/background.js"
+        },
+        contentScripts: {
+          entries: {
+            // content: "src/content.js",
+            // dragzone: "src/dragzone.js",
+            // plugin: "src/contentScripts/plugin.js",
+            contentScripts: "src/contentScripts/content_script.js"
+          }
         }
       }
     }
@@ -28,14 +44,6 @@ module.exports = {
   },
   configureWebpack: {
     plugins: [
-      new CopyWebpackPlugin({
-        patterns: [
-          {
-            from: path.resolve("src/content.js"),
-            to: path.resolve("dist")
-          }
-        ]
-      }),
       new CopyWebpackPlugin({
         patterns: [
           {

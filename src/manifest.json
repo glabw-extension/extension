@@ -37,7 +37,7 @@
         "<all_urls>"
       ],
       "js": [
-        "content.js"
+        "js/contentScripts.js"
       ],
       "run_at": "document_start",
       "all_frames": true
@@ -45,6 +45,7 @@
   ],
   "web_accessible_resources": [
     "popup.html",
-    "content.css"
+    "content.css",
+    "js/*"
   ]
 }
