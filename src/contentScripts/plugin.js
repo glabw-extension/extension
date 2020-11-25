@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-25 18:40:31
- * @LastEditTime: 2020-11-25 19:21:08
+ * @LastEditTime: 2020-11-25 19:22:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/src/contentScripts/plugin.js
@@ -60,7 +60,7 @@ export default class Plugin {
   closePlugin() {
     this.plugin.style.setProperty(
       "transform",
-      "translateX(-336px)",
+      "translateX(0px)",
       "important"
     );
   }

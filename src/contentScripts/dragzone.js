@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-25 15:55:00
- * @LastEditTime: 2020-11-25 19:16:45
+ * @LastEditTime: 2020-11-25 19:28:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/src/dragzone.js
@@ -55,14 +55,13 @@ export default class Dragzone {
   }
 
   showDragzone() {
-    console.log("dshowDragzoneragStart >>>", this.element);
     // show collect box
-    this.element.style.setProperty("transform", "translateX(0px)");
+    this.element.style.setProperty("transform", "translateX(370px)");
   }
 
   closeDragzone() {
     // show collect box
-    this.element.style.setProperty("transform", "translateX(-376px)");
+    this.element.style.setProperty("transform", "translateX(0px)");
   }
 
   dragStart() {
