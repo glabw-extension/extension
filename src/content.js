@@ -76,7 +76,7 @@ if (window.self === window.top) {
       if (iframeLoaded) {
         // 展开 iframe
         // show = !show;
-        iframe.style.setProperty("transform", "translateX(0px)", "important");
+        iframe.style.setProperty("transform", "translateX(336px)", "important");
 
         // 收起 trigger
         // showTrigger = !showTrigger;
@@ -121,7 +121,7 @@ if (window.self === window.top) {
       const { x: left } = mousePos(e);
       if (left < 380) {
         // show collect box
-        collect.style.setProperty("transform", "translateX(0px)");
+        collect.style.setProperty("transform", "translateX(376px)");
       }
       if (left > 380 && collectStatus !== "pending") {
         // close collect box
