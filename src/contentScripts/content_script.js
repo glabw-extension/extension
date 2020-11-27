@@ -1,7 +1,7 @@
 /*
  * @Author: xq
  * @Date: 2020-11-25 16:51:18
- * @LastEditTime: 2020-11-25 19:14:16
+ * @LastEditTime: 2020-11-26 14:28:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/src/js/content_script.js
@@ -9,8 +9,6 @@
 
 import Dragzone from "./dragzone.js";
 import Plugin from "./plugin.js";
-
-console.log("content_script.js >>>");
 
 let collect;
 let curCollectInfo;
@@ -53,7 +51,7 @@ if (window.self === window.top) {
           to,
           status,
           close = false,
-          iframeLoaded: loaded = false,
+          iframeLoaded: loaded = false
           // fullpage = false
         } = event.data;
         // 收藏状态反馈

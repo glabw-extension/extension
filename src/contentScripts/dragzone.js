@@ -6,7 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: /extension/src/dragzone.js
  */
-console.log("load dragzone.js >>>");
+
 export default class Dragzone {
   // 拖拽控制器：true; 元素在放置区做操作时，禁止二次拖拽
   static isDraging = true;

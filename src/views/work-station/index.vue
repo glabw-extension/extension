@@ -190,21 +190,19 @@ export default {
       };
     },
     handleExpand() {
-      
-      if(parent.window === window) {
+      if (parent.window === window) {
         this.expand = !this.expand;
-      } else { // postMessage 转发给 content.js
+      } else {
+        // postMessage 转发给 content.js
         parent.postMessage(
           { type: "workstation", to: "content", close: true },
           "*"
         );
       }
-      
     },
     handleExpandAndSelect(key) {
       this.expand = !this.expand;
       this.currentTab = key;
-       
     },
     hide() {
       this.expand = false;
@@ -222,17 +220,15 @@ export default {
 
 #workplace,
 .workplace {
-  position: absolute;
-  top: 0;
-  // transform: translateY(-56%);
-  left: 0;
+  // position: absolute;
+  // top: 0;
+  // left: 0;
   z-index: 999;
   font-size: 14px;
   width: 336px;
-  // height: @workplace-height;
-  // min-height: 560px;
+
   height: 100%;
-  // outline: none;
+
   display: flex;
   background-color: #fff;
   box-shadow: -2px 2px 12px 0 rgba(0, 0, 0, 0.16);

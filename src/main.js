@@ -17,7 +17,7 @@ Vue.use(ElementUI, {
 })
 Vue.prototype._ = _
 Vue.prototype.$dayjs = dayjs
-console.log("outer Vue>>>");
+
 new Vue({
   router,
   store,

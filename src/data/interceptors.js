@@ -5,7 +5,7 @@ import { Message, MessageBox } from 'element-ui'
 import isStandardObject from '@/utils/isStandardObject.js'
 import { setCache, useCahce, forCacheCancel, CACHE_FLAG_KEY } from './cache'
 
-axios.defaults.baseURL = "https://www.workstation.com"; // 默认请求地址
+axios.defaults.baseURL = "http://localhost:3100/"; // 默认请求地址
 const CancelToken = axios.CancelToken
 
 // 本地融合请求
@@ -110,6 +110,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   response => {
+     
     // 文件下载处理
     if (response.headers['content-type'] === 'application/octet-stream') {
       return Promise.resolve(response.data)
