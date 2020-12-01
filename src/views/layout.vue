@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-11-26 15:39:21
- * @LastEditTime: 2020-11-30 19:53:06
+ * @LastEditTime: 2020-12-01 14:51:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/src/views/layout.vue
@@ -14,7 +14,6 @@
     accountInfo.header-container
   |
   router-view.container
-  
 </template>
 
 <script>

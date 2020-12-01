@@ -130,20 +130,26 @@ export default {
       this.getMindMapList({ page: val, count: this.pager.count });
     },
     handleCreateMindMap() {
-      this.methodDialog = false;
-      const params = {
-        name: "workstation.mindMap",
-        query: { event_id: this.recordData.id }
-      };
-      if (this.choosedMethod && this.choosedMethod.id) {
-        params.params = { id: this.choosedMethod.id };
-      }
-      if (this.$route.name === "workstation.mindMap") {
-        this.$router.replace(params);
-      } else {
-        const { href } = this.$router.resolve(params);
-        window.open(href);
-      }
+      // this.methodDialog = false;
+      // const params = {
+      //   name: "workstation.mindMap",
+      //   query: { event_id: this.recordData.id }
+      // };
+      // if (this.choosedMethod && this.choosedMethod.id) {
+      //   params.params = { id: this.choosedMethod.id };
+      // }
+      // if (this.$route.name === "workstation.mindMap") {
+      //   this.$router.replace(params);
+      // } else {
+      //   const { href } = this.$router.resolve(params);
+      //   window.open(href);
+      // }
+
+      // 测试跳转路由
+      store.set("fullPage", true);
+      this.$nextTick(() => {
+        this.$router.replace({ name: "workstation.mindMap" });
+      });
     }
   }
 };

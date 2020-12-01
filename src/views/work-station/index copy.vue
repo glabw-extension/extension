@@ -1,11 +1,5 @@
 <template lang="pug">
-#workplace.workplacew(ref="workStation" :class="{'close':!expand}")
-  .workplace-header
-    .header-expand()
-      .header-expand_icon(@click.stop="handleExpand" :style="{maskImage: `url(${expand_icon})`}")
-    accountInfo.header-container
-  el-button(@click="handleClickShow") show
-  |
+#workStation.workplace(v-click-outside-right="hide" ref="workStation" :class="{'close':!expand}")
   .workplace__operation(:style="operationWidth")
     .expand-box
       .expand-box__icon(
@@ -46,7 +40,7 @@ import tabFeed from "./coms/feed-back";
 import collectModel from "./coms/collectModel.vue";
 // import globalRecord from '@/components/global-record'
 import store from "@/services/store";
-import accountInfo from "@/components/account-info";
+import ClickOutsideRight from "@/views/work-station/coms/utils.js"; // hasEventID,
 
 import expand_icon from "@/assets/workplace/expand.svg";
 import judge_icon from "@/assets/workplace/judge.svg";
@@ -84,12 +78,13 @@ export default {
     tabCollect,
     tabTool,
     tabFeed,
-    collectModel,
-    accountInfo
+    collectModel
 
     // globalRecord,
   },
-
+  directives: {
+    ClickOutsideRight
+  },
   data() {
     return {
       expand: true,
@@ -198,33 +193,15 @@ export default {
       };
     },
     handleExpand() {
-      console.log(this.$route);
-      const { name = "" } = this.$route;
-      if (name === "home") {
-        if (parent.window === window) {
-          this.expand = !this.expand;
-        } else {
-          // postMessage 转发给 content.js
-          parent.postMessage(
-            { type: "workstation", to: "content", close: true },
-            "*"
-          );
-        }
+      if (parent.window === window) {
+        this.expand = !this.expand;
       } else {
-        // 仅因此 workstation 这个 dom
-        const plugin = document.querySelector("#glab_plugin");
-        plugin && plugin.classList.add("hide_sider");
+        // postMessage 转发给 content.js
+        parent.postMessage(
+          { type: "workstation", to: "content", close: true },
+          "*"
+        );
       }
-
-      // if (parent.window === window) {
-      //   this.expand = !this.expand;
-      // } else {
-      //   // postMessage 转发给 content.js
-      //   parent.postMessage(
-      //     { type: "workstation", to: "content", close: true },
-      //     "*"
-      //   );
-      // }
     },
     handleExpandAndSelect(key) {
       this.expand = !this.expand;
@@ -233,12 +210,11 @@ export default {
     hide() {
       this.expand = false;
     },
-    handleClickShow() {
-      // 测试跳转路由
-      store.set("fullPage", true);
-      this.$nextTick(() => {
-        this.$router.replace({ name: "workstation.mindMap" });
-      });
+    handleClick() {
+      store.set("displayExtensionArea", true);
+    },
+    handleClicks() {
+      store.set("displayExtensionArea", false);
     }
   }
 };
@@ -262,28 +238,11 @@ export default {
 
   height: 100%;
 
-  // display: flex;
+  display: flex;
   background-color: #fff;
   box-shadow: -2px 2px 12px 0 rgba(0, 0, 0, 0.16);
   border-radius: 3px 0 0 3px;
   transition: all 0.5s;
-
-  &-header {
-    display: flex;
-    width: 100%;
-    height: 48px;
-    background-color: #fff;
-    .header-expand {
-      width: 48px;
-      padding: 14px;
-      &_icon {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        background-color: #808695;
-      }
-    }
-  }
   &.close {
     width: 36px;
     overflow: hidden;

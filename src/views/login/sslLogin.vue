@@ -1,14 +1,14 @@
 <!--
  * @Author: xq
  * @Date: 2020-11-26 19:48:00
- * @LastEditTime: 2020-11-30 15:31:25
+ * @LastEditTime: 2020-12-01 15:39:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/src/views/login/sslLogin.vue
 -->
 <template>
   <div>
-    <div>ssl-login</div>
+    <h1>ssl-login</h1>
     <el-button @click="checkout">切换</el-button>
     <el-button @click="handleLogin" :loading="loading">登录</el-button>
   </div>
@@ -41,7 +41,7 @@ export default {
           console.log("sslLogin >>>", auth);
           if (auth) {
             this.$message.success("登录成功");
-            this.$router.replace({ name: "plugin" });
+            this.$router.replace({ name: "home" });
           }
         }
       } catch (error) {
