@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-11-26 15:39:21
- * @LastEditTime: 2020-11-26 19:31:31
+ * @LastEditTime: 2020-11-30 19:53:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/src/views/layout.vue
@@ -14,6 +14,7 @@
     accountInfo.header-container
   |
   router-view.container
+  
 </template>
 
 <script>
@@ -46,6 +47,8 @@ export default {
 <style lang="less" scoped>
 .plugin_layout {
   height: 100%;
+  position: relative;
+  z-index: 999;
   .header {
     display: flex;
     width: 100%;

@@ -1,13 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2020-10-23 15:00:54
- * @LastEditTime: 2020-11-27 10:21:06
+ * @LastEditTime: 2020-11-30 19:55:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/src/views/Plugin.vue
 -->
 <template>
- <div id="glab_plugin" ref="plugin">
+  <div id="glab_plugin" ref="plugin">
     <!-- <router-view /> -->
     <work-station></work-station>
   </div>
@@ -70,3 +70,8 @@ export default {
   }
 };
 </script>
+
+<style lang="less">
+#glab_plugin {
+}
+</style>

@@ -1,7 +1,7 @@
 /*
- * @Author: xq
+ * @Author: your name
  * @Date: 2020-11-25 18:40:31
- * @LastEditTime: 2020-11-25 19:52:39
+ * @LastEditTime: 2020-11-30 19:56:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/src/contentScripts/plugin.js
@@ -54,15 +54,15 @@ export default class Plugin {
 
   showPlugin() {
     // this.plugin.style.setProperty("transform", "translateX(0px)", "important");
-    this.plugin.style.setProperty("transform", "translateX(336px)", "important");
+    this.plugin.style.setProperty(
+      "transform",
+      "translateX(336px)",
+      "important"
+    );
   }
 
   closePlugin() {
-    this.plugin.style.setProperty(
-      "transform",
-      "translateX(0px)",
-      "important"
-    );
+    this.plugin.style.setProperty("transform", "translateX(0px)", "important");
   }
 
   showTrigger() {
@@ -75,5 +75,13 @@ export default class Plugin {
       "translateX(-30px)",
       "important"
     );
+  }
+
+  fullpage() {
+    this.plugin.style.setProperty("width", "100%", "important");
+  }
+
+  closeFullpage() {
+    this.plugin.style.setProperty("width", "336px");
   }
 }

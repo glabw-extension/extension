@@ -16,6 +16,8 @@
         )
         .title(:class="[currentTab === box.key ? 'active':'']") {{box.title}}
   .workplace__container(:class="{'close':!expand}")
+    el-button(@click="handleClick") show
+    el-button(@click="handleClicks") colse
     .base__case()
       .title 张三抢劫案
       i.ml-5.el-icon-arrow-down
@@ -37,7 +39,7 @@ import tabTool from "./coms/tool";
 import tabFeed from "./coms/feed-back";
 import collectModel from "./coms/collectModel.vue";
 // import globalRecord from '@/components/global-record'
-// import store from '@/services/store'
+import store from "@/services/store";
 import ClickOutsideRight from "@/views/work-station/coms/utils.js"; // hasEventID,
 
 import expand_icon from "@/assets/workplace/expand.svg";
@@ -77,6 +79,7 @@ export default {
     tabTool,
     tabFeed,
     collectModel
+
     // globalRecord,
   },
   directives: {
@@ -206,6 +209,12 @@ export default {
     },
     hide() {
       this.expand = false;
+    },
+    handleClick() {
+      store.set("displayExtensionArea", true);
+    },
+    handleClicks() {
+      store.set("displayExtensionArea", false);
     }
   }
 };

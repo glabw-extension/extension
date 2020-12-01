@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-28 18:40:02
- * @LastEditTime: 2020-11-25 19:15:19
+ * @LastEditTime: 2020-12-01 11:48:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/vue.config.js

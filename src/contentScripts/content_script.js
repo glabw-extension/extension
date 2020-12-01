@@ -1,12 +1,13 @@
 /*
  * @Author: xq
  * @Date: 2020-11-25 16:51:18
- * @LastEditTime: 2020-11-26 14:28:36
+ * @LastEditTime: 2020-11-30 20:04:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/src/js/content_script.js
  */
 
+import Wrapper from "./wrapper.js";
 import Dragzone from "./dragzone.js";
 import Plugin from "./plugin.js";
 
@@ -34,13 +35,17 @@ if (window.self === window.top) {
     const head = document.getElementsByTagName("head")[0];
     head.appendChild(link);
 
+    const wrapper = new Wrapper();
+    // #workstation_extension_wrapper
+    wrapper.appendTo();
+
     // 挂载插件
     const plugin = new Plugin();
-    plugin.appendTo("body");
+    plugin.appendTo("#workstation_extension_wrapper");
 
     // 构造收藏放置区 & 挂载
     const collectDom = new Dragzone();
-    collectDom.appendTo("body");
+    collectDom.appendTo("#workstation_extension_wrapper");
 
     // get collect created message
     window.addEventListener(
@@ -51,8 +56,8 @@ if (window.self === window.top) {
           to,
           status,
           close = false,
-          iframeLoaded: loaded = false
-          // fullpage = false
+          iframeLoaded: loaded = false,
+          fullpage = false
         } = event.data;
         // 收藏状态反馈
         if (type === "collectCreated" && to === "content") {
@@ -90,12 +95,22 @@ if (window.self === window.top) {
           }
         }
 
-        // 全屏工作台
-        // if (fullpage) {
-        //   iframe.classList.add("wockstation-full-iframe");
-        // } else {
-        //   iframe.classList.remove("wockstation-full-iframe");
-        // }
+        if (type === "fullpage" && fullpage) {
+          // 全屏插件
+          // document.firstElementChild.classList.add("workstation-full-page");
+
+          wrapper.fullpage();
+          plugin.fullpage();
+        }
+
+        if (type === "unfullpage" && fullpage === false) {
+          // 关闭全屏插件
+          console.log("un fullpage >>>");
+          // document.firstElementChild.classList.remove("workstation-full-page");
+          wrapper.closeFullpage();
+          plugin.closeFullpage();
+        }
+
         // 更新加载完成状态
         if (type === "mounted" && to === "content") {
           // iframe vue instance is mounted
