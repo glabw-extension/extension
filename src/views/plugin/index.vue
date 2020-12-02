@@ -1,7 +1,7 @@
 <!--
  * @Author: xq
  * @Date: 2020-10-23 15:00:54
- * @LastEditTime: 2020-12-01 19:30:50
+ * @LastEditTime: 2020-12-02 10:49:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/src/views/Plugin.vue
@@ -101,7 +101,7 @@ export default {
 .hide_sider #open_sider {
   display: block;
 }
-.hide_sider #workplace {
+.hide_sider #workStation {
   display: none;
 }
 </style>

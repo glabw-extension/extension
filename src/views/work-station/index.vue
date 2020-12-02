@@ -1,35 +1,28 @@
 <template lang="pug">
-#workplace.workplacew(ref="workStation" :class="{'close':!expand}")
-  .workplace-header
+#workStation.workStation(ref="workStation" :class="{'close':!expand}")
+  |
+  .workStation-header
     .header-expand()
       .header-expand_icon(@click.stop="handleExpand" :style="{maskImage: `url(${expand_icon})`}")
     accountInfo.header-container
+  |
+  .workStation__container()
+    |
+    .workStation__container-operation()
+      .func-box(v-for="box in workStationMap" :key="box.key")
+        .func-box__item(@click="currentTab = box.key")
+          .icon(
+            :style="{maskImage: `url(${box.icon})`}"
+            :class="[currentTab === box.key ? 'active':'']"
+          )
+          .title(:class="[currentTab === box.key ? 'active':'']") {{box.title}}
+    |
+    .workStation__container-main()
+      keep-alive
+        component(:is="currentTabComponent")
+  |
   el-button(@click="handleClickShow") show
   |
-  .workplace__operation(:style="operationWidth")
-    .expand-box
-      .expand-box__icon(
-        :style="{maskImage: `url(${expand_icon})`}"
-        @click.prevent="handleExpand"
-        )
-    .func-box(v-for="box in workplaceMap" :key="box.key")
-      el-tooltip(v-if="!expand" :content="box.title")
-        .func-box__icon(:style="{maskImage: `url(${box.icon})`}" @click.stop="handleExpandAndSelect(box.key)")
-      .func-box__item(@click="currentTab = box.key" v-else)
-        .icon(
-          :style="{maskImage: `url(${box.icon})`}"
-          :class="[currentTab === box.key ? 'active':'']"
-        )
-        .title(:class="[currentTab === box.key ? 'active':'']") {{box.title}}
-  .workplace__container(:class="{'close':!expand}")
-    //- el-button(@click="handleClick") show
-    //- el-button(@click="handleClicks") colse
-    .base__case()
-      .title 张三抢劫案
-      i.ml-5.el-icon-arrow-down
-      //- global-record(ref="globalRecord" v-acl="'event.event.get'" :editable="true")
-    keep-alive
-      component(:is="currentTabComponent")
   collect-model(:visible.sync="collectModelVisible"
     mode="create" 
     :type="collectModelType"
@@ -54,7 +47,7 @@ import collect_icon from "@/assets/workplace/collect.svg";
 import tool_icon from "@/assets/workplace/tool.svg";
 import feedback_icon from "@/assets/workplace/feedback.svg";
 
-const WORK_PLACE_MAP = [
+const WORK_STATION_MAP = [
   {
     title: "研判",
     key: "judge",
@@ -94,7 +87,7 @@ export default {
     return {
       expand: true,
       expand_icon,
-      workplaceMap: WORK_PLACE_MAP,
+      workStationMap: WORK_STATION_MAP,
       currentTab: "judge",
       collectModelVisible: false,
       collectModelType: 1,
@@ -201,30 +194,16 @@ export default {
       console.log(this.$route);
       const { name = "" } = this.$route;
       if (name === "home") {
-        if (parent.window === window) {
-          this.expand = !this.expand;
-        } else {
-          // postMessage 转发给 content.js
-          parent.postMessage(
-            { type: "workstation", to: "content", close: true },
-            "*"
-          );
-        }
+        // postMessage 转发给 content.js
+        parent.postMessage(
+          { type: "workstation", to: "content", close: true },
+          "*"
+        );
       } else {
         // 仅因此 workstation 这个 dom
         const plugin = document.querySelector("#glab_plugin");
         plugin && plugin.classList.add("hide_sider");
       }
-
-      // if (parent.window === window) {
-      //   this.expand = !this.expand;
-      // } else {
-      //   // postMessage 转发给 content.js
-      //   parent.postMessage(
-      //     { type: "workstation", to: "content", close: true },
-      //     "*"
-      //   );
-      // }
     },
     handleExpandAndSelect(key) {
       this.expand = !this.expand;
@@ -251,31 +230,42 @@ export default {
 @workplace-height: 360px;
 @workplace-conatiner-width: 280px;
 
-#workplace,
-.workplace {
+#workStation,
+.workStation {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
   font-size: 14px;
   width: 336px;
-
   height: 100%;
-
-  // display: flex;
-  background-color: #fff;
   box-shadow: -2px 2px 12px 0 rgba(0, 0, 0, 0.16);
   border-radius: 3px 0 0 3px;
   transition: all 0.5s;
 
+  &.close {
+    width: 36px;
+    overflow: hidden;
+    transform: translateX(0px);
+  }
+
   &-header {
     display: flex;
     width: 100%;
-    height: 48px;
+    height: 56px;
     background-color: #fff;
     .header-expand {
-      width: 48px;
-      padding: 14px;
+      width: 52px;
+      padding: 18px 16px;
+      &::after {
+        position: absolute;
+        content: "";
+        left: 16px;
+        top: 55px;
+        width: 20px;
+        height: 1px;
+        background-color: #d8d8d8;
+      }
       &_icon {
         width: 20px;
         height: 20px;
@@ -284,99 +274,59 @@ export default {
       }
     }
   }
-  &.close {
-    width: 36px;
-    overflow: hidden;
-    transform: translateX(0px);
-  }
-  &__operation {
-    // width: 36px;
-    padding: 8px;
-
-    .expand-box {
-      padding-bottom: 10px;
-      border-bottom: 1px solid #cdcdcd;
-      margin-bottom: 10px;
-
-      &__icon {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        margin: 0 auto;
-        background-position: center;
-        background-color: #808695;
-        &.active {
-          background-color: #409eff;
-        }
-      }
-    }
-    .func-box {
-      padding-bottom: 10px;
-      border-bottom: 1px solid #cdcdcd;
-      margin-bottom: 10px;
-
-      &__icon {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        margin: 0 auto;
-        background-position: center;
-        background-color: #808695;
-        &.active {
-          background-color: #409eff;
-        }
-      }
-
-      &__item {
-        text-align: center;
-        cursor: pointer;
-        .icon {
-          width: 20px;
-          height: 20px;
-          margin: 0 auto;
-          background-position: center;
-          background-color: #808695;
-          &.active {
-            background-color: #409eff;
-          }
-        }
-        .title {
-          margin-top: 4px;
-          line-height: 20px;
-          color: #999fac;
-          &.active {
-            color: #409eff;
-          }
-        }
-      }
-    }
-  }
 
   &__container {
-    flex: 1;
-    width: @workplace-conatiner-width;
-    transition: all 0.5s;
-    &.close {
-      opacity: 0;
+    display: flex;
+    height: 100%;
+
+    &-operation {
+      width: 52px;
+      background-color: #fff;
+      .func-box {
+        padding-top: 14px;
+        padding-bottom: 8px;
+        position: relative;
+
+        &::after {
+          position: absolute;
+          content: "";
+          left: 16px;
+          top: 66px;
+          width: 20px;
+          height: 1px;
+          background-color: #d8d8d8;
+        }
+
+        &__item {
+          text-align: center;
+          cursor: pointer;
+          .icon {
+            width: 20px;
+            height: 20px;
+            margin: 0 auto;
+            background-position: center;
+            background-color: #808695;
+            &.active {
+              background-color: #409eff;
+            }
+          }
+          .title {
+            margin-top: 4px;
+            line-height: 20px;
+            color: #999fac;
+            &.active {
+              color: #409eff;
+            }
+          }
+        }
+      }
+    }
+
+    &-main {
+      flex: 1;
+      background-color: #f8f8f8;
+      margin-bottom: 20px;
     }
   }
-}
-
-@case-height: 43px;
-.base__case {
-  width: 100%;
-  height: @case-height;
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  & > i:hover {
-    transition: all 0.2s;
-    transform: rotate(180deg);
-  }
-}
-/deep/.global_record__btn {
-  color: #606266;
 }
 </style>
