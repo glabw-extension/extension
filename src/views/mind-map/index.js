@@ -1,5 +1,9 @@
-// import mindMap from './index.vue'
+import mindMap from './index.vue'
 
 export default {
-  main: () => import(/* webpackChunkName: "mind-map" */ './index.vue'),
-}
+  main: mindMap
+};
+
+// export default {
+//   main: () => import(/* webpackChunkName: "mind-map" */ './index.vue'),
+// }

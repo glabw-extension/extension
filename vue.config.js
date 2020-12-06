@@ -10,11 +10,18 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
 module.exports = {
+  publicPath: '/',
+
   pages: {
-    popup: {
-      template: "public/browser-extension.html",
+    // popup: {
+    //   template: "public/browser-extension.html",
+    //   entry: "./src/main.js",
+    //   title: "Popup"
+    // },
+    popup2: {
+      // template: "public/browser-extension.html",
       entry: "./src/main.js",
-      title: "Popup"
+      title: "test"
     }
   },
   pluginOptions: {

@@ -43,6 +43,7 @@
     "js/*",
     "css/*",
     "vue.min.js",
+    "vue-router.js",
     "myPlugin.umd.js",
     "myPlugin.umd.login.js",
     "myPlugin.umd.mind-map.js",

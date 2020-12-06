@@ -8,6 +8,7 @@
 -->
 <template lang="pug">
 #app(:style="appStyle")
+  h1 hello-world
   router-view
   //- layout
   //- extensionArea

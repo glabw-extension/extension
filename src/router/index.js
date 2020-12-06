@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 import login from "@/views/login";
 import plugin from "@/views/plugin";
 import mindMap from "@/views/mind-map/index";
-// import layout from "@/views/layout";
 import pageView from "@/views/pageView";
 
 Vue.use(VueRouter);
@@ -21,13 +20,7 @@ const loginRoutes = [
   }
 ];
 
-// const pluginRoutes = [
-//   {
-//     name: "plugin",
-//     path: "/plugin",
-//     component: plugin.main
-//   }
-// ];
+
 
 const mindMapRoutes = [
   {
@@ -38,6 +31,7 @@ const mindMapRoutes = [
 ];
 
 const router = new VueRouter({
+  base: 'chrome-extension://djaginnekiiohpkpibbkabcajfbmbemk',
   routes: [
     ...loginRoutes,
     {
@@ -52,12 +46,11 @@ const router = new VueRouter({
           path: "/home",
           component: pageView
         },
-        // ...pluginRoutes,
+
         ...mindMapRoutes
       ]
     }
-    // ...pluginRoutes,
-    // ...mindMapRoutes
+
   ]
 });
 
