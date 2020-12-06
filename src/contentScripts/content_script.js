@@ -1,15 +1,10 @@
-/*
- * @Author: xq
- * @Date: 2020-11-25 16:51:18
- * @LastEditTime: 2020-11-30 20:04:59
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /extension/src/js/content_script.js
- */
 
 import Wrapper from "./wrapper.js";
-import Dragzone from "./dragzone.js";
-import Plugin from "./plugin.js";
+// import Dragzone from "./dragzone.js";
+// import Plugin from "./plugin.js";
+
+// import Vue from 'vue'
+// import App from '@/App.vue'
 
 let collect;
 let curCollectInfo;
@@ -39,13 +34,41 @@ if (window.self === window.top) {
     // #workstation_extension_wrapper
     wrapper.appendTo();
 
+    // 挂在一个 vue 的根结点
+    const vueApp = document.createElement('div')
+    vueApp.id = 'app-ext'
+    wrapper.wrapper.appendChild(vueApp)
+    document.querySelector('#workstation_extension_wrapper').appendChild(vueApp)
+    // document.body.appendChild(vueApp)
+
+    // 引入本地的 vue 代码
+    const vue_script = document.createElement('script')
+    vue_script.src = chrome.runtime.getURL("vue.min.js");
+    vue_script.onload = () => {
+
+      // 引入插件内 App 代码
+      const app_script = document.createElement('script')
+      app_script.src = chrome.runtime.getURL("myPlugin.umd.js");
+      app_script.onload = () => {
+        console.log('====== add vue vender & login & mind-map & manifest ======>')
+
+        // 初始化项目
+        // new Vue({
+        //   render: h => h(App)
+        // }).$mount("#app-ext");
+      }
+
+      document.body.appendChild(app_script)
+    }
+    document.body.appendChild(vue_script)
+
     // 挂载插件
-    const plugin = new Plugin();
-    plugin.appendTo("#workstation_extension_wrapper");
+    // const plugin = new Plugin();
+    // plugin.appendTo("#workstation_extension_wrapper");
 
     // 构造收藏放置区 & 挂载
-    const collectDom = new Dragzone();
-    collectDom.appendTo("#workstation_extension_wrapper");
+    // const collectDom = new Dragzone();
+    // collectDom.appendTo("#workstation_extension_wrapper");
 
     // get collect created message
     window.addEventListener(
@@ -66,9 +89,9 @@ if (window.self === window.top) {
             // 收起收藏面板
             collect.style.setProperty("transform", "translateX(-376px)");
             // 收藏接口请求完成后
-            collectDom.closeDragzone();
+            // collectDom.closeDragzone();
             // 让放置区可拖拽
-            Dragzone.isDraging = true;
+            // Dragzone.isDraging = true;
           }
           // pending
           if (status === "pending") {
@@ -88,10 +111,10 @@ if (window.self === window.top) {
         if (type === "workstation" && to === "content") {
           if (close) {
             // 收起 iframe
-            plugin.closePlugin();
+            // plugin.closePlugin();
 
             // 展示 trigger
-            plugin.showTrigger();
+            // plugin.showTrigger();
           }
         }
 
@@ -99,22 +122,23 @@ if (window.self === window.top) {
           // 全屏插件
           // document.firstElementChild.classList.add("workstation-full-page");
 
-          wrapper.fullpage();
-          plugin.fullpage();
+          // wrapper.fullpage();
+          // plugin.fullpage();
         }
 
         if (type === "unfullpage" && fullpage === false) {
           // 关闭全屏插件
           console.log("un fullpage >>>");
           // document.firstElementChild.classList.remove("workstation-full-page");
-          wrapper.closeFullpage();
-          plugin.closeFullpage();
+          // wrapper.closeFullpage();
+          // plugin.closeFullpage();
         }
 
         // 更新加载完成状态
         if (type === "mounted" && to === "content") {
           // iframe vue instance is mounted
-          plugin.iframeVueInstanceMounted = loaded;
+          console.log(loaded)
+          // plugin.iframeVueInstanceMounted = loaded;
         }
       },
       false

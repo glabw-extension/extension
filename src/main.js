@@ -1,25 +1,32 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+// import store from "./store";
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/styles/index.less'
 import '@/data/interceptors'
 import '@/directives'
-import _ from 'lodash'
-import dayjs from 'dayjs'
+// import _ from 'lodash'
+// import dayjs from 'dayjs'
 
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI, {
   size: 'mini',
 })
-Vue.prototype._ = _
-Vue.prototype.$dayjs = dayjs
+// Vue.prototype._ = _
+// Vue.prototype.$dayjs = dayjs
+
+// new Vue({
+//   router,
+//   store,
+//   render: h => h(App)
+// }).$mount("#app");
 
 new Vue({
   router,
-  store,
   render: h => h(App)
-}).$mount("#app");
+}).$mount("#app-ext");
+
+console.log('=============>>>>> myPlugin is running')

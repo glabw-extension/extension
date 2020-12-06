@@ -25,9 +25,6 @@ module.exports = {
         },
         contentScripts: {
           entries: {
-            // content: "src/content.js",
-            // dragzone: "src/dragzone.js",
-            // plugin: "src/contentScripts/plugin.js",
             contentScripts: "src/contentScripts/content_script.js"
           }
         }

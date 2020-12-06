@@ -19,17 +19,17 @@ import store from "@/services/store";
 
 export default {
   components: { layout, extensionArea },
-  data() {
+  data () {
     return {
       fullPage: false
     };
   },
   computed: {
-    appStyle() {
+    appStyle () {
       return this.fullPage ? { width: "100%" } : { width: "336px" };
     }
   },
-  mounted() {
+  mounted () {
     // send message to background to tell itrame is mounted
     parent &&
       parent.postMessage(
@@ -42,19 +42,19 @@ export default {
       this.fullPage = fullPage;
       fullPage
         ? (() => {
-            // document.body.classList.add("workstation-full-page");
-            parent.postMessage(
-              { type: "fullpage", to: "content_script", fullpage: fullPage },
-              "*"
-            );
-          })()
+          // document.body.classList.add("workstation-full-page");
+          parent.postMessage(
+            { type: "fullpage", to: "content_script", fullpage: fullPage },
+            "*"
+          );
+        })()
         : (() => {
-            // document.body.classList.remove("workstation-full-page");
-            parent.postMessage(
-              { type: "unfullpage", to: "content_script", fullpage: fullPage },
-              "*"
-            );
-          })();
+          // document.body.classList.remove("workstation-full-page");
+          parent.postMessage(
+            { type: "unfullpage", to: "content_script", fullpage: fullPage },
+            "*"
+          );
+        })();
     });
   }
 };
@@ -65,5 +65,6 @@ export default {
   width: 336px;
   overflow: auto;
   height: 100%;
+  background-color: white;
 }
 </style>

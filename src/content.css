@@ -1,7 +1,7 @@
 #workstation_extension_wrapper {
   max-height: 100%;
   max-width: 100%;
-  width: auto;
+  width: 336px;
   z-index: 2147483647;
   position: fixed !important;
   left: 0px !important;

@@ -10,7 +10,7 @@
   <div>
     <h1>ssl-login</h1>
     <el-button @click="checkout">切换</el-button>
-    <el-button @click="handleLogin" :loading="loading">登录</el-button>
+    <el-button @click="handleLoginFake" :loading="loading">登录</el-button>
   </div>
 </template>
 
@@ -18,16 +18,27 @@
 import api from "@/data/account.js";
 
 export default {
-  data() {
+  data () {
     return {
       loading: false
     };
   },
   methods: {
-    checkout() {
+    checkout () {
       this.$router.replace({ name: "login" });
     },
-    async handleLogin() {
+    handleLoginFake () {
+      try {
+        this.loading = true;
+        this.$message.success("登录成功");
+        this.$router.replace({ name: "home" });
+      } catch (error) {
+        console.log("login failed >>>", error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    async handleLogin () {
       try {
         this.loading = true;
         const { DC } = await api.getSSLConfig();

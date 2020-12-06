@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "vue-cli-service serve --open",
     "serve": "vue-cli-service build --watch",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --target lib --inline-vue --name myPlugin src/main.js",
     "lint": "vue-cli-service lint",
-    "server":"nodemon src/data/"
+    "server": "nodemon src/data/"
   },
   "dependencies": {
     "@juggle/resize-observer": "^3.2.0",
