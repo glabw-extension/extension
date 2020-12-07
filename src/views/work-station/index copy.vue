@@ -41,6 +41,7 @@ import collectModel from "./coms/collectModel.vue";
 // import globalRecord from '@/components/global-record'
 import store from "@/services/store";
 import ClickOutsideRight from "@/views/work-station/coms/utils.js"; // hasEventID,
+import { throttle } from "lodash-es";
 
 import expand_icon from "@/assets/workplace/expand.svg";
 import judge_icon from "@/assets/workplace/judge.svg";
@@ -156,7 +157,7 @@ export default {
         parseInt(window.getComputedStyle(document.body, false)["height"]) - 660;
       currentTarget.style.cursor = "move";
 
-      document.onmousemove = this._.throttle(e => {
+      document.onmousemove = throttle(e => {
         // 鼠标位置减去相对元素位置，得到元素当前位置
         let left = e.clientX - disX;
         let top = e.clientY - disY;

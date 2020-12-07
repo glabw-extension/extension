@@ -3,7 +3,7 @@ export const hasEventID = () => {
     window.sessionStorage.getItem('record:record') || '{}',
   )
 
-  return !this._.isEmpty(id)
+  return !id
 }
 
 export default {

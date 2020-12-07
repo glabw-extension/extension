@@ -40,6 +40,7 @@ import collectModel from "./coms/collectModel.vue";
 // import globalRecord from '@/components/global-record'
 import store from "@/services/store";
 import accountInfo from "@/components/account-info";
+import { throttle } from "lodash-es";
 
 import expand_icon from "@/assets/workplace/expand.svg";
 import judge_icon from "@/assets/workplace/judge.svg";
@@ -154,7 +155,7 @@ export default {
         parseInt(window.getComputedStyle(document.body, false)["height"]) - 660;
       currentTarget.style.cursor = "move";
 
-      document.onmousemove = this._.throttle(e => {
+      document.onmousemove = throttle(e => {
         // 鼠标位置减去相对元素位置，得到元素当前位置
         let left = e.clientX - disX;
         let top = e.clientY - disY;
@@ -191,19 +192,8 @@ export default {
       };
     },
     handleExpand() {
-      console.log(this.$route);
-      const { name = "" } = this.$route;
-      if (name === "home") {
-        // postMessage 转发给 content.js
-        parent.postMessage(
-          { type: "workstation", to: "content", close: true },
-          "*"
-        );
-      } else {
-        // 仅因此 workstation 这个 dom
-        const plugin = document.querySelector("#glab_plugin");
-        plugin && plugin.classList.add("hide_sider");
-      }
+      // 仅隐藏 workstation 这个 dom
+      this.$closePlugin();
     },
     handleExpandAndSelect(key) {
       this.expand = !this.expand;
@@ -232,12 +222,12 @@ export default {
 
 #workStation,
 .workStation {
-  position: fixed;
-  top: 0;
-  left: 0;
+  // position: fixed;
+  // top: 0;
+  // left: 0;
   z-index: 999;
   font-size: 14px;
-  width: 336px;
+  width: auto;
   height: 100%;
   box-shadow: -2px 2px 12px 0 rgba(0, 0, 0, 0.16);
   border-radius: 3px 0 0 3px;

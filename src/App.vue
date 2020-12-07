@@ -1,71 +1,89 @@
-<!--
- * @Author: xq
- * @Date: 2020-10-28 18:40:02
- * @LastEditTime: 2020-12-01 15:57:06
- * @LastEditors: Please set LastEditors
- * @Description: plugin app
- * @FilePath: /extension/src/App.vue
--->
+ 
 <template lang="pug">
 #app(:style="appStyle")
-  h1 hello-world
-  router-view
-  //- layout
-  //- extensionArea
+  workStation
+  //- #glab_open_trigger(@click.stop="handleClick")
+    .expand_icon(:style="{backgroundImage: `url(${expand_icon})`}")
 </template>
 <script>
-import layout from "@/views/layout.vue";
-import extensionArea from "@/views/area";
+import Vue from "vue";
 import store from "@/services/store";
+import workStation from "@/views/work-station/index.vue";
+import expand_icon from "@/assets/workplace/expand.svg";
 
 export default {
-  components: { layout, extensionArea },
-  data () {
+  components: { workStation },
+  data() {
     return {
-      fullPage: false
+      expand_icon,
+      visible: false
     };
   },
   computed: {
-    appStyle () {
-      return this.fullPage ? { width: "100%" } : { width: "336px" };
+    appStyle() {
+      return this.visible ? { width: "336px" } : { width: "336px" };
     }
   },
-  mounted () {
-    // send message to background to tell itrame is mounted
-    parent &&
-      parent.postMessage(
-        { type: "mounted", to: "content", iframeLoaded: true },
-        "*"
-      );
+  created() {
+    Vue.prototype.$closePlugin = () => {
+      console.log("$closePlugin >>>>>>>>>>");
 
+      // 收起 wrapper
+      const wrapper = document.querySelector("#glab_workstation_extension_wrapper");
+      wrapper &&
+        wrapper.style.setProperty("transform", "translateX(0px)", "important");
+
+      // 展开 trigger
+      const trigger = document.querySelector("#glab_open_trigger");
+      trigger &&
+        trigger.style.setProperty("transform", "translateX(0px)", "important");
+    };
+  },
+  mounted() {
+    // 保证 vue 实例挂载成功
+    window.postMessage(
+      { type: "mounted", to: "content", iframeLoaded: true },
+      "*"
+    );
     // fullpage
     store.$on("fullPageChange", fullPage => {
       this.fullPage = fullPage;
       fullPage
         ? (() => {
-          // document.body.classList.add("workstation-full-page");
-          parent.postMessage(
-            { type: "fullpage", to: "content_script", fullpage: fullPage },
-            "*"
-          );
-        })()
+            // document.body.classList.add("workstation-full-page");
+            parent.postMessage(
+              { type: "fullpage", to: "content_script", fullpage: fullPage },
+              "*"
+            );
+          })()
         : (() => {
-          // document.body.classList.remove("workstation-full-page");
-          parent.postMessage(
-            { type: "unfullpage", to: "content_script", fullpage: fullPage },
-            "*"
-          );
-        })();
+            // document.body.classList.remove("workstation-full-page");
+            parent.postMessage(
+              { type: "unfullpage", to: "content_script", fullpage: fullPage },
+              "*"
+            );
+          })();
     });
+  },
+  methods: {
+    handleClick() {}
   }
 };
 </script>
-<style lang="scss">
+<style lang="less">
 #app {
   margin: 0;
-  width: 336px;
+  width: auto;
   overflow: auto;
   height: 100%;
   background-color: white;
 }
+
+.hide_sider #open_sider {
+  display: block;
+}
+.hide_sider #workStation {
+  display: none;
+}
 </style>
+ 

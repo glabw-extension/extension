@@ -35,21 +35,22 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-import api from '@/data/api'
-import store from '@/services/store'
-import collectModel from '../collectModel.vue'
+import dayjs from "dayjs";
+import api from "@/data/api";
+import store from "@/services/store";
+import collectModel from "../collectModel.vue";
+import { get,isEmpty } from "lodash-es";
 
-import workplace_id from '@/assets/workplace/workplace_id.svg'
-import workplace_wifi from '@/assets/workplace/workplace_wifi.svg'
-import workplace_ip from '@/assets/workplace/workplace_ip.svg'
-import workplace_app from '@/assets/workplace/workplace_app.svg'
-import workplace_location from '@/assets/workplace/workplace_location.svg'
-import workplace_text from '@/assets/workplace/workplace_text.svg'
-import workplace_link from '@/assets/workplace/workplace_link.svg'
-import workplace_img from '@/assets/workplace/workplace_img.svg'
-import workplace_other from '@/assets/workplace/workplace_other.svg'
-import dotted_more from '@/assets/workplace/dotted-more.svg'
+import workplace_id from "@/assets/workplace/workplace_id.svg";
+import workplace_wifi from "@/assets/workplace/workplace_wifi.svg";
+import workplace_ip from "@/assets/workplace/workplace_ip.svg";
+import workplace_app from "@/assets/workplace/workplace_app.svg";
+import workplace_location from "@/assets/workplace/workplace_location.svg";
+import workplace_text from "@/assets/workplace/workplace_text.svg";
+import workplace_link from "@/assets/workplace/workplace_link.svg";
+import workplace_img from "@/assets/workplace/workplace_img.svg";
+import workplace_other from "@/assets/workplace/workplace_other.svg";
+import dotted_more from "@/assets/workplace/dotted-more.svg";
 
 const ICON_MAP = {
   // 0 其他
@@ -61,8 +62,8 @@ const ICON_MAP = {
   5: workplace_location,
   6: workplace_text,
   7: workplace_link,
-  8: workplace_img,
-}
+  8: workplace_img
+};
 
 // const COLLECT_TYPE = {
 //   0: 'other',
@@ -75,8 +76,7 @@ const ICON_MAP = {
 
 export default {
   components: {
-    collectModel,
-    
+    collectModel
   },
   /* data:
     type:类型: 0-其他; 1-id; 2-wifi; 3-ip; 4-app; 5-location;
@@ -88,144 +88,147 @@ export default {
     data: {
       type: Object,
       default: () => ({
-        id: '',
+        id: "",
         type: 5,
-        remark: '',
-        title: '',
+        remark: "",
+        title: "",
         detail: {},
-        updateTime: '',
-      }),
-    },
+        updateTime: ""
+      })
+    }
   },
   data() {
     return {
       showDetail: false,
-      key: '',
+      key: "",
       dotted_more,
       collectModelVisible: false,
       collectModelType: this.data.type,
-      collectMode: 'view',
+      collectMode: "view",
       collectModelDetail: this.data.detail,
       collectModelTitle: this.data.title,
       curCollect: null
-    }
+    };
   },
   computed: {
     cardTitle() {
-      return this._.get(this.data, `title`) || '/'
+      return get(this.data, `title`) || "/";
     },
     cardImage() {
-      return ICON_MAP[this._.get(this.data, 'type')] || ''
+      return ICON_MAP[get(this.data, "type")] || "";
     },
     cardRemark() {
-      return this.data.remark || '/'
+      return this.data.remark || "/";
     },
     cardTime() {
-      return dayjs(this.data.updateTime).format('YYYY-MM-DD HH:mm:ss') || '/'
+      return dayjs(this.data.updateTime).format("YYYY-MM-DD HH:mm:ss") || "/";
     },
     cardAppName() {
-      return this._.get(this.data, `detail.pkg`) || '/'
+      return get(this.data, `detail.pkg`) || "/";
     },
     cardLng() {
-      const lng = this._.get(this.data, `detail.location.lng`)
-      const lat = this._.get(this.data, `detail.location.lat`)
-      return lng && lat
+      const lng = get(this.data, `detail.location.lng`);
+      const lat = get(this.data, `detail.location.lat`);
+      return lng && lat;
     },
     cardLocation() {
       // 取经纬度后六位
-      const lng = this._.get(this.data, `detail.location.lng`).toString()
-      const lngIndex = lng.indexOf('.')
-      const resLng = lng.slice(0, lngIndex + 7)
-      const lat = this._.get(this.data, `detail.location.lat`).toString()
-      const latIndex = lng.indexOf('.')
-      const resLat = lng.slice(0, latIndex + 7)
-      return lng && lat ? `${resLng}, ${resLat}` : '/'
+      const lng = get(this.data, `detail.location.lng`).toString();
+      const lngIndex = lng.indexOf(".");
+      const resLng = lng.slice(0, lngIndex + 7);
+      const lat = get(this.data, `detail.location.lat`).toString();
+      const latIndex = lng.indexOf(".");
+      const resLat = lng.slice(0, latIndex + 7);
+      return lng && lat ? `${resLng}, ${resLat}` : "/";
     },
     cardMac() {
-      return this._.get(this.data, `detail.wifimac`) || '/'
-    },
+      return get(this.data, `detail.wifimac`) || "/";
+    }
   },
-  mounted () {
-    store.$on('showCollectDetailChange', (res) => {
-      this.curCollect = res.curCollect
-      if(this.curCollect && this.curCollect.id !== this.data.id) {
-        this.showDetail = false
-      } else if(!this.curCollect) {
-        this.showDetail = false
+  mounted() {
+    store.$on("showCollectDetailChange", res => {
+      this.curCollect = res.curCollect;
+      if (this.curCollect && this.curCollect.id !== this.data.id) {
+        this.showDetail = false;
+      } else if (!this.curCollect) {
+        this.showDetail = false;
       }
     });
   },
   methods: {
     showDetailHandle() {
-      this.showDetail = !this.showDetail
+      this.showDetail = !this.showDetail;
 
-      store.set('showCollectDetail',{showDetail: this.showDetail,curCollect: this.data})
+      store.set("showCollectDetail", {
+        showDetail: this.showDetail,
+        curCollect: this.data
+      });
     },
     async action(params) {
-      const { type = 'update', value = '' } = params
-      const event_id = this._.get(
-        JSON.parse(window.sessionStorage.getItem('record:record') || '{}'),
-        'id',
-      )
+      const { type = "update", value = "" } = params;
+      const event_id = get(
+        JSON.parse(window.sessionStorage.getItem("record:record") || "{}"),
+        "id"
+      );
       const deleteQuery = {
-        id: this._.get(this.data, 'id'),
-        event_id,
-      }
+        id: get(this.data, "id"),
+        event_id
+      };
       const updateQuery = {
-        id: this._.get(this.data, 'id'),
+        id: get(this.data, "id"),
         event_id,
-        remark: value,
-      }
+        remark: value
+      };
       // if 类型切换
       try {
         const resArr =
-          type === 'update'
+          type === "update"
             ? await api.updateCollection(updateQuery)
-            : await api.deleteCollection(deleteQuery)
+            : await api.deleteCollection(deleteQuery);
 
-        !this._.isEmpty(resArr) && store.set('upDateCollectionList', true)
-        !this._.isEmpty(resArr) &&
+        !isEmpty(resArr) && store.set("upDateCollectionList", true);
+        !isEmpty(resArr) &&
           this.$message({
-            type: 'success',
-            message: `${type === 'update' ? '更新' : '删除'}操作成功`,
-          })
+            type: "success",
+            message: `${type === "update" ? "更新" : "删除"}操作成功`
+          });
       } catch (error) {
-        console.log('deleteCollection >', error)
+        console.log("deleteCollection >", error);
       }
     },
 
     deleteCollection() {
-      this.$confirm('确定要删除该收藏项？', '提示', {
-        comfirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
+      this.$confirm("确定要删除该收藏项？", "提示", {
+        comfirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       })
         .then(() => {
-          this.action({ type: 'delete' })
+          this.action({ type: "delete" });
         })
-        .catch(() => {})
+        .catch(() => {});
     },
     handleView() {
-      this.collectMode = 'view'
-      this.modalData = this.data
-      this.collectModelType = this.data.type
-      this.collectModelDetail = this.data.detail
-      this.collectModelTitle = this.data.title
-      this.collectModelVisible = true
+      this.collectMode = "view";
+      this.modalData = this.data;
+      this.collectModelType = this.data.type;
+      this.collectModelDetail = this.data.detail;
+      this.collectModelTitle = this.data.title;
+      this.collectModelVisible = true;
     },
     updateRemark() {
       console.log(this.data);
-      this.collectMode = 'update'
-      this.modalData = this.data
-      this.collectModelType = this.data.type
-      this.collectModelDetail = this.data.detail
-      this.collectModelTitle = this.data.title
-      this.collectModelVisible = true
+      this.collectMode = "update";
+      this.modalData = this.data;
+      this.collectModelType = this.data.type;
+      this.collectModelDetail = this.data.detail;
+      this.collectModelTitle = this.data.title;
+      this.collectModelVisible = true;
       // this.$prompt('请输入备注', '修改备注', {
       //   confirmButtonText: '确定',
       //   cancelButtonText: '取消',
       //   inputType: 'textarea',
-      //   inputValue: `${this._.get(this.data, 'remark')}`,
+      //   inputValue: `${get(this.data, 'remark')}`,
       //   inputValidator: value => value.length <= 100,
       //   inputErrorMessage: '备注限制在 100 字以内',
       // })
@@ -236,63 +239,67 @@ export default {
     },
 
     addedEarlyWarning() {
-      const auth = 'monitor.task.person_alarm'
+      const auth = "monitor.task.person_alarm";
       const recordInfo = JSON.parse(
-        window.sessionStorage.getItem('record:record') || '{}',
-      )
+        window.sessionStorage.getItem("record:record") || "{}"
+      );
 
       this.$isPermitted(auth) &&
         this.$router.push({
-          name: 'monitorPerson.add',
+          name: "monitorPerson.add",
           params: {
-            id: this._.get(this.data, 'title'),
-            type: this._.get(this.data, 'detail.type'),
-            name: this._.get(recordInfo, 'name'),
-            reason: this._.get(recordInfo, 'reason'),
-          },
-        })
+            id: get(this.data, "title"),
+            type: get(this.data, "detail.type"),
+            name: get(recordInfo, "name"),
+            reason: get(recordInfo, "reason")
+          }
+        });
     },
 
     goReport() {
-      const id = this._.get(this.data, 'detail.id')
-      const type = this._.get(this.data, 'detail.type')
-      this.$isPermitted('profile') && id && type && this.$goReport({ id, type })
+      const id = get(this.data, "detail.id");
+      const type = get(this.data, "detail.type");
+      this.$isPermitted("profile") &&
+        id &&
+        type &&
+        this.$goReport({ id, type });
     },
 
     goIpExtract() {
       const { href } = this.$router.resolve({
-        name: 'ipExtract',
+        name: "ipExtract",
         query: {
-          id: this._.get(this.data, 'title'),
-        },
-      })
-      this.$isPermitted('space_extract.ip_extract.get') && window.open(href)
+          id: get(this.data, "title")
+        }
+      });
+      this.$isPermitted("space_extract.ip_extract.get") && window.open(href);
     },
 
     goWIFI() {
       const { href } = this.$router.resolve({
-        name: 'wifi-crowd.list',
+        name: "wifi-crowd.list",
         query: {
-          id: this._.get(this.data, 'detail.wifimac'),
-        },
-      })
-      this.$isPermitted('space_extract.wifi_extract.get') && window.open(href)
+          id: get(this.data, "detail.wifimac")
+        }
+      });
+      this.$isPermitted("space_extract.wifi_extract.get") && window.open(href);
     },
 
     goLocation() {
       const address =
-        this._.get(this.data, 'title') || this._.get(this.data, 'detail.address')
-      const lat = this._.get(this.data, 'detail.location.lat')
-      const lng = this._.get(this.data, 'detail.location.lng')
+        get(this.data, "title") ||
+        get(this.data, "detail.address");
+      const lat = get(this.data, "detail.location.lat");
+      const lng = get(this.data, "detail.location.lng");
 
       lat &&
         address &&
         window.open(
-          `/profile/map?title=Wi-Fi位置&address=${address}&lat=${lat}&lng=${lng}`,
-        )
-    },
-  },
-}
+          `/profile/map?title=Wi-Fi位置&address=${address}&lat=${lat}&lng=${lng}`
+        );
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>

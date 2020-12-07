@@ -46,173 +46,174 @@ el-dialog(
 </template>
 
 <script>
-import api from '@/data/api.js'
-import store from '@/services/store'
+import api from "@/data/api.js";
+import store from "@/services/store";
+import { get,isEmpty } from "lodash-es";
 
 export default {
   props: {
     mode: {
       type: String,
-      default: 'create',
+      default: "create"
     },
     // 仅在update和view模式使用
     modalData: {
       type: Object,
-      default: () => ({ id: 0 }),
+      default: () => ({ id: 0 })
     },
     visible: {
       type: Boolean,
-      default: false,
+      default: false
     },
     type: {
       type: Number,
-      default: 1,
+      default: 1
     },
     detail: {
       type: Object,
       default: () => {
         return {
-          id: '',
-        }
-      },
+          id: ""
+        };
+      }
     },
     title: {
       type: String,
-      default: '',
-    },
+      default: ""
+    }
   },
   data() {
-    const currentEvent_ID = this._.get(
-      JSON.parse(window.sessionStorage.getItem('record:record') || '{}'),
-      'id',
-    )
+    const currentEvent_ID = get(
+      JSON.parse(window.sessionStorage.getItem("record:record") || "{}"),
+      "id"
+    );
 
     return {
       loading: false,
       query: {
         event_id: currentEvent_ID,
         detail: this.detail,
-        remark: '',
+        remark: "",
         type: 1,
-        collectionKey: '',
-        title: '',
+        collectionKey: "",
+        title: ""
       },
       updateQuery: {
         id: this.modalData.id,
         event_id: currentEvent_ID,
-        remark: this.modalData.remark,
+        remark: this.modalData.remark
       },
       rules: {
-        title: [{ required: true, message: '请填写名称', trigger: 'blur' }],
-      },
-    }
+        title: [{ required: true, message: "请填写名称", trigger: "blur" }]
+      }
+    };
   },
   computed: {
     mVisible: {
       get() {
-        return this.visible
+        return this.visible;
       },
       set(val) {
-        this.$emit('update:visible', val)
-      },
-    },
-    modelTitle() {
-      if (this.mode === 'view') {
-        return '查看详情'
-      } else if (this.mode === 'update') {
-        return '修改备注'
-      } else {
-        const typeTitleMap = [
-          '收藏其他',
-          '收藏 ID',
-          '收藏 Wi-Fi',
-          '收藏 IP',
-          '收藏 APP',
-          '收藏位置',
-        ]
-        return typeTitleMap[this.type]
+        this.$emit("update:visible", val);
       }
     },
+    modelTitle() {
+      if (this.mode === "view") {
+        return "查看详情";
+      } else if (this.mode === "update") {
+        return "修改备注";
+      } else {
+        const typeTitleMap = [
+          "收藏其他",
+          "收藏 ID",
+          "收藏 Wi-Fi",
+          "收藏 IP",
+          "收藏 APP",
+          "收藏位置"
+        ];
+        return typeTitleMap[this.type];
+      }
+    }
   },
   watch: {
     type(val) {
-      this.query.type = val
+      this.query.type = val;
     },
     detail: {
       handler(val) {
-        this.query.detail = val
+        this.query.detail = val;
 
         // '类型: 0-其他; 1-id; 2-wifi; 3-ip; 4-app; 5-location'
-        const keyMap = ['', 'id', 'wifimac', 'ip', 'pkg', 'location']
-        const baseType = this.type
+        const keyMap = ["", "id", "wifimac", "ip", "pkg", "location"];
+        const baseType = this.type;
         this.query.collectionKey =
           baseType === 5
-            ? `${this._.get(val, 'location.lng')},${this._.get(val, 'location.lat')}`
-            : val[keyMap[baseType]]
-      },
+            ? `${get(val, "location.lng")},${get(val, "location.lat")}`
+            : val[keyMap[baseType]];
+      }
     },
     title: {
       handler(val) {
-        this.query.title = val
+        this.query.title = val;
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   updated() {
-    const event_id = this._.get(
-      JSON.parse(window.sessionStorage.getItem('record:record') || '{}'),
-      'id',
-    )
-    this.query.event_id = event_id
+    const event_id = get(
+      JSON.parse(window.sessionStorage.getItem("record:record") || "{}"),
+      "id"
+    );
+    this.query.event_id = event_id;
   },
   methods: {
     closeDialog() {
-      this.mVisible = false
-      this.query.remark = ''
-      this.query.title = ''
+      this.mVisible = false;
+      this.query.remark = "";
+      this.query.title = "";
     },
     submitForm(form) {
       this.$refs[form].validate(async valid => {
         if (valid) {
-          if (this.mode === 'create') {
+          if (this.mode === "create") {
             try {
-              this.loading = true
-              const { id = 0 } = await api.createCollection(this.query)
+              this.loading = true;
+              const { id = 0 } = await api.createCollection(this.query);
 
               if (id) {
-                this.$message.success('收藏成功')
-                store.set('upDateCollectionList', true)
-                this.mVisible = false
+                this.$message.success("收藏成功");
+                store.set("upDateCollectionList", true);
+                this.mVisible = false;
               }
             } catch (error) {
               console.log(error);
             } finally {
-              this.loading = false
+              this.loading = false;
             }
-          } else if (this.mode === 'update') {
+          } else if (this.mode === "update") {
             try {
-              this.loading = true
-              const resArr = await api.updateCollection(this.updateQuery)
-              if (!this._.isEmpty(resArr)) {
-                store.set('upDateCollectionList', true)
+              this.loading = true;
+              const resArr = await api.updateCollection(this.updateQuery);
+              if (!isEmpty(resArr)) {
+                store.set("upDateCollectionList", true);
                 this.$message({
-                  type: 'success',
-                  message: '修改成功',
-                })
-                this.mVisible = false
+                  type: "success",
+                  message: "修改成功"
+                });
+                this.mVisible = false;
               }
-              this.loading = false
+              this.loading = false;
             } catch (e) {
-              this.loading = false
+              this.loading = false;
             }
           }
         } else {
-          return false
+          return false;
         }
-      })
-    },
-  },
-}
+      });
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>

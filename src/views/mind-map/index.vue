@@ -61,6 +61,7 @@ import store from "@/services/store";
 import { ResizeObserver as Polyfill } from "@juggle/resize-observer";
 import { register as registerFlow } from "@topology/flow-diagram"; // 注册流程图相关图示
 import { v4 as uuidv4 } from "uuid";
+import { throttle } from "lodash-es";
 
 export default {
   name: "XmindWorkspace",
@@ -175,7 +176,7 @@ export default {
       const mindMap = this.$refs["xmind-container"];
       const ResizeObserver = window.ResizeObserver || Polyfill;
       const ro = new ResizeObserver(
-        this._.throttle(() => {
+        throttle(() => {
           this.canvas.resize();
         }, 20)
       );

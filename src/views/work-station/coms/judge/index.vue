@@ -41,6 +41,7 @@ import noEvent from "@/views/work-station/coms/no-event";
 import api from "@/data/api";
 import store from "@/services/store";
 import BaseRecord from "@/views/work-station/coms/record.vue";
+import { get, isEmpty } from "lodash-es";
 
 export default {
   components: {
@@ -103,7 +104,7 @@ export default {
       const query = {
         page,
         count,
-        event_id: this._.get(this.recordData, "id"),
+        event_id: get(this.recordData, "id"),
         // event_id: '1',
         type
       };
@@ -113,7 +114,7 @@ export default {
         const { list = [], total = 0 } = await api.getMindMapList(query);
         if (type[0] === 1) {
           this.mindList = list;
-          this.isNoData = this._.isEmpty(list);
+          this.isNoData = isEmpty(list);
         } else {
           this.methodList = list;
         }

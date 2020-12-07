@@ -19,7 +19,9 @@
     "128": "icons/128.png"
   },
   "background": {
-    "scripts": ["js/background.js"],
+    "scripts": [
+      "js/background.js"
+    ],
     "persistent": false
   },
   "browser_action": {
@@ -31,8 +33,12 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["js/contentScripts.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/contentScripts.js"
+      ],
       "run_at": "document_start",
       "all_frames": true
     }
@@ -42,12 +48,7 @@
     "content.css",
     "js/*",
     "css/*",
-    "vue.min.js",
-    "vue-router.js",
-    "myPlugin.umd.js",
-    "myPlugin.umd.login.js",
-    "myPlugin.umd.mind-map.js",
-    "myPlugin.umd.plugin.js",
-    "myPlugin.umd.vendors~plugin.js"
+    "img/*",
+    "fonts/*"
   ]
 }

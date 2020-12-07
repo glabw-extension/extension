@@ -33,19 +33,20 @@
 </template>
 
 <script>
-import collectEdit from './collect-edit.vue'
+import collectEdit from "./collect-edit.vue";
 import collectCard from "./collect-card.vue";
 import noData from "@/views/work-station/coms/no-data";
 import baseRecord from "@/views/work-station/coms/record.vue";
 import api from "@/data/api";
 import store from "@/services/store";
+import { get, isEmpty } from "lodash-es";
 
 export default {
   components: {
     collectCard,
     noData,
     baseRecord,
-    collectEdit,
+    collectEdit
   },
   data() {
     return {
@@ -100,8 +101,7 @@ export default {
         {
           value: 0,
           label: "其他类型"
-        },
-        
+        }
       ],
       isNoData: false,
       collectOtherDialogVisible: false,
@@ -139,7 +139,7 @@ export default {
       const query = {
         page,
         count,
-        event_id: this._.get(this.recordData, "id"),
+        event_id: get(this.recordData, "id"),
         type
       };
       try {
@@ -147,7 +147,7 @@ export default {
         const { list = [], total = 0 } = await api.getCollectionList(query);
         this.collectionList = list;
         this.pager.total = total;
-        this.isNoData = this._.isEmpty(list);
+        this.isNoData = isEmpty(list);
       } catch (error) {
         this.loading = false;
         this.isNoData = true;
@@ -183,7 +183,7 @@ export default {
     //   this.$refs[form].validate(async valid => {
     //     if (valid) {
     //       const query = {
-    //         event_id: this._.get(this.recordData, 'id'),
+    //         event_id: get(this.recordData, 'id'),
     //         detail: {
     //           other: 'other',
     //         },

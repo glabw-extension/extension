@@ -1,68 +1,61 @@
-/*
- * @Author: your name
- * @Date: 2020-11-25 18:40:31
- * @LastEditTime: 2020-11-30 19:56:55
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /extension/src/contentScripts/plugin.js
- */
-export default class Plugin {
+import Wrapper from "./wrapper";
+export default class Plugin extends Wrapper {
   constructor(iframeVueInstanceMounted = false) {
+    super();
     // iframeVueInstanceMounted 默认：false
     this.iframeVueInstanceMounted = iframeVueInstanceMounted;
-    this.plugin = this.createPlugin();
+    this.vueApp = this.createPlugin();
     this.trigger = this.createTrigger();
   }
 
   createPlugin() {
-    if (this.plugin) return this.plugin;
-    const iframe = document.createElement("iframe");
-    iframe.id = "workstation__iframe";
-    iframe.frameBorder = "none";
-    iframe.src = chrome.extension.getURL("popup.html");
+    if (this.vueApp) return this.vueApp;
+    // 挂在一个 vue 的根结点
+    const vueApp = document.createElement("div");
+    vueApp.id = "glab_app_ext";
 
-    return iframe;
+    return vueApp;
   }
 
   createTrigger() {
     if (this.trigger) return this.trigger;
     // fixed dom
     const trigger = document.createElement("div");
-    trigger.id = "workstation__trigger";
+    trigger.id = "glab_open_trigger";
     trigger.textContent = "工作台";
 
     // sidebar click event
-    trigger &&
-      trigger.addEventListener("click", () => {
-        if (this.iframeVueInstanceMounted) {
-          // 展开 iframe
-          this.showPlugin();
+    trigger.addEventListener("click", () => {
+      if (this.iframeVueInstanceMounted) {
+        // 展开 wrapper
+        this.showWrapper();
 
-          // 收起 trigger
-          this.closeTrigger();
-        }
-      });
+        // 收起 trigger
+        this.closeTrigger();
+      }
+    });
 
     return trigger;
   }
 
   appendTo(parent) {
     if (typeof parent === "string") parent = document.querySelector(parent);
-    parent.appendChild(this.plugin);
+    parent.appendChild(this.vueApp);
+  }
+
+  triggerAppendTo(parent) {
+    if (typeof parent === "string") parent = document.querySelector(parent);
     parent.appendChild(this.trigger);
   }
 
-  showPlugin() {
-    // this.plugin.style.setProperty("transform", "translateX(0px)", "important");
-    this.plugin.style.setProperty(
-      "transform",
-      "translateX(336px)",
-      "important"
-    );
+  showWrapper() {
+    const wrapper = document.querySelector("#glab_workstation_extension_wrapper");
+    wrapper &&
+      wrapper.style.setProperty("transform", "translateX(336px)", "important");
   }
 
   closePlugin() {
-    this.plugin.style.setProperty("transform", "translateX(0px)", "important");
+    this.vueApp.style.setProperty("transform", "translateX(0px)", "important");
   }
 
   showTrigger() {
@@ -70,6 +63,7 @@ export default class Plugin {
   }
 
   closeTrigger() {
+    
     this.trigger.style.setProperty(
       "transform",
       "translateX(-30px)",
@@ -78,10 +72,10 @@ export default class Plugin {
   }
 
   fullpage() {
-    this.plugin.style.setProperty("width", "100%", "important");
+    this.vueApp.style.setProperty("width", "100%", "important");
   }
 
   closeFullpage() {
-    this.plugin.style.setProperty("width", "336px");
+    this.vueApp.style.setProperty("width", "336px");
   }
 }

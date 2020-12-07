@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-28 18:40:02
- * @LastEditTime: 2020-12-01 11:48:02
+ * @LastEditTime: 2020-12-07 15:49:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /extension/vue.config.js
@@ -10,8 +10,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
 module.exports = {
-  publicPath: '/',
-
+  publicPath: "chrome-extension://ejenmihoibhdkmmhnbibkdpdeakigggd/",
   pages: {
     // popup: {
     //   template: "public/browser-extension.html",
